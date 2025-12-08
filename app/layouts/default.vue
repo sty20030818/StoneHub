@@ -25,86 +25,47 @@
 	}
 
 	const navLinks = [
-		{ label: 'Home', to: '/' },
-		{ label: 'Projects', to: '/projects' },
-		{ label: 'Blog', to: '/blog' },
+		{ label: '首页', to: '/' },
+		{ label: '项目', to: '/projects' },
+		{ label: '博客', to: '/blog' },
 		{ label: 'Now', to: '/now' },
-		{ label: 'Links', to: '/links' },
+		{ label: '传送门', to: '/links' },
 	]
 
 	const isActive = (path: string) => {
 		if (path === '/') return route.path === '/'
 		return route.path.startsWith(path)
 	}
-
-	const toggleTheme = () => {
-		isDark.value = !isDark.value
-		document.documentElement.classList.toggle('dark', isDark.value)
-	}
-
-	const externalLinks = [
-		{ label: 'GitHub', href: 'https://github.com' },
-		{ label: 'StoneOS', href: 'https://stoneos.example.com' },
-	]
 </script>
 
 <template>
-	<div class="min-h-screen text-[var(--text-primary)]">
-		<header
-			class="sticky top-0 z-20 border-b border-[var(--surface-outline)]/60 bg-[var(--surface-card)]/80 backdrop-saturate-150 backdrop-surface">
-			<UContainer class="flex items-center justify-between py-4">
-				<div class="flex items-center gap-2">
-					<div class="h-9 w-9 rounded-2xl bg-primary-500/15 ring-1 ring-primary-500/30" />
-					<NuxtLink
-						to="/"
-						class="text-lg font-semibold tracking-tight">
-						StoneHub
-					</NuxtLink>
-				</div>
-				<nav class="flex items-center gap-1 text-sm">
-					<UButton
-						v-for="link in navLinks"
-						:key="link.to"
-						:to="link.to"
-						size="sm"
-						color="primary"
-						:variant="isActive(link.to) ? 'soft' : 'ghost'"
-						class="rounded-xl">
-						{{ link.label }}
-					</UButton>
-				</nav>
+	<div class="relative min-h-screen bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden">
+		<!-- 背景 Blob -->
+		<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+			<div class="blob blob-1" />
+			<div class="blob blob-2" />
+			<div class="blob blob-3" />
+		</div>
 
-				<div class="flex items-center gap-2 text-sm">
-					<UButton
-						v-for="item in externalLinks"
-						:key="item.href"
-						:href="item.href"
-						size="sm"
-						variant="ghost"
-						icon="i-heroicons-arrow-top-right-on-square-20-solid"
-						target="_blank"
-						rel="noreferrer"
-						class="rounded-xl">
-						{{ item.label }}
-					</UButton>
-					<UButton
-						size="sm"
-						variant="ghost"
-						:icon="isDark ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
-						class="rounded-xl"
-						@click="toggleTheme">
-						{{ isDark ? '浅色' : '深色' }}
-					</UButton>
-				</div>
-			</UContainer>
-		</header>
+		<!-- 顶部导航（玻璃态胶囊） -->
+		<nav class="relative z-40 w-full flex justify-center pt-6 px-4">
+			<div
+				class="glass-panel px-6 py-3 rounded-full shadow-sm flex items-center gap-6 transition-all duration-300 hover:shadow-md">
+				<NuxtLink
+					v-for="link in navLinks"
+					:key="link.to"
+					:to="link.to"
+					class="text-sm transition-colors"
+					:class="isActive(link.to) ? 'text-sky-600 font-semibold' : 'text-slate-500 hover:text-sky-500'">
+					{{ link.label }}
+				</NuxtLink>
+			</div>
+		</nav>
 
-		<main class="py-10">
-			<UContainer class="max-w-5xl space-y-10">
+		<main class="relative z-10">
+			<div class="mx-auto w-full max-w-6xl px-6 py-10 md:py-14">
 				<slot />
-			</UContainer>
+			</div>
 		</main>
-
-		<UContainer class="pb-8 text-sm text-[var(--text-secondary)]">Crafted for StoneHub · Nuxt 4 · Tailwind</UContainer>
 	</div>
 </template>

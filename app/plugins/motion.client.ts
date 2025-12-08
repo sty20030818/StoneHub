@@ -10,6 +10,24 @@ const basePresets = {
 			easing: 'cubic-bezier(0.2, 0, 0, 1)',
 		},
 	},
+	'slide-up': {
+		initial: { opacity: 0, y: 20 },
+		enter: { opacity: 1, y: 0 },
+		transition: {
+			type: 'tween',
+			duration: 0.3,
+			easing: 'cubic-bezier(0.2, 0, 0, 1)',
+		},
+	},
+	'fade-in': {
+		initial: { opacity: 0 },
+		enter: { opacity: 1 },
+		transition: {
+			type: 'tween',
+			duration: 0.3,
+			easing: 'ease-out',
+		},
+	},
 	'scale-fade': {
 		initial: { opacity: 0, scale: 0.96 },
 		enter: { opacity: 1, scale: 1 },
