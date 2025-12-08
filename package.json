@@ -8,7 +8,9 @@
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"lint": "pnpm eslint .",
+		"lint:fix": "pnpm eslint . --fix"
 	},
 	"dependencies": {
 		"@nuxt/content": "3.9.0",

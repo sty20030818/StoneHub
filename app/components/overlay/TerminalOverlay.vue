@@ -5,8 +5,7 @@
 	}
 
 	const emit = defineEmits<{
-		(e: 'close'): void
-		(e: 'open-ai'): void
+		(e: 'close' | 'open-ai'): void
 	}>()
 
 	const props = defineProps<{
@@ -108,58 +107,62 @@
 	<UModal
 		:model-value="visible"
 		class="max-w-5xl"
-		@update:model-value="(val: boolean) => !val && emit('close')"
 		:ui="{
-			overlay: 'bg-black/80 backdrop-blur-md',
-		}">
-		<div class="flex h-[70vh] flex-col rounded-lg border border-green-500/30 bg-black/80 text-green-200 p-4">
-			<div class="mb-4 flex items-center justify-between text-sm text-green-100">
+			overlay: 'bg-black/70 backdrop-blur-md',
+		}"
+		@update:model-value="(val: boolean) => !val && emit('close')">
+		<div
+			v-motion="'scale-fade'"
+			class="flex h-[70vh] flex-col rounded-2xl border border-[var(--surface-outline)] bg-[var(--surface-card)]/95 p-4 text-[var(--text-primary)] shadow-[var(--shadow-soft)]">
+			<div class="mb-4 flex items-center justify-between text-sm text-[var(--text-secondary)]">
 				<span class="font-semibold">StoneShell v0.1</span>
 				<div class="flex gap-2">
 					<UButton
 						size="xs"
 						variant="ghost"
-						color="primary"
 						icon="i-heroicons-sparkles"
+						class="rounded-xl"
 						@click="emit('open-ai')">
 						open ai
 					</UButton>
 					<UButton
 						size="xs"
-						variant="soft"
+						variant="solid"
 						color="primary"
 						icon="i-heroicons-x-mark-20-solid"
+						class="rounded-xl"
 						@click="emit('close')">
 						exit
 					</UButton>
 				</div>
 			</div>
 
-			<div class="flex-1 overflow-y-auto rounded-lg border border-green-500/30 bg-black/60 p-4 font-mono text-sm">
+			<div
+				class="flex-1 overflow-y-auto rounded-xl border border-[var(--surface-outline)] bg-[var(--surface-variant)]/60 p-4 font-mono text-sm text-[var(--text-primary)]">
 				<div
 					v-for="(entry, idx) in history"
 					:key="idx"
 					class="whitespace-pre-line">
 					<span
 						v-if="entry.type === 'input'"
-						class="text-green-300">
+						class="text-primary-500">
 						$ {{ entry.text }}
 					</span>
 					<span
 						v-else
-						class="text-green-100">
+						class="text-[var(--text-secondary)]">
 						{{ entry.text }}
 					</span>
 				</div>
 			</div>
 
-			<div class="mt-4 flex items-center gap-2 font-mono text-sm">
-				<span class="text-green-400">$</span>
+			<div class="mt-4 flex items-center gap-2 font-mono text-sm text-[var(--text-secondary)]">
+				<span class="text-primary-500">$</span>
 				<UInput
 					v-model="current"
-					color="primary"
 					variant="outline"
-					input-class="font-mono bg-black/70 text-green-100"
+					class="rounded-xl"
+					input-class="font-mono bg-[color:var(--surface-card)] text-[color:var(--text-primary)]"
 					placeholder="输入命令，回车执行..."
 					@keydown.enter.prevent="handleSubmit" />
 			</div>

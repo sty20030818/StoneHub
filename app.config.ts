@@ -2,13 +2,15 @@ import { defineAppConfig } from 'nuxt/app'
 
 export default defineAppConfig({
 	ui: {
-		primary: 'indigo',
+		strategy: 'override',
+		primary: 'sky',
 		gray: 'slate',
-		radius: 'full',
+		radius: 'xl',
 		variables: {
 			shadow: {
-				xl: 'var(--shadow-glass)',
+				xl: 'var(--shadow-soft)',
 			},
+			rounded: '16px',
 		},
 	},
 })

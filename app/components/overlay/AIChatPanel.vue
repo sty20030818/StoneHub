@@ -52,22 +52,20 @@
 		:model-value="visible"
 		side="right"
 		overlay
-		class="w-full max-w-md border-l border-white/10 bg-surface/90 backdrop-blur-lg"
-		@update:model-value="(val: boolean) => !val && emit('close')"
-		:ui="{
-			overlay: 'bg-black/60',
-		}">
-		<header class="flex items-center justify-between border-b border-white/10 px-5 py-4">
+		class="w-full max-w-md border-l border-[var(--surface-outline)] bg-[var(--surface-card)]/95 backdrop-surface"
+		@update:model-value="(val: boolean) => !val && emit('close')">
+		<header class="flex items-center justify-between border-b border-[var(--surface-outline)] px-5 py-4">
 			<div class="flex items-center gap-2">
 				<span class="text-xl">🤖</span>
 				<div>
-					<p class="text-sm font-semibold">AI 石头鱼</p>
-					<p class="text-xs text-slate-400">本地假回复，后续可接入 /api/chat</p>
+					<p class="text-sm font-semibold text-[var(--text-primary)]">AI 石头鱼</p>
+					<p class="text-xs text-[var(--text-secondary)]">本地假回复，后续可接入 /api/chat</p>
 				</div>
 			</div>
 			<UButton
 				variant="ghost"
 				icon="i-heroicons-x-mark-20-solid"
+				class="rounded-xl"
 				@click="emit('close')">
 				关闭
 			</UButton>
@@ -81,8 +79,8 @@
 					class="flex"
 					:class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
 					<UCard
-						class="max-w-[80%]"
-						:class="msg.role === 'user' ? 'bg-primary-500 text-white' : 'bg-white/10 text-slate-100'"
+						class="max-w-[80%] rounded-2xl"
+						:class="msg.role === 'user' ? 'bg-primary-500 text-white' : 'surface-card text-[var(--text-primary)]'"
 						:ui="{
 							body: 'px-4 py-2 text-sm',
 						}">
@@ -91,7 +89,7 @@
 				</div>
 			</div>
 
-			<div class="border-t border-white/10 px-5 py-4">
+			<div class="border-t border-[var(--surface-outline)] px-5 py-4">
 				<div class="flex items-center gap-2">
 					<UInput
 						v-model="input"
@@ -101,6 +99,7 @@
 						@keydown.enter.prevent="handleSend" />
 					<UButton
 						icon="i-heroicons-paper-airplane-20-solid"
+						class="rounded-xl"
 						@click="handleSend">
 						发送
 					</UButton>
