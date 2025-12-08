@@ -1,0 +1,42 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.next
+.nuxt
+.output
+.vercel
+
+# Cache
+.cache
+.turbo
+.histoire
+
+# Coverage
+coverage
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+.kiro
+.cursor
+.claude
+.trae
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.d.ts
