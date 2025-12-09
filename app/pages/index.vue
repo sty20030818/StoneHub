@@ -39,14 +39,19 @@
 					<button
 						class="w-full sm:w-auto h-14 px-8 bg-slate-900 text-white rounded-2xl font-medium hover:bg-slate-800 hover:shadow-2xl hover:shadow-slate-500/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
 						@click="openTerminal">
-						<span class="p-1 bg-slate-700 rounded-lg">>_</span>
+						<span class="w-7 h-7 bg-slate-700 rounded-lg flex items-center justify-center">
+							<Icon
+								name="lucide:terminal"
+								class="w-4 h-4" />
+						</span>
 						<span class="font-mono">Open Terminal</span>
 					</button>
 
 					<button
 						class="w-full sm:w-auto h-14 px-8 bg-white text-(--text-secondary) border border-(--surface-outline) rounded-2xl font-medium hover:bg-(--color-secondary-container) hover:text-(--color-on-secondary-container) hover:border-(--surface-outline-strong) hover:shadow-xl hover:shadow-pink-500/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
 						@click="openAI">
-						<span class="p-1 bg-(--color-secondary-container) text-(--color-secondary) rounded-lg">
+						<span
+							class="w-7 h-7 bg-(--color-secondary-container) text-(--color-secondary) rounded-lg flex items-center justify-center">
 							<Icon
 								name="lucide:sparkles"
 								class="w-4 h-4" />
@@ -81,6 +86,7 @@
 			:projects="overlayProjects"
 			:posts="overlayPosts"
 			@open-ai="openAI"
+			@navigate="handleNavigate"
 			@close="closeTerminal" />
 		<OverlayAIChatPanel
 			:visible="showAI"
@@ -150,5 +156,8 @@
 	}
 	const closeAI = () => {
 		showAI.value = false
+	}
+	const handleNavigate = (path: string) => {
+		navigateTo(path)
 	}
 </script>

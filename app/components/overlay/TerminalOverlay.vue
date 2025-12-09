@@ -55,9 +55,9 @@
 							v-model="currentCmd"
 							type="text"
 							autocomplete="off"
-							placeholder="Type 'help' to start..."
+							placeholder="输入 'help' 查看帮助..."
 							class="flex-1 bg-transparent border-none outline-none text-green-400 placeholder-slate-700 caret-green-400"
-							@keydown.enter="executeCmd" />
+							@keydown="handleInputKeydown" />
 					</div>
 				</div>
 			</div>
@@ -67,13 +67,16 @@
 
 <script setup lang="ts">
 	import { usePreferredReducedMotion } from '@vueuse/core'
+
 	type Entry = {
 		type: 'input' | 'output'
 		content: string
 	}
 
 	const emit = defineEmits<{
-		(e: 'close' | 'open-ai'): void
+		'close': []
+		'open-ai': []
+		'navigate': [path: string]
 	}>()
 
 	const props = defineProps<{
@@ -85,9 +88,12 @@
 	const terminalBody = ref<HTMLDivElement | null>(null)
 	const cmdInput = ref<HTMLInputElement | null>(null)
 	const currentCmd = ref('')
+	const commandHistory = ref<string[]>([])
+	const historyIndex = ref(-1)
+
 	const terminalHistory = ref<Entry[]>([
-		{ type: 'output', content: 'Welcome to StoneShell v1.0.0' },
-		{ type: 'output', content: 'Type <span class="text-yellow-400">help</span> to see available commands.' },
+		{ type: 'output', content: '欢迎来到 StoneShell v2.0.0 🐟' },
+		{ type: 'output', content: '输入 <span class="text-yellow-400">help</span> 查看可用命令' },
 	])
 
 	const reduceMotion = usePreferredReducedMotion()
@@ -119,9 +125,37 @@
 		scrollToBottom()
 	}
 
+	// 命令历史导航
+	const handleInputKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Enter') {
+			executeCmd()
+		} else if (event.key === 'ArrowUp') {
+			event.preventDefault()
+			if (commandHistory.value.length > 0) {
+				if (historyIndex.value < commandHistory.value.length - 1) {
+					historyIndex.value++
+				}
+				currentCmd.value = commandHistory.value[commandHistory.value.length - 1 - historyIndex.value] || ''
+			}
+		} else if (event.key === 'ArrowDown') {
+			event.preventDefault()
+			if (historyIndex.value > 0) {
+				historyIndex.value--
+				currentCmd.value = commandHistory.value[commandHistory.value.length - 1 - historyIndex.value] || ''
+			} else {
+				historyIndex.value = -1
+				currentCmd.value = ''
+			}
+		}
+	}
+
 	const executeCmd = () => {
 		const raw = currentCmd.value.trim()
 		if (!raw) return
+
+		// 添加到命令历史
+		commandHistory.value.push(raw)
+		historyIndex.value = -1
 
 		terminalHistory.value.push({ type: 'input', content: raw })
 		currentCmd.value = ''
@@ -132,57 +166,150 @@
 
 		switch (cmd.toLowerCase()) {
 			case 'help':
-				output = `<span class="text-slate-400">Core Commands:</span>
-  <span class="text-sky-400 font-bold w-16 inline-block">help</span> Show this help
-  <span class="text-sky-400 font-bold w-16 inline-block">clear</span> Clear screen
-  <span class="text-sky-400 font-bold w-16 inline-block">ls</span> List projects & posts
+				output = `<span class="text-slate-400">📋 基础命令:</span>
+  <span class="text-sky-400 font-bold">help</span>      显示帮助信息
+  <span class="text-sky-400 font-bold">clear</span>     清屏
+  <span class="text-sky-400 font-bold">ls</span>        列出项目和博客
+  <span class="text-sky-400 font-bold">projects</span>  查看项目列表
+  <span class="text-sky-400 font-bold">blog</span>      查看博客列表
 
-<span class="text-slate-400">Navigation:</span>
-  <span class="text-pink-400 font-bold w-16 inline-block">cd</span> Change route (e.g. <span class="text-slate-500">cd blog</span>)
-  <span class="text-pink-400 font-bold w-16 inline-block">open</span> Launch apps (e.g. <span class="text-slate-500">open chat</span>)
-  <span class="text-pink-400 font-bold w-16 inline-block">exit</span> Close terminal`
+<span class="text-slate-400">🚀 导航命令:</span>
+  <span class="text-pink-400 font-bold">cd</span>        切换页面 (如 <span class="text-slate-500">cd blog</span>)
+  <span class="text-pink-400 font-bold">open</span>      启动应用 (如 <span class="text-slate-500">open chat</span>)
+  <span class="text-pink-400 font-bold">exit</span>      关闭终端
+
+<span class="text-slate-400">🎮 彩蛋命令:</span>
+  <span class="text-purple-400 font-bold">whoami</span>    我是谁？
+  <span class="text-purple-400 font-bold">neofetch</span>  系统信息
+
+<span class="text-slate-500">💡 提示: 使用 ↑/↓ 键翻阅命令历史</span>`
 				break
+
 			case 'clear':
 				terminalHistory.value = []
 				scrollToBottom()
 				return
+
 			case 'ls':
-				output = `<span class="text-sky-300 font-bold">Projects:</span>
+				output = `<span class="text-sky-300 font-bold">📁 Projects/</span>
 ${(props.projects || []).map((p) => `  drwxr-xr-x  stone  ${p.title}/`).join('\n')}
 
-<span class="text-pink-300 font-bold">Blog Posts:</span>
+<span class="text-pink-300 font-bold">📄 Blog/</span>
 ${(props.posts || [])
 	.slice(0, 5)
 	.map((p) => `  -rw-r--r--  stone  ${p.slug || p.title || ''}.md`)
 	.join('\n')}`
 				break
+
+			case 'projects':
+				if (!props.projects?.length) {
+					output = '暂无项目数据'
+				} else {
+					output =
+						`<span class="text-sky-300 font-bold">🚀 我的项目:</span>\n` +
+						props.projects.map((p) => `• <span class="text-sky-400 font-bold">${p.title}</span> - ${p.desc}`).join('\n')
+				}
+				break
+
+			case 'blog':
+				if (!props.posts?.length) {
+					output = '暂无博客文章'
+				} else {
+					output =
+						`<span class="text-pink-300 font-bold">📝 近期博客:</span>\n` +
+						props.posts
+							.slice(0, 5)
+							.map((p) => `[${p.date}] <span class="text-pink-400">${p.title}</span>`)
+							.join('\n')
+				}
+				break
+
 			case 'cd': {
 				const target = args[0] ?? ''
-				if (target && ['home', 'projects', 'blog', 'links', 'now'].includes(target)) {
-					output = `Mapped to /${target}`
+				const routes: Record<string, string> = {
+					home: '/',
+					projects: '/projects',
+					blog: '/blog',
+					links: '/links',
+					now: '/now',
+				}
+				if (target && routes[target]) {
+					output = `正在跳转到 /${target}...`
+					setTimeout(() => {
+						emit('close')
+						emit('navigate', routes[target]!)
+					}, 300)
+				} else if (target === '~' || target === '/') {
+					output = '正在跳转到首页...'
+					setTimeout(() => {
+						emit('close')
+						emit('navigate', '/')
+					}, 300)
 				} else {
-					output = `cd: no such directory: ${target}`
+					output = `cd: 目录不存在: ${target}\n可用目录: home, projects, blog, links, now`
 				}
 				break
 			}
+
 			case 'open':
 				if (args[0] === 'chat') {
-					emit('open-ai')
-					output = 'Opening AI Chat...'
+					output = '正在启动 AI 石头鱼...'
+					setTimeout(() => {
+						emit('close')
+						emit('open-ai')
+					}, 300)
 				} else if (args[0] === 'os') {
-					output = 'Launching StoneOS in new tab... (Mock)'
+					output = '正在启动 StoneOS... (敬请期待)'
 				} else {
-					output = 'Usage: open [chat|os]'
+					output = '用法: open [chat|os]'
 				}
 				break
+
 			case 'exit':
 				emit('close')
 				return
-			case 'sudo':
-				output = '嘿！想干嘛？这里是石头鱼的地盘，没有 root 权限给你玩~ 😂'
+
+			case 'whoami':
+				output = `<span class="text-sky-400 font-bold">🐟 石头鱼 (StoneFish)</span>
+全栈工程师 / Web OS 爱好者
+喜欢天蓝色和淡粉色
+当前位置: StoneHub v2.0`
 				break
+
+			case 'neofetch':
+				output = `<span class="text-sky-400">
+   _____ _                  _   _       _     
+  / ____| |                | | | |     | |    
+ | (___ | |_ ___  _ __   __| |_| |_   _| |__  
+  \\___ \\| __/ _ \\| '_ \\ / _ \\ __| | | | | '_ \\ 
+  ____) | || (_) | | | |  __\\ |_| | |_| | |_) |
+ |_____/ \\__\\___/|_| |_|\\___|\\__|_|\\__,_|_.__/ 
+</span>
+<span class="text-pink-400">stonefish</span>@<span class="text-sky-400">stonehub</span>
+---------------------
+<span class="text-slate-400">OS:</span>      StoneHub v2.0
+<span class="text-slate-400">框架:</span>    Nuxt 4 / Vue 3
+<span class="text-slate-400">样式:</span>    Tailwind CSS
+<span class="text-slate-400">语言:</span>    TypeScript
+<span class="text-slate-400">主题:</span>    Material You (天蓝×淡粉)
+<span class="text-slate-400">终端:</span>    StoneShell v2.0`
+				break
+
+			case 'sudo':
+				output =
+					'<span class="text-red-400">🚫 Permission denied</span>\n嘿！想干嘛？这里是石头鱼的地盘，没有 root 权限给你玩~ 😂'
+				break
+
+			case 'rm':
+				if (args.includes('-rf') && (args.includes('/') || args.includes('*'))) {
+					output = '<span class="text-red-400">🚨 危险操作已拦截!</span>\n别闹，我的文件可不能让你删~ 😅'
+				} else {
+					output = `rm: 拒绝执行删除操作`
+				}
+				break
+
 			default:
-				output = `Command not found: ${cmd}. Try <span class="text-yellow-400">help</span>.`
+				output = `命令未找到: ${cmd}\n输入 <span class="text-yellow-400">help</span> 查看可用命令`
 		}
 
 		if (output) {
