@@ -22,10 +22,8 @@
 				<p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-600 dark:text-primary-200">
 					StoneFish · 石头鱼
 				</p>
-				<h1 class="text-4xl font-bold leading-tight text-[var(--text-primary)] md:text-5xl">
-					打造操作系统级的 Web 体验
-				</h1>
-				<p class="max-w-2xl text-lg text-[var(--text-secondary)]">
+				<h1 class="text-4xl font-bold leading-tight text-(--text-primary) md:text-5xl">打造操作系统级的 Web 体验</h1>
+				<p class="max-w-2xl text-lg text-(--text-secondary)">
 					全栈工程师，偏爱新技术与 Web OS 实验。这里集合动画首页、命令行模式、AI 聊天、博客与项目展示。
 				</p>
 
@@ -35,7 +33,7 @@
 						:key="tag"
 						variant="soft"
 						color="primary"
-						class="rounded-xl bg-primary-500/10 text-[var(--text-primary)]">
+						class="rounded-xl bg-primary-500/10 text-(--text-primary)">
 						{{ tag }}
 					</UBadge>
 				</div>

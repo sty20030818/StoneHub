@@ -14,14 +14,18 @@
 		const item = await queryCollection('blog').path(slugPath.value).first()
 		return item as BlogDoc | null
 	})
+
+	useHead(() => ({
+		title: doc.value?.title ?? '博客',
+	}))
 </script>
 
 <template>
 	<article class="space-y-6">
 		<div class="space-y-2">
 			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Blog</p>
-			<h1 class="text-3xl font-bold text-[var(--text-primary)] md:text-4xl">{{ doc?.title }}</h1>
-			<p class="text-[var(--text-secondary)]">{{ doc?.date }} · {{ (doc?.tags || []).join(' · ') }}</p>
+			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">{{ doc?.title }}</h1>
+			<p class="text-(--text-secondary)">{{ doc?.date }} · {{ (doc?.tags || []).join(' · ') }}</p>
 		</div>
 
 		<UCard
@@ -36,7 +40,7 @@
 					:value="doc" />
 				<p
 					v-else
-					class="text-[var(--text-secondary)]">
+					class="text-(--text-secondary)">
 					文章不存在或尚未发布。
 				</p>
 			</div>

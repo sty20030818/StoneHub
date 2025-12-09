@@ -2,6 +2,9 @@
 	import OverlayAIChatPanel from '~/components/overlay/AIChatPanel.vue'
 	import OverlayTerminalOverlay from '~/components/overlay/TerminalOverlay.vue'
 
+	definePageMeta({ title: '首页' })
+	useHead({ title: '首页' })
+
 	type Project = {
 		title: string
 		desc: string
@@ -107,12 +110,12 @@
 				</div>
 				<h1 class="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
 					打造操作系统级的
-					<br >
-					<span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-pink-400">Web 体验</span>
+					<br />
+					<span class="text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-pink-400">Web 体验</span>
 				</h1>
 				<p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
 					前端架构师 / Web OS 爱好者 / 偏爱新技术的全栈开发者。
-					<br >
+					<br />
 					这里是 StoneHub，基于 Nuxt 4 构建的个人数字花园。
 				</p>
 
@@ -122,7 +125,7 @@
 						@click="openTerminal">
 						<span class="relative z-10 flex items-center gap-2">>_ 打开命令行模式</span>
 						<div
-							class="absolute inset-0 bg-gradient-to-r from-sky-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+							class="absolute inset-0 bg-linear-to-r from-sky-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 					</button>
 
 					<button

@@ -104,7 +104,7 @@
 			<div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white/60">
 				<div class="flex items-center gap-3">
 					<div
-						class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-300 to-pink-300 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+						class="w-10 h-10 rounded-full bg-linear-to-tr from-sky-300 to-pink-300 flex items-center justify-center text-white font-bold text-lg shadow-sm">
 						AI
 					</div>
 					<div>
@@ -161,7 +161,7 @@
 						type="text"
 						placeholder="问我关于 Nuxt 4 或技术栈的问题..."
 						class="w-full pl-4 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-300 transition-all text-sm"
-						@keydown.enter="sendChat" >
+						@keydown.enter="sendChat" />
 					<button
 						class="absolute right-2 top-2 p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors shadow-sm disabled:opacity-50"
 						:disabled="!chatInput.trim()"

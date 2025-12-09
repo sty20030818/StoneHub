@@ -19,7 +19,7 @@
 	const cmdInput = ref<HTMLInputElement | null>(null)
 	const currentCmd = ref('')
 	const terminalHistory = ref<Entry[]>([
-		{ type: 'output', content: 'Welcome to StoneShell v0.1.0' },
+		{ type: 'output', content: 'Welcome to StoneShell v1.0.0' },
 		{ type: 'output', content: 'Type <span class="text-yellow-400">help</span> to see available commands.' },
 	])
 
@@ -187,7 +187,7 @@
 							autocomplete="off"
 							placeholder="Type 'help' to start..."
 							class="flex-1 bg-transparent border-none outline-none text-green-400 placeholder-slate-700 caret-green-400"
-							@keydown.enter="executeCmd" >
+							@keydown.enter="executeCmd" />
 					</div>
 				</div>
 			</div>

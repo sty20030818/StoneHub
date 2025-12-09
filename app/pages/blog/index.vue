@@ -19,6 +19,9 @@
 		tags: string[]
 	}
 
+	definePageMeta({ title: '博客' })
+	useHead({ title: '博客' })
+
 	const parseMeta = (meta: BlogRow['meta']): { date?: string; tags?: string[] } => {
 		if (!meta) return {}
 		if (typeof meta === 'string') {
@@ -52,8 +55,8 @@
 	<section class="space-y-6">
 		<div class="space-y-2">
 			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Blog</p>
-			<h1 class="text-3xl font-bold text-[var(--text-primary)] md:text-4xl">博客列表</h1>
-			<p class="text-[var(--text-secondary)]">博客文章从 @nuxt/content 拉取并渲染。</p>
+			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">博客列表</h1>
+			<p class="text-(--text-secondary)">博客文章从 @nuxt/content 拉取并渲染。</p>
 		</div>
 
 		<div class="space-y-4">
@@ -65,7 +68,7 @@
 				:ui="{
 					body: 'p-5 space-y-2',
 				}">
-				<div class="flex items-center gap-2 text-xs uppercase tracking-wide text-[var(--text-secondary)]">
+				<div class="flex items-center gap-2 text-xs uppercase tracking-wide text-(--text-secondary)">
 					<span>{{ post.date }}</span>
 					<div class="flex flex-wrap gap-1">
 						<UBadge
@@ -80,15 +83,15 @@
 				</div>
 				<NuxtLink
 					:to="post.path"
-					class="block text-xl font-semibold text-[var(--text-primary)] hover:text-primary-500">
+					class="block text-xl font-semibold text-(--text-primary) hover:text-primary-500">
 					{{ post.title }}
 				</NuxtLink>
-				<p class="text-[var(--text-secondary)]">{{ post.description }}</p>
+				<p class="text-(--text-secondary)">{{ post.description }}</p>
 			</UCard>
 
 			<p
 				v-if="!(items && items.length)"
-				class="text-[var(--text-secondary)]">
+				class="text-(--text-secondary)">
 				暂未发布文章。
 			</p>
 		</div>

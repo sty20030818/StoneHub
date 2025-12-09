@@ -21,6 +21,9 @@
 		demo?: string
 	}
 
+	definePageMeta({ title: '项目' })
+	useHead({ title: '项目' })
+
 	const parseMeta = (meta: ProjectRow['meta']): { tags?: string[]; github?: string; demo?: string } => {
 		if (!meta) return {}
 		if (typeof meta === 'string') {
@@ -55,8 +58,8 @@
 	<section class="space-y-6">
 		<div class="space-y-2">
 			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Projects</p>
-			<h1 class="text-3xl font-bold text-[var(--text-primary)] md:text-4xl">项目列表</h1>
-			<p class="text-[var(--text-secondary)]">通过 @nuxt/content 渲染 markdown 项目数据。</p>
+			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">项目列表</h1>
+			<p class="text-(--text-secondary)">通过 @nuxt/content 渲染 markdown 项目数据。</p>
 		</div>
 
 		<div class="grid gap-4 md:grid-cols-2">
@@ -68,7 +71,7 @@
 				:ui="{
 					body: 'p-5 space-y-3',
 				}">
-				<div class="flex flex-wrap gap-2 text-sm text-[var(--text-secondary)]">
+				<div class="flex flex-wrap gap-2 text-sm text-(--text-secondary)">
 					<UBadge
 						v-for="tag in project.tags || []"
 						:key="tag"
@@ -78,8 +81,8 @@
 						{{ tag }}
 					</UBadge>
 				</div>
-				<h3 class="text-xl font-semibold text-[var(--text-primary)]">{{ project.title }}</h3>
-				<p class="text-[var(--text-secondary)]">{{ project.description }}</p>
+				<h3 class="text-xl font-semibold text-(--text-primary)">{{ project.title }}</h3>
+				<p class="text-(--text-secondary)">{{ project.description }}</p>
 				<div class="flex gap-2">
 					<UButton
 						v-if="project.github"
@@ -108,7 +111,7 @@
 
 		<p
 			v-if="!projects?.length"
-			class="text-[var(--text-secondary)]">
+			class="text-(--text-secondary)">
 			暂未发布项目。
 		</p>
 	</section>
