@@ -1,5 +1,6 @@
 ---
 title: 'StoneHub 个人站'
+year: '2025'
 tags: ['Nuxt 4', 'Vue 3', 'Tailwind', 'LLM']
 description: '动画首页 + 命令行 Overlay + AI 聊天 + 博客与项目聚合。'
 github: 'https://github.com/stonefish/stonehub'

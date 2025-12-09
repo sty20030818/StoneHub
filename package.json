@@ -1,5 +1,5 @@
 {
-	"name": "StoneHub",
+	"name": "stone-hub",
 	"type": "module",
 	"private": true,
 	"scripts": {
@@ -20,19 +20,20 @@
 		"@nuxt/image": "2.0.0",
 		"@nuxt/test-utils": "3.21.0",
 		"@nuxt/ui": "4.2.1",
+		"@vueuse/core": "^13.9.0",
 		"@vueuse/motion": "^3.0.3",
 		"better-sqlite3": "^12.5.0",
 		"nuxt": "^4.2.1",
-		"vite": "^8.0.0-beta.0",
+		"vite": "^8.0.0-beta.1",
 		"vue": "^3.5.25",
 		"vue-router": "^4.6.3"
 	},
-	"packageManager": "pnpm@10.24.0",
+	"packageManager": "pnpm@10.25.0",
 	"devDependencies": {
-		"@types/node": "^24.10.1",
+		"@types/node": "^24.10.2",
 		"prettier": "^3.7.4",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3",
-		"vue-tsc": "^3.1.7"
+		"vue-tsc": "^3.1.8"
 	}
 }

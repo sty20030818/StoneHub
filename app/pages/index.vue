@@ -1,252 +1,85 @@
-<script setup lang="ts">
-	import OverlayAIChatPanel from '~/components/overlay/AIChatPanel.vue'
-	import OverlayTerminalOverlay from '~/components/overlay/TerminalOverlay.vue'
-
-	definePageMeta({ title: '首页' })
-	useHead({ title: '首页' })
-
-	type Project = {
-		title: string
-		desc: string
-		tags: string[]
-		icon: string
-		year: string
-	}
-
-	type Post = {
-		title: string
-		excerpt: string
-		date: string
-		tag: string
-		slug: string
-	}
-
-	const showTerminal = ref(false)
-	const showAI = ref(false)
-
-	const stack = ['Nuxt 4', 'Vue 3', 'Tailwind CSS', 'TypeScript', 'Node.js', 'Vercel']
-	const projects = ref<Project[]>([
-		{
-			title: 'StoneOS',
-			desc: '一个运行在浏览器里的 Web 操作系统，把网页变成桌面。',
-			tags: ['Vue 3', 'OS'],
-			icon: 'lucide:layout',
-			year: '2024',
-		},
-		{
-			title: 'StoneHub',
-			desc: '基于 Nuxt 4 的个人数字花园，就是你现在看到的这个！',
-			tags: ['Nuxt 4', 'Design'],
-			icon: 'lucide:globe',
-			year: '2025',
-		},
-		{
-			title: 'AnyFlow',
-			desc: '可视化的工作流编排引擎，支持节点拖拽。',
-			tags: ['Canvas', 'Logic'],
-			icon: 'lucide:workflow',
-			year: '2023',
-		},
-		{
-			title: 'PixelEditor',
-			desc: '轻量级像素画在线编辑器。',
-			tags: ['React', 'Graphics'],
-			icon: 'lucide:image',
-			year: '2023',
-		},
-	])
-
-	const posts = ref<Post[]>([
-		{
-			title: 'Nuxt 4 尝鲜指南：目录结构变了啥？',
-			excerpt: 'Nuxt 4 终于来了，新的 App 目录结构让大型应用更整洁，这里是一份详细的迁移报告...',
-			date: '2025-05-10',
-			tag: 'Nuxt',
-			slug: 'nuxt-4-guide',
-		},
-		{
-			title: '为什么我选择 Tailwind 而不是 CSS-in-JS',
-			excerpt: '在经历了 Emotion 的运行时性能瓶颈后，我投向了 utility-first 的怀抱。',
-			date: '2025-04-22',
-			tag: 'CSS',
-			slug: 'tailwind-vs-cssinjs',
-		},
-		{
-			title: '用 Three.js 手写一个粒子地球',
-			excerpt: '数学与图形学的浪漫结合，优化 Draw Calls 的几个关键技巧。',
-			date: '2025-03-15',
-			tag: '3D',
-			slug: 'threejs-earth',
-		},
-	])
-
-	const openTerminal = () => {
-		showTerminal.value = true
-	}
-
-	const closeTerminal = () => {
-		showTerminal.value = false
-	}
-
-	const openAI = () => {
-		showAI.value = true
-	}
-
-	const closeAI = () => {
-		showAI.value = false
-	}
-</script>
-
 <template>
 	<div class="relative space-y-16">
-		<!-- Hero -->
 		<section
 			id="home"
-			class="max-w-4xl mx-auto mt-10 text-center md:mt-16">
-			<div v-motion="'slide-up'">
+			class="max-w-5xl mx-auto mt-12 md:mt-16 text-center">
+			<div class="animate-slide-up-fade">
 				<div
-					class="inline-block px-4 py-1 mb-6 text-sm font-medium text-sky-700 bg-sky-100/80 rounded-full border border-sky-200">
-					👋 嗨，我是石头鱼 (StoneFish)
+					class="inline-flex items-center px-4 py-1.5 mb-8 rounded-full bg-white/70 backdrop-blur border border-white/60 shadow-sm text-sm font-semibold text-(--text-secondary)">
+					<span class="relative flex h-2.5 w-2.5 mr-3">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+						<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+					</span>
+					Available for Freelance
 				</div>
-				<h1 class="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
-					打造操作系统级的
+
+				<h1 class="text-5xl md:text-7xl font-black tracking-tight text-(--text-primary) mb-6 leading-[1.05]">
+					构建
+					<span class="text-gradient inline-block">未来级</span>
 					<br />
-					<span class="text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-pink-400">Web 体验</span>
+					Web 体验
 				</h1>
-				<p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-					前端架构师 / Web OS 爱好者 / 偏爱新技术的全栈开发者。
+				<p class="text-lg md:text-xl text-(--text-secondary) max-w-2xl mx-auto mb-12 leading-relaxed">
+					我是
+					<strong class="text-(--text-primary)">石头鱼 (StoneFish)</strong>
+					，一名全栈工程师。
 					<br />
-					这里是 StoneHub，基于 Nuxt 4 构建的个人数字花园。
+					痴迷于打造
+					<span class="bg-(--color-primary-container) text-(--color-on-primary-container) px-1 rounded mx-1">
+						OS 级交互
+					</span>
+					与
+					<span class="bg-(--color-secondary-container) text-(--color-on-secondary-container) px-1 rounded mx-1">
+						沉浸式动效
+					</span>
+					。
 				</p>
 
-				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-xl mx-auto">
 					<button
-						class="group relative px-8 py-4 bg-slate-900 text-white rounded-2xl font-mono text-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+						class="w-full sm:w-auto h-14 px-8 bg-slate-900 text-white rounded-2xl font-medium hover:bg-slate-800 hover:shadow-2xl hover:shadow-slate-500/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
 						@click="openTerminal">
-						<span class="relative z-10 flex items-center gap-2">>_ 打开命令行模式</span>
-						<div
-							class="absolute inset-0 bg-linear-to-r from-sky-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+						<span class="p-1 bg-slate-700 rounded-lg">>_</span>
+						<span class="font-mono">Open Terminal</span>
 					</button>
 
 					<button
-						class="group px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-2xl font-medium hover:shadow-lg hover:border-pink-200 hover:-translate-y-1 transition-all duration-300"
+						class="w-full sm:w-auto h-14 px-8 bg-white text-(--text-secondary) border border-(--surface-outline) rounded-2xl font-medium hover:bg-(--color-secondary-container) hover:text-(--color-on-secondary-container) hover:border-(--surface-outline-strong) hover:shadow-xl hover:shadow-pink-500/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
 						@click="openAI">
-						<span class="flex items-center gap-2 group-hover:text-pink-500 transition-colors">
+						<span class="p-1 bg-(--color-secondary-container) text-(--color-secondary) rounded-lg">
 							<Icon
-								name="lucide:bot"
-								class="w-5 h-5" />
-							和 AI 石头鱼聊聊
+								name="lucide:sparkles"
+								class="w-4 h-4" />
 						</span>
+						Ask AI Stone
 					</button>
 				</div>
 
-				<!-- 技术栈 -->
-				<div class="mt-20 pt-10 border-t border-slate-200/60">
-					<p class="text-sm text-slate-400 mb-6 uppercase tracking-wider font-semibold">当前驱动核心</p>
-					<div class="flex flex-wrap justify-center gap-3">
-						<span
-							v-for="tech in stack"
-							:key="tech"
-							class="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl text-slate-600 text-sm font-medium shadow-sm border border-white">
-							{{ tech }}
-						</span>
+				<div class="animate-slide-up-fade mt-20 w-full max-w-3xl mx-auto">
+					<div
+						class="flex items-center justify-between text-xs font-bold text-(--text-muted) uppercase tracking-[0.3em] mb-6 px-4">
+						<span>Powering Core</span>
+						<span class="w-1/3 h-px bg-(--surface-outline)" />
 					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Projects -->
-		<section
-			id="projects"
-			class="max-w-5xl mx-auto animate-fade-in">
-			<h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
-				<span class="w-2 h-8 bg-sky-400 rounded-full" />
-				近期项目
-			</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				<div
-					v-for="project in projects"
-					:key="project.title"
-					class="glass-panel p-6 rounded-3xl hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-sky-200">
-					<div class="flex justify-between items-start mb-4">
+					<div class="flex flex-wrap justify-center gap-4">
 						<div
-							class="p-3 bg-sky-50 rounded-2xl text-sky-500 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-							<Icon
-								:name="project.icon"
-								class="w-6 h-6" />
+							v-for="(tech, i) in stack"
+							:key="tech"
+							class="group relative px-6 py-3 bg-white/60 backdrop-blur-sm border border-white/70 rounded-xl text-(--text-secondary) font-bold text-sm shadow-sm hover:bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+							:style="{ transitionDelay: `${i * 50}ms` }">
+							{{ tech }}
+							<div
+								class="absolute inset-x-0 -bottom-px h-[2px] bg-linear-to-r from-(--color-primary) to-(--color-secondary) opacity-0 group-hover:opacity-100 transition-opacity" />
 						</div>
-						<span class="px-3 py-1 bg-slate-100 text-slate-500 text-xs rounded-full">{{ project.year }}</span>
-					</div>
-					<h3 class="text-xl font-bold mb-2">{{ project.title }}</h3>
-					<p class="text-slate-600 mb-4 h-12">{{ project.desc }}</p>
-					<div class="flex gap-2 flex-wrap">
-						<span
-							v-for="tag in project.tags"
-							:key="tag"
-							class="text-xs px-2 py-1 bg-slate-50 text-slate-500 rounded-md border border-slate-100">
-							{{ tag }}
-						</span>
 					</div>
 				</div>
-			</div>
-		</section>
-
-		<!-- Blog -->
-		<section
-			id="blog"
-			class="max-w-3xl mx-auto animate-fade-in">
-			<h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
-				<span class="w-2 h-8 bg-pink-300 rounded-full" />
-				技术随笔
-			</h2>
-			<div class="space-y-4">
-				<article
-					v-for="post in posts"
-					:key="post.slug"
-					class="group relative bg-white/80 hover:bg-white p-6 rounded-3xl transition-all duration-300 hover:shadow-lg border border-transparent hover:border-pink-100 cursor-pointer">
-					<div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-						<h3 class="text-lg font-bold text-slate-800 group-hover:text-pink-500 transition-colors">
-							{{ post.title }}
-						</h3>
-						<time class="text-sm text-slate-400 font-mono">{{ post.date }}</time>
-					</div>
-					<p class="text-slate-600 text-sm mb-3">{{ post.excerpt }}</p>
-					<div class="flex items-center gap-2">
-						<span class="text-xs font-medium text-sky-500 bg-sky-50 px-2 py-1 rounded">{{ post.tag }}</span>
-					</div>
-				</article>
-			</div>
-		</section>
-
-		<!-- Links -->
-		<section
-			id="links"
-			class="max-w-4xl mx-auto mt-4 text-center animate-fade-in">
-			<h2 class="text-3xl font-bold mb-10">连接世界</h2>
-			<div class="flex justify-center gap-6 flex-wrap">
-				<a
-					v-for="link in [
-						{ label: 'GitHub', icon: 'lucide:github', href: 'https://github.com/stonefish' },
-						{ label: 'Twitter', icon: 'lucide:twitter', href: 'https://twitter.com' },
-						{ label: 'StoneOS', icon: 'lucide:monitor', href: '#' },
-					]"
-					:key="link.label"
-					:href="link.href"
-					class="p-6 bg-white rounded-3xl shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 flex flex-col items-center gap-3 min-w-[120px] border border-slate-100"
-					target="_blank"
-					rel="noreferrer">
-					<Icon
-						:name="link.icon"
-						class="w-8 h-8 text-slate-800" />
-					<span class="font-bold text-sm">{{ link.label }}</span>
-				</a>
 			</div>
 		</section>
 
 		<OverlayTerminalOverlay
 			:visible="showTerminal"
-			:projects="projects"
-			:posts="posts"
+			:projects="overlayProjects"
+			:posts="overlayPosts"
 			@open-ai="openAI"
 			@close="closeTerminal" />
 		<OverlayAIChatPanel
@@ -254,3 +87,68 @@
 			@close="closeAI" />
 	</div>
 </template>
+
+<script setup lang="ts">
+	import OverlayAIChatPanel from '~/components/overlay/AIChatPanel.vue'
+	import OverlayTerminalOverlay from '~/components/overlay/TerminalOverlay.vue'
+
+	type Project = { title?: string; description?: string; year?: string; tags?: string[]; icon?: string }
+	type Post = { title?: string; date?: string; slug?: string; description?: string; _path?: string }
+
+	definePageMeta({ title: '首页' })
+	useHead({ title: '首页' })
+
+	const showTerminal = ref(false)
+	const showAI = ref(false)
+
+	const stack = ['Nuxt 4', 'Vue 3', 'Tailwind', 'TypeScript', 'Node.js', 'Vercel Edge']
+
+	const { data: projects } = await useAsyncData<Project[]>('home-projects', async () => {
+		const rows = await queryCollection('projects').select('title', 'description', 'meta', 'path').all()
+		return rows.map((row) => ({
+			title: row.title,
+			description: row.description,
+			year: typeof row.meta?.year === 'string' ? row.meta.year : undefined,
+			tags: Array.isArray(row.meta?.tags) ? row.meta.tags.map((t) => String(t)) : [],
+			icon: typeof row.meta?.icon === 'string' ? row.meta.icon : undefined,
+		}))
+	})
+
+	const { data: posts } = await useAsyncData<Post[]>('home-posts', async () => {
+		type BlogRow = {
+			path: string
+			title?: string
+			description?: string
+			slug?: string
+			meta?: { date?: unknown; tags?: unknown }
+		}
+		const rows = (await queryCollection('blog').select('path', 'title', 'description', 'meta').all()) as BlogRow[]
+		return rows.map((row) => ({
+			title: row.title,
+			description: row.description,
+			date: typeof row.meta?.date === 'string' ? row.meta.date : undefined,
+			slug: row.slug,
+			_path: row.path,
+		}))
+	})
+
+	const overlayProjects = computed(() =>
+		(projects.value || []).map((p) => ({ title: p.title || '', desc: p.description || '' })),
+	)
+	const overlayPosts = computed(() =>
+		(posts.value || []).map((p) => ({ title: p.title || '', date: p.date || '', slug: p.slug || p._path || '' })),
+	)
+
+	const openTerminal = () => {
+		showTerminal.value = true
+	}
+	const closeTerminal = () => {
+		showTerminal.value = false
+	}
+	const openAI = () => {
+		showAI.value = true
+	}
+	const closeAI = () => {
+		showAI.value = false
+	}
+</script>

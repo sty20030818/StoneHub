@@ -3,7 +3,8 @@ import { defineAppConfig } from 'nuxt/app'
 export default defineAppConfig({
 	ui: {
 		strategy: 'override',
-		primary: 'sky',
+		primary: '#0ea5e9',
+		secondary: '#ec4899',
 		gray: 'slate',
 		radius: 'xl',
 		variables: {

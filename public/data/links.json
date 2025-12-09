@@ -1,0 +1,26 @@
+[
+	{
+		"name": "GitHub",
+		"handle": "stonefish",
+		"icon": "github",
+		"url": "https://github.com/stonefish",
+		"colorBg": "bg-slate-100",
+		"colorText": "text-slate-800"
+	},
+	{
+		"name": "Twitter",
+		"handle": "stone_dev",
+		"icon": "twitter",
+		"url": "https://twitter.com",
+		"colorBg": "bg-sky-50",
+		"colorText": "text-sky-500"
+	},
+	{
+		"name": "StoneOS",
+		"handle": "preview",
+		"icon": "monitor",
+		"url": "#",
+		"colorBg": "bg-pink-50",
+		"colorText": "text-pink-500"
+	}
+]

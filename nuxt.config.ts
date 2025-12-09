@@ -13,7 +13,7 @@ export default defineNuxtConfig({
 				{ charset: 'utf-8' },
 				{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 				{ name: 'description', content: 'StoneHub 个人站点' },
-				{ name: 'theme-color', content: '#5fb3f5' },
+				{ name: 'theme-color', content: '#0ea5e9' },
 				{ property: 'og:type', content: 'website' },
 				{ property: 'og:site_name', content: 'StoneHub' },
 				{ property: 'og:title', content: 'StoneHub' },
@@ -35,14 +35,20 @@ export default defineNuxtConfig({
 		},
 	},
 	image: {
-		formats: ['webp', 'avif', 'png'],
+		format: ['webp', 'avif', 'png'],
 		quality: 80,
 	},
 	content: {
-		highlight: {
-			theme: {
-				default: 'github-light',
-				dark: 'github-dark',
+		build: {
+			markdown: {
+				highlight: {
+					theme: {
+						default: 'github-light',
+						dark: 'github-dark',
+						sepia: 'monokai',
+					},
+					langs: ['c', 'cpp', 'java'],
+				},
 			},
 		},
 	},

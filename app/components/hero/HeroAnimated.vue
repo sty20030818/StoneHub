@@ -1,15 +1,5 @@
-<script setup lang="ts">
-	const emit = defineEmits<{
-		(e: 'open-terminal' | 'open-ai'): void
-	}>()
-
-	const tags = ['Nuxt 4', 'Vue 3', 'Tailwind', 'Motion', 'LLM Ready']
-</script>
-
 <template>
-	<section
-		v-motion="'fade-rise'"
-		class="relative">
+	<section class="relative animate-slide-up-fade">
 		<UCard
 			class="surface-card state-layer rounded-3xl"
 			:ui="{
@@ -60,3 +50,11 @@
 		</UCard>
 	</section>
 </template>
+
+<script setup lang="ts">
+	const emit = defineEmits<{
+		(e: 'open-terminal' | 'open-ai'): void
+	}>()
+
+	const tags = ['Nuxt 4', 'Vue 3', 'Tailwind', 'Motion', 'LLM Ready']
+</script>

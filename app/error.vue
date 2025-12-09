@@ -1,11 +1,3 @@
-<script setup lang="ts">
-	const props = defineProps<{
-		error: { statusCode?: number; message?: string }
-	}>()
-
-	const goHome = () => clearError({ redirect: '/' })
-</script>
-
 <template>
 	<div class="min-h-screen bg-surface text-slate-100">
 		<div class="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-16">
@@ -31,3 +23,11 @@
 		</div>
 	</div>
 </template>
+
+<script setup lang="ts">
+	const props = defineProps<{
+		error: { statusCode?: number; message?: string }
+	}>()
+
+	const goHome = () => clearError({ redirect: '/' })
+</script>

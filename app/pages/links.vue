@@ -1,47 +1,58 @@
-<script setup lang="ts">
-	definePageMeta({ title: '外链与入口' })
-	useHead({ title: '外链与入口' })
-
-	const links = [
-		{ label: 'GitHub', href: 'https://github.com', desc: '代码仓库与项目合集' },
-		{ label: 'StoneOS', href: '#', desc: '未来的 Web OS 实验站，占位链接' },
-		{ label: 'Blog', href: '/blog', desc: '博客列表页（站内）' },
-	]
-</script>
-
 <template>
-	<section class="space-y-6">
-		<div class="space-y-2">
-			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Links</p>
-			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">外链与入口</h1>
-			<p class="text-(--text-secondary)">这里放置 GitHub、实验站等常用入口,后续可补充。</p>
+	<section class="space-y-8">
+		<!-- 页面标题 -->
+		<div class="space-y-2 animate-slide-up-fade">
+			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-primary)">Links</p>
+			<h1 class="text-4xl font-bold text-(--text-primary) md:text-5xl">连接节点</h1>
+			<p class="text-(--text-secondary)">常用入口与友链，使用 premium-card 九宫格呈现。</p>
 		</div>
 
-		<div class="space-y-3">
-			<UCard
-				v-for="link in links"
-				:key="link.href"
-				v-motion="'fade-rise'"
-				class="surface-card rounded-2xl"
-				:ui="{
-					body: 'p-4',
-				}">
-				<div class="flex items-center justify-between gap-3">
-					<div>
-						<p class="text-lg font-semibold text-(--text-primary)">{{ link.label }}</p>
-						<p class="text-(--text-secondary)">{{ link.desc }}</p>
-					</div>
-					<UButton
-						:href="link.href"
-						variant="ghost"
-						icon="i-heroicons-arrow-up-right-20-solid"
-						target="_blank"
-						rel="noreferrer"
-						class="rounded-xl">
-						访问
-					</UButton>
+		<!-- 九宫格卡片 -->
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+			<a
+				v-for="(link, idx) in links || []"
+				:key="link.url"
+				:href="link.url"
+				class="premium-card aspect-square rounded-4xl flex flex-col items-center justify-center gap-4 group animate-slide-up-fade"
+				:class="`stagger-${(idx % 3) + 1}`"
+				target="_blank"
+				rel="noreferrer">
+				<!-- 图标容器：悬停放大 + 阴影 -->
+				<div
+					class="w-20 h-20 rounded-3xl flex items-center justify-center text-(--text-secondary) shadow-sm border border-white backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
+					:class="link.colorBg || 'bg-surface-variant'">
+					<Icon
+						:name="link.icon ? `lucide:${link.icon}` : 'lucide:link-2'"
+						class="w-10 h-10"
+						:class="link.colorText" />
 				</div>
-			</UCard>
+				<!-- 文字内容 -->
+				<div class="flex flex-col text-center">
+					<span class="font-bold text-(--text-primary) text-lg group-hover:text-(--color-primary) transition-colors">
+						{{ link.name }}
+					</span>
+					<span class="text-xs text-(--text-muted) font-medium">@{{ link.handle }}</span>
+				</div>
+			</a>
 		</div>
 	</section>
 </template>
+
+<script setup lang="ts">
+	// 直接导入 JSON 数据（使用相对于项目根目录的路径）
+	import linksData from '../../content/links.json'
+
+	type LinkItem = {
+		name: string
+		handle?: string
+		icon?: string
+		url: string
+		colorBg?: string
+		colorText?: string
+	}
+
+	definePageMeta({ title: '传送门' })
+	useHead({ title: '传送门' })
+
+	const links = ref<LinkItem[]>(linksData)
+</script>

@@ -1,0 +1,18 @@
+{
+	"title": "我现在在做什么",
+	"doing": [
+		"Material You 全站还原与动效统一",
+		"终端/AI 抽屉交互细节对齐文档",
+		"内容管线迁移到 @nuxt/content"
+	],
+	"done": [
+		"Nuxt 4 基础脚手架搭建",
+		"主题 token 初版与暗色支持",
+		"命令行 Overlay MVP"
+	],
+	"next": [
+		"补充更多项目与博客内容",
+		"为 Projects/Blog 加入封面图",
+		"尝试引入轻量化测试"
+	]
+}

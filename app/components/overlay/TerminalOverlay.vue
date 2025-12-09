@@ -1,142 +1,12 @@
 /* eslint-disable vue/no-v-html */
-<script setup lang="ts">
-	type Entry = {
-		type: 'input' | 'output'
-		content: string
-	}
-
-	const emit = defineEmits<{
-		(e: 'close' | 'open-ai'): void
-	}>()
-
-	const props = defineProps<{
-		visible: boolean
-		projects?: { title: string; desc: string }[]
-		posts?: { title: string; date: string; slug: string }[]
-	}>()
-
-	const terminalBody = ref<HTMLDivElement | null>(null)
-	const cmdInput = ref<HTMLInputElement | null>(null)
-	const currentCmd = ref('')
-	const terminalHistory = ref<Entry[]>([
-		{ type: 'output', content: 'Welcome to StoneShell v1.0.0' },
-		{ type: 'output', content: 'Type <span class="text-yellow-400">help</span> to see available commands.' },
-	])
-
-	const scrollToBottom = () => {
-		nextTick(() => {
-			if (terminalBody.value) {
-				terminalBody.value.scrollTop = terminalBody.value.scrollHeight
-			}
-		})
-	}
-
-	const focusInput = () => {
-		nextTick(() => cmdInput.value?.focus())
-	}
-
-	watch(
-		() => props.visible,
-		(val) => {
-			if (val) {
-				focusInput()
-				scrollToBottom()
-			}
-		},
-	)
-
-	const appendOutput = (content: string) => {
-		terminalHistory.value.push({ type: 'output', content })
-		scrollToBottom()
-	}
-
-	const executeCmd = () => {
-		const raw = currentCmd.value.trim()
-		if (!raw) return
-
-		terminalHistory.value.push({ type: 'input', content: raw })
-		currentCmd.value = ''
-
-		const [cmd, ...args] = raw.split(' ')
-		let output = ''
-
-		switch (cmd.toLowerCase()) {
-			case 'help':
-				output = `Available commands:
-  <span class="text-sky-400">help</span>       Show this help message
-  <span class="text-sky-400">clear</span>      Clear terminal screen
-  <span class="text-sky-400">projects</span>   List my projects
-  <span class="text-sky-400">blog</span>       List recent blog posts
-  <span class="text-sky-400">open</span>       Open specific module (e.g., <span class="text-gray-400">open chat</span>)
-  <span class="text-sky-400">exit</span>       Close terminal`
-				break
-			case 'clear':
-				terminalHistory.value = []
-				scrollToBottom()
-				return
-			case 'projects':
-				output = (props.projects || [])
-					.map((p) => `• <span class="text-sky-300 font-bold">${p.title}</span> - ${p.desc}`)
-					.join('\n')
-				break
-			case 'blog':
-				output = (props.posts || [])
-					.slice(0, 5)
-					.map((p) => `[${p.date}] <span class="text-pink-300 underline cursor-pointer">${p.title}</span>`)
-					.join('\n')
-				break
-			case 'open':
-				if (args[0] === 'chat') {
-					emit('open-ai')
-					output = 'Opening AI Chat...'
-				} else if (args[0] === 'os') {
-					output = 'Launching StoneOS in new tab... (Mock)'
-				} else {
-					output = 'Usage: open [chat|os]'
-				}
-				break
-			case 'exit':
-				emit('close')
-				return
-			case 'sudo':
-				output = '嘿！想干嘛？这里是石头鱼的地盘，没有 root 权限给你玩~ 😂'
-				break
-			default:
-				output = `Command not found: ${cmd}. Try <span class="text-yellow-400">help</span>.`
-		}
-
-		if (output) {
-			appendOutput(output)
-		}
-	}
-
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape' && props.visible) {
-			emit('close')
-		}
-	}
-
-	onMounted(() => {
-		if (import.meta.client) {
-			window.addEventListener('keydown', handleKeydown)
-		}
-	})
-
-	onBeforeUnmount(() => {
-		if (import.meta.client) {
-			window.removeEventListener('keydown', handleKeydown)
-		}
-	})
-</script>
-
 <template>
 	<transition
-		enter-active-class="transition duration-300 ease-out"
-		enter-from-class="opacity-0 scale-95"
-		enter-to-class="opacity-100 scale-100"
-		leave-active-class="transition duration-200 ease-in"
-		leave-from-class="opacity-100 scale-100"
-		leave-to-class="opacity-0 scale-95">
+		:enter-active-class="reduceMotion ? 'transition duration-150 ease-out' : 'transition duration-300 ease-out'"
+		:enter-from-class="reduceMotion ? 'opacity-0' : 'opacity-0 scale-95'"
+		:enter-to-class="reduceMotion ? 'opacity-100' : 'opacity-100 scale-100'"
+		:leave-active-class="reduceMotion ? 'transition duration-150 ease-in' : 'transition duration-200 ease-in'"
+		:leave-from-class="reduceMotion ? 'opacity-100' : 'opacity-100 scale-100'"
+		:leave-to-class="reduceMotion ? 'opacity-0' : 'opacity-0 scale-95'">
 		<div
 			v-if="visible"
 			class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
@@ -194,3 +64,147 @@
 		</div>
 	</transition>
 </template>
+
+<script setup lang="ts">
+	import { usePreferredReducedMotion } from '@vueuse/core'
+	type Entry = {
+		type: 'input' | 'output'
+		content: string
+	}
+
+	const emit = defineEmits<{
+		(e: 'close' | 'open-ai'): void
+	}>()
+
+	const props = defineProps<{
+		visible: boolean
+		projects?: { title: string; desc: string }[]
+		posts?: { title: string; date: string; slug: string }[]
+	}>()
+
+	const terminalBody = ref<HTMLDivElement | null>(null)
+	const cmdInput = ref<HTMLInputElement | null>(null)
+	const currentCmd = ref('')
+	const terminalHistory = ref<Entry[]>([
+		{ type: 'output', content: 'Welcome to StoneShell v1.0.0' },
+		{ type: 'output', content: 'Type <span class="text-yellow-400">help</span> to see available commands.' },
+	])
+
+	const reduceMotion = usePreferredReducedMotion()
+
+	const scrollToBottom = () => {
+		nextTick(() => {
+			if (terminalBody.value) {
+				terminalBody.value.scrollTop = terminalBody.value.scrollHeight
+			}
+		})
+	}
+
+	const focusInput = () => {
+		nextTick(() => cmdInput.value?.focus())
+	}
+
+	watch(
+		() => props.visible,
+		(val) => {
+			if (val) {
+				focusInput()
+				scrollToBottom()
+			}
+		},
+	)
+
+	const appendOutput = (content: string) => {
+		terminalHistory.value.push({ type: 'output', content })
+		scrollToBottom()
+	}
+
+	const executeCmd = () => {
+		const raw = currentCmd.value.trim()
+		if (!raw) return
+
+		terminalHistory.value.push({ type: 'input', content: raw })
+		currentCmd.value = ''
+
+		const [cmdRaw, ...args] = raw.split(' ')
+		const cmd = cmdRaw || ''
+		let output = ''
+
+		switch (cmd.toLowerCase()) {
+			case 'help':
+				output = `<span class="text-slate-400">Core Commands:</span>
+  <span class="text-sky-400 font-bold w-16 inline-block">help</span> Show this help
+  <span class="text-sky-400 font-bold w-16 inline-block">clear</span> Clear screen
+  <span class="text-sky-400 font-bold w-16 inline-block">ls</span> List projects & posts
+
+<span class="text-slate-400">Navigation:</span>
+  <span class="text-pink-400 font-bold w-16 inline-block">cd</span> Change route (e.g. <span class="text-slate-500">cd blog</span>)
+  <span class="text-pink-400 font-bold w-16 inline-block">open</span> Launch apps (e.g. <span class="text-slate-500">open chat</span>)
+  <span class="text-pink-400 font-bold w-16 inline-block">exit</span> Close terminal`
+				break
+			case 'clear':
+				terminalHistory.value = []
+				scrollToBottom()
+				return
+			case 'ls':
+				output = `<span class="text-sky-300 font-bold">Projects:</span>
+${(props.projects || []).map((p) => `  drwxr-xr-x  stone  ${p.title}/`).join('\n')}
+
+<span class="text-pink-300 font-bold">Blog Posts:</span>
+${(props.posts || [])
+	.slice(0, 5)
+	.map((p) => `  -rw-r--r--  stone  ${p.slug || p.title || ''}.md`)
+	.join('\n')}`
+				break
+			case 'cd': {
+				const target = args[0] ?? ''
+				if (target && ['home', 'projects', 'blog', 'links', 'now'].includes(target)) {
+					output = `Mapped to /${target}`
+				} else {
+					output = `cd: no such directory: ${target}`
+				}
+				break
+			}
+			case 'open':
+				if (args[0] === 'chat') {
+					emit('open-ai')
+					output = 'Opening AI Chat...'
+				} else if (args[0] === 'os') {
+					output = 'Launching StoneOS in new tab... (Mock)'
+				} else {
+					output = 'Usage: open [chat|os]'
+				}
+				break
+			case 'exit':
+				emit('close')
+				return
+			case 'sudo':
+				output = '嘿！想干嘛？这里是石头鱼的地盘，没有 root 权限给你玩~ 😂'
+				break
+			default:
+				output = `Command not found: ${cmd}. Try <span class="text-yellow-400">help</span>.`
+		}
+
+		if (output) {
+			appendOutput(output)
+		}
+	}
+
+	const handleKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Escape' && props.visible) {
+			emit('close')
+		}
+	}
+
+	onMounted(() => {
+		if (import.meta.client) {
+			window.addEventListener('keydown', handleKeydown)
+		}
+	})
+
+	onBeforeUnmount(() => {
+		if (import.meta.client) {
+			window.removeEventListener('keydown', handleKeydown)
+		}
+	})
+</script>
