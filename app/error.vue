@@ -9,6 +9,12 @@
 				@click="goHome">
 				返回首页
 			</button>
+			<!-- 刷新 -->
+			<button
+				type="button"
+				@click="refresh()">
+				刷新
+			</button>
 			<button
 				type="button"
 				@click="clearError()">
@@ -24,4 +30,5 @@
 	}>()
 
 	const goHome = () => clearError({ redirect: '/' })
+	const refresh = () => location.reload()
 </script>

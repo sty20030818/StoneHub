@@ -2,16 +2,11 @@ import { defineAppConfig } from 'nuxt/app'
 
 export default defineAppConfig({
 	ui: {
-		strategy: 'override',
-		primary: '#0ea5e9',
-		secondary: '#ec4899',
-		gray: 'slate',
-		radius: 'xl',
-		variables: {
-			shadow: {
-				xl: 'var(--shadow-soft)',
-			},
-			rounded: '16px',
+		// 使用 Nuxt UI v4 的颜色配置
+		colors: {
+			primary: 'sky', // 使用 @theme 中定义的 sky
+			secondary: 'pink', // 使用 @theme 中定义的 pink
+			neutral: 'slate',
 		},
 	},
 })

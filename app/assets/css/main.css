@@ -1,2 +1,219 @@
-/* 样式系统将整体重做：此文件仅保留最小基线，避免引入颜色/阴影/动效等视觉实现。 */
+/* Material You 主题 - StoneHub */
 @import "tailwindcss";
+
+/* ============================================
+    Tailwind theme 扩展 - 颜色与变量
+   ============================================ */
+@theme {
+	/* 天蓝色 - 主色 */
+	--color-sky-50: #d6f0ff;
+	--color-sky-100: #c0e8ff;
+	--color-sky-200: #9fddff;
+	--color-sky-300: #7dd0ff;
+	--color-sky-400: #5bc3ff;
+	--color-sky-500: #4fb6f4;
+	--color-sky-600: #3aa0de;
+	--color-sky-700: #2989c7;
+	--color-sky-800: #1a72b0;
+	--color-sky-900: #0e5b99;
+	--color-sky-950: #001e30;
+
+	/* 淡粉色 - 辅色 */
+	--color-pink-50: #ffd9e3;
+	--color-pink-100: #ffc7d6;
+	--color-pink-200: #ffb0c5;
+	--color-pink-300: #ff99b5;
+	--color-pink-400: #ff8cab;
+	--color-pink-500: #ff80ab;
+	--color-pink-600: #e66b96;
+	--color-pink-700: #cc5680;
+	--color-pink-800: #b3416b;
+	--color-pink-900: #992c55;
+	--color-pink-950: #3e001d;
+
+	/* ========== Material You 语义颜色 ========== */
+	/* Primary 主色 */
+	--color-primary: #4fb6f4;
+	--color-on-primary: #ffffff;
+	--color-primary-container: #c0e8ff;
+	--color-on-primary-container: #001e30;
+
+	/* Secondary 辅色 */
+	--color-secondary: #ff80ab;
+	--color-on-secondary: #ffffff;
+	--color-secondary-container: #ffd9e3;
+	--color-on-secondary-container: #3e001d;
+
+	/* Surface 表面 */
+	--color-surface: #fdfbff;
+	--color-on-surface: #1a1c1e;
+	--color-surface-container: #f0f4f9;
+	--color-surface-container-low: #f6f9fe;
+	--color-surface-container-high: #e8ecf2;
+
+	/* Background 背景 */
+	--color-background: #fdfbff;
+	--color-on-background: #1a1c1e;
+
+	/* Outline 轮廓 */
+	--color-outline: #73777f;
+	--color-outline-variant: #c3c6cf;
+
+	/* ========== 字体家族 ========== */
+	/* --font-family-display: "Inter",  system-ui, sans-serif; */
+	/* --font-family-body: "Inter",  system-ui, sans-serif; */
+
+	/* ========== 字体大小 ========== */
+	--font-size-display-large: 3.5rem;
+	--font-size-display-medium: 2.5rem;
+	--font-size-display-small: 2rem;
+	--font-size-headline-large: 1.75rem;
+	--font-size-headline-medium: 1.5rem;
+	--font-size-title-large: 1.25rem;
+	--font-size-body-large: 1.125rem;
+}
+
+/* ============================================
+    排版工具类
+  ============================================= */
+.font-display {
+	font-family: var(--font-family-display);
+}
+
+.text-display-large {
+	font-size: var(--font-size-display-large);
+	line-height: 1.1;
+}
+
+.text-display-medium {
+	font-size: var(--font-size-display-medium);
+	line-height: 1.2;
+}
+
+.text-display-small {
+	font-size: var(--font-size-display-small);
+	line-height: 1.25;
+}
+
+.text-headline-large {
+	font-size: var(--font-size-headline-large);
+	line-height: 1.3;
+}
+
+.text-headline-medium {
+	font-size: var(--font-size-headline-medium);
+	line-height: 1.35;
+}
+
+/* ============================================
+    全局基础样式
+	============================================= */
+body {
+	color: var(--color-on-background);
+	min-height: 100vh;
+}
+
+/* ============================================
+    立体悬浮效果工具类
+	============================================= */
+
+/* 岛屿卡片 - 强悬浮效果 */
+.island-card {
+	background: rgba(253, 251, 255, 0.7);
+	backdrop-filter: blur(24px);
+	-webkit-backdrop-filter: blur(24px);
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.05),
+		0 10px 20px -5px rgba(0, 0, 0, 0.08),
+		0 25px 50px -12px rgba(0, 0, 0, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.island-card:hover {
+	transform: translateY(-4px);
+	box-shadow:
+		0 8px 12px -2px rgba(0, 0, 0, 0.08),
+		0 20px 40px -10px rgba(0, 0, 0, 0.12),
+		0 40px 80px -20px rgba(79, 182, 244, 0.15),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* 悬浮按钮 - 立体效果 */
+.float-button {
+	background: rgba(253, 251, 255, 0.85);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	box-shadow:
+		0 2px 4px rgba(0, 0, 0, 0.04),
+		0 8px 16px -4px rgba(0, 0, 0, 0.1),
+		0 16px 32px -8px rgba(0, 0, 0, 0.08),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.float-button:hover {
+	transform: translateY(-2px);
+	box-shadow:
+		0 4px 8px rgba(0, 0, 0, 0.06),
+		0 16px 32px -8px rgba(0, 0, 0, 0.15),
+		0 24px 48px -12px rgba(79, 182, 244, 0.2),
+		inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* 主色按钮 - 立体发光 */
+.glow-primary {
+	box-shadow:
+		0 4px 12px rgba(79, 182, 244, 0.35),
+		0 8px 24px -4px rgba(79, 182, 244, 0.3),
+		0 16px 48px -8px rgba(79, 182, 244, 0.25);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-primary:hover {
+	transform: translateY(-3px);
+	box-shadow:
+		0 6px 20px rgba(79, 182, 244, 0.45),
+		0 12px 36px -6px rgba(79, 182, 244, 0.4),
+		0 24px 60px -12px rgba(79, 182, 244, 0.35);
+}
+
+/* 辅色按钮 - 立体发光 */
+.glow-secondary {
+	box-shadow:
+		0 4px 12px rgba(255, 128, 171, 0.35),
+		0 8px 24px -4px rgba(255, 128, 171, 0.3),
+		0 16px 48px -8px rgba(255, 128, 171, 0.25);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-secondary:hover {
+	transform: translateY(-3px);
+	box-shadow:
+		0 6px 20px rgba(255, 128, 171, 0.45),
+		0 12px 36px -6px rgba(255, 128, 171, 0.4),
+		0 24px 60px -12px rgba(255, 128, 171, 0.35);
+}
+
+/* 项目卡片 - 悬浮效果 */
+.project-card {
+	background: rgba(253, 251, 255, 0.65);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	box-shadow:
+		0 2px 4px rgba(0, 0, 0, 0.02),
+		0 8px 16px -4px rgba(0, 0, 0, 0.06),
+		0 20px 40px -10px rgba(0, 0, 0, 0.08);
+	transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+	transform: translateY(-8px) scale(1.01);
+	box-shadow:
+		0 8px 16px rgba(0, 0, 0, 0.04),
+		0 20px 40px -10px rgba(0, 0, 0, 0.1),
+		0 40px 80px -20px rgba(79, 182, 244, 0.18);
+}
