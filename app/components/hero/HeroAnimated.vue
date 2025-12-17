@@ -1,53 +1,33 @@
 <template>
-	<section class="relative animate-slide-up-fade">
-		<UCard
-			class="surface-card state-layer rounded-3xl"
-			:ui="{
-				body: 'p-8 md:p-10 relative overflow-hidden',
-			}">
-			<div
-				class="pointer-events-none absolute inset-0 bg-linear-to-tr from-primary-400/18 via-transparent to-[rgba(242,182,216,0.18)]" />
+	<section>
+		<header>
+			<p>StoneFish · 石头鱼</p>
+			<h1>打造操作系统级的 Web 体验</h1>
+			<p>全栈工程师，偏爱新技术与 Web OS 实验。这里集合首页、命令行模式、AI 聊天、博客与项目展示。</p>
+		</header>
 
-			<div class="relative space-y-6">
-				<p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-600 dark:text-primary-200">
-					StoneFish · 石头鱼
-				</p>
-				<h1 class="text-4xl font-bold leading-tight text-(--text-primary) md:text-5xl">打造操作系统级的 Web 体验</h1>
-				<p class="max-w-2xl text-lg text-(--text-secondary)">
-					全栈工程师，偏爱新技术与 Web OS 实验。这里集合动画首页、命令行模式、AI 聊天、博客与项目展示。
-				</p>
+		<section aria-label="标签">
+			<ul>
+				<li
+					v-for="tag in tags"
+					:key="tag">
+					{{ tag }}
+				</li>
+			</ul>
+		</section>
 
-				<div class="flex flex-wrap gap-2">
-					<UBadge
-						v-for="tag in tags"
-						:key="tag"
-						variant="soft"
-						color="primary"
-						class="rounded-xl bg-primary-500/10 text-(--text-primary)">
-						{{ tag }}
-					</UBadge>
-				</div>
-
-				<div class="flex flex-wrap gap-3">
-					<UButton
-						size="md"
-						icon="i-heroicons-command-line"
-						class="rounded-2xl"
-						@click="emit('open-terminal')">
-						打开命令行模式
-					</UButton>
-					<UButton
-						size="md"
-						variant="ghost"
-						color="primary"
-						icon="i-heroicons-sparkles"
-						class="rounded-2xl"
-						@click="emit('open-ai')">
-						和 AI 石头鱼聊聊
-					</UButton>
-				</div>
-			</div>
-		</UCard>
+		<section aria-label="操作">
+			<button
+				type="button"
+				@click="emit('open-terminal')">
+				打开命令行模式
+			</button>
+			<button
+				type="button"
+				@click="emit('open-ai')">
+				和 AI 石头鱼聊聊
+			</button>
+		</section>
 	</section>
 </template>
 

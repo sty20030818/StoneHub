@@ -1,27 +1,17 @@
 <template>
-	<article class="space-y-6">
-		<div class="space-y-2">
-			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Blog</p>
-			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">{{ doc?.title }}</h1>
-			<p class="text-(--text-secondary)">{{ doc?.date }} · {{ (doc?.tags || []).join(' · ') }}</p>
-		</div>
+	<article>
+		<header>
+			<p>Blog</p>
+			<h1>{{ doc?.title }}</h1>
+			<p v-if="doc">{{ doc?.date }} · {{ (doc?.tags || []).join(' · ') }}</p>
+		</header>
 
-		<UCard
-			class="surface-card rounded-2xl animate-slide-up-fade"
-			:ui="{
-				body: 'p-6',
-			}">
-			<div class="prose max-w-none dark:prose-invert">
-				<ContentRenderer
-					v-if="doc"
-					:value="doc" />
-				<p
-					v-else
-					class="text-(--text-secondary)">
-					文章不存在或尚未发布。
-				</p>
-			</div>
-		</UCard>
+		<section>
+			<ContentRenderer
+				v-if="doc"
+				:value="doc" />
+			<p v-else>文章不存在或尚未发布。</p>
+		</section>
 	</article>
 </template>
 

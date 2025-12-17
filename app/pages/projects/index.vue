@@ -1,78 +1,50 @@
 <template>
-	<section class="space-y-6">
-		<div class="space-y-2">
-			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-200">Projects</p>
-			<h1 class="text-3xl font-bold text-(--text-primary) md:text-4xl">项目列表</h1>
-			<p class="text-(--text-secondary)">通过 @nuxt/content 渲染 markdown 项目数据。</p>
-		</div>
+	<section>
+		<header>
+			<p>Projects</p>
+			<h1>项目列表</h1>
+			<p>通过 @nuxt/content 渲染 markdown 项目数据。</p>
+		</header>
 
-		<div class="grid gap-8 md:grid-cols-2">
-			<article
+		<ul v-if="projects?.length">
+			<li
 				v-for="project in projects || []"
-				:key="project.path"
-				class="premium-card p-8 rounded-4xl flex flex-col h-full group shadow-glow animate-slide-up-fade">
-				<div class="flex justify-between items-start mb-6">
-					<div
-						class="relative w-16 h-16 rounded-2xl bg-linear-to-br from-(--color-primary-container) to-white flex items-center justify-center text-(--color-primary) shadow-inner overflow-hidden group-hover:scale-105 transition-transform duration-500">
-						<Icon
-							:name="project.icon ? `lucide:${project.icon}` : 'lucide:folder-kanban'"
-							class="w-8 h-8 relative z-10" />
-						<div
-							class="absolute inset-0 bg-(--color-primary-container)/20 blur-xl group-hover:bg-(--color-primary)/20 transition-colors" />
-					</div>
-					<div class="flex items-center gap-2">
-						<span
-							class="px-3 py-1 bg-(--surface-variant) text-(--text-secondary) text-xs font-bold rounded-full uppercase tracking-wide">
-							{{ project.year || '—' }}
-						</span>
-					</div>
-				</div>
+				:key="project.path">
+				<h2>{{ project.title }}</h2>
+				<p v-if="project.year">年份：{{ project.year }}</p>
+				<p v-if="project.description">{{ project.description }}</p>
 
-				<h3 class="text-2xl font-bold text-(--text-primary) mb-3 group-hover:text-(--color-primary) transition-colors">
-					{{ project.title }}
-				</h3>
-				<p class="text-(--text-secondary) mb-8 flex-1 leading-relaxed">{{ project.description }}</p>
-
-				<div class="flex items-center justify-between mt-auto pt-6 border-t border-(--surface-outline)/60">
-					<div class="flex gap-2 flex-wrap">
-						<span
+				<div v-if="(project.tags || []).length">
+					<p>标签：</p>
+					<ul>
+						<li
 							v-for="tag in project.tags || []"
-							:key="tag"
-							class="text-xs px-2.5 py-1 bg-white border border-(--surface-outline) text-(--text-secondary) rounded-md font-medium shadow-sm">
+							:key="tag">
 							{{ tag }}
-						</span>
-					</div>
-					<div class="flex items-center gap-2">
-						<UButton
-							v-if="project.github"
-							:href="project.github"
-							variant="ghost"
-							color="neutral"
-							icon="i-lucide-github"
-							target="_blank"
-							rel="noreferrer"
-							class="rounded-xl" />
-						<UButton
-							v-if="project.demo"
-							:href="project.demo"
-							variant="solid"
-							color="info"
-							icon="i-lucide-arrow-up-right"
-							target="_blank"
-							rel="noreferrer"
-							class="rounded-xl">
-							Demo
-						</UButton>
-					</div>
+						</li>
+					</ul>
 				</div>
-			</article>
-		</div>
 
-		<p
-			v-if="!projects?.length"
-			class="text-(--text-secondary)">
-			暂未发布项目。
-		</p>
+				<div>
+					<a
+						v-if="project.github"
+						:href="project.github"
+						target="_blank"
+						rel="noreferrer">
+						GitHub
+					</a>
+					<a
+						v-if="project.demo"
+						:href="project.demo"
+						target="_blank"
+						rel="noreferrer">
+						Demo
+					</a>
+				</div>
+			</li>
+		</ul>
+
+		<p v-else>暂未发布项目。</p>
 	</section>
 </template>
 

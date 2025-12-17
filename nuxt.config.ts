@@ -1,4 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const mdcOptimizeDepsBlocklist = [
+	'@nuxtjs/mdc',
+	'remark-gfm',
+	'remark-emoji',
+	'remark-mdc',
+	'remark-rehype',
+	'rehype-raw',
+	'parse5',
+	'unist-util-visit',
+	'unified',
+	'debug',
+] as const
+
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
@@ -50,6 +63,35 @@ export default defineNuxtConfig({
 					langs: ['c', 'cpp', 'java'],
 				},
 			},
+		},
+	},
+	// 配置 @nuxt/ui 禁用字体功能
+	ui: {
+		fonts: false,
+	},
+	// Nuxt Content 会把 @nuxtjs/mdc 的一组依赖加到 Vite client 的 optimizeDeps.include 中；
+	// 在 pnpm 严格依赖树下，这些依赖通常无法从项目根解析，导致 Vite 打 WARN。
+	// 这里直接从最终的 include 里过滤掉这些条目，避免无意义的预构建解析。
+	hooks: {
+		// 先过滤一轮（模块通常在此阶段追加 include）
+		'vite:extendConfig'(config, ctx) {
+			if (!ctx?.isClient) return
+			const mutableConfig = config as any
+			const optimizeDeps = (mutableConfig.optimizeDeps ??= {})
+			if (!Array.isArray(optimizeDeps.include) || optimizeDeps.include.length === 0) return
+
+			const blocklist = new Set<string>(mdcOptimizeDepsBlocklist)
+			optimizeDeps.include = optimizeDeps.include.filter((id: string) => !blocklist.has(id))
+		},
+		// 再兜底过滤一轮（确保最终传给 Vite 的 client config 不含这些条目）
+		'vite:configResolved'(config, ctx) {
+			if (!ctx?.isClient) return
+			const mutableConfig = config as any
+			const optimizeDeps = (mutableConfig.optimizeDeps ??= {})
+			if (!Array.isArray(optimizeDeps.include) || optimizeDeps.include.length === 0) return
+
+			const blocklist = new Set<string>(mdcOptimizeDepsBlocklist)
+			optimizeDeps.include = optimizeDeps.include.filter((id: string) => !blocklist.has(id))
 		},
 	},
 })
