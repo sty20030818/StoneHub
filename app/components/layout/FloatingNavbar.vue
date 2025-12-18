@@ -1,7 +1,7 @@
 <template>
 	<div class="sticky top-6 z-50 w-full flex justify-center px-4 mt-6 pointer-events-none">
 		<header
-			class="pointer-events-auto w-full max-w-4xl flex items-center justify-between rounded-full bg-surface/80 backdrop-blur-xl border border-outline-variant/50 pl-6 pr-2 py-2 shadow-lg ring-1 ring-outline-variant/40 transition-all hover:shadow-xl">
+			class="pointer-events-auto w-full max-w-4xl flex items-center justify-between rounded-full bg-surface/80 backdrop-blur-xl border border-outline-variant/50 pl-6 pr-2 py-2 shadow-lg ring-1 ring-outline-variant/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:bg-surface/90 hover:shadow-2xl hover:border-primary/15 hover:ring-primary/20 active:translate-y-0 active:scale-[0.995]">
 			<!-- Logo / 首页链接 -->
 			<NuxtLink
 				to="/"
@@ -11,7 +11,7 @@
 					<!-- 终端风格 Logo 图标 -->
 					<UIcon
 						name="i-lucide-terminal"
-						class="size-[18px]" />
+						class="size-[18px] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
 				</div>
 				<span class="text-on-background text-lg font-bold tracking-tight hidden sm:block">StoneHub</span>
 			</NuxtLink>
@@ -26,9 +26,9 @@
 					color="neutral"
 					variant="ghost"
 					:class="[
-						'px-5 py-2 rounded-full text-sm font-medium transition-all',
+						'px-5 py-2 rounded-full text-sm font-medium transition-all will-change-transform hover:-translate-y-[2px] hover:shadow-sm active:translate-y-0 active:scale-[0.98]',
 						isActive(link.to)
-							? 'bg-primary-container text-on-primary-container font-bold shadow-sm'
+							? 'bg-primary-container text-on-primary-container font-bold shadow-sm hover:shadow-md'
 							: 'text-on-background/70 hover:text-primary hover:bg-surface-container',
 					]">
 					{{ link.label }}
@@ -40,24 +40,24 @@
 				<UButton
 					color="neutral"
 					variant="ghost"
-					class="group flex items-center justify-center size-11 rounded-full text-on-background/70 hover:bg-surface-container hover:text-primary transition-all"
+					class="group flex items-center justify-center size-11 rounded-full text-on-background/70 hover:bg-surface-container hover:text-primary transition-all will-change-transform hover:-translate-y-[2px] hover:shadow-sm active:translate-y-0 active:scale-[0.98]"
 					:title="t('navbar.terminal')"
 					:class="{ 'bg-surface-container text-primary': isTerminalOpen }"
 					@click="toggleTerminal">
 					<UIcon
 						name="i-lucide-terminal-square"
-						class="size-[22px]" />
+						class="size-[22px] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
 				</UButton>
 				<UButton
 					color="neutral"
 					variant="ghost"
-					class="group flex items-center justify-center size-11 rounded-full text-on-background/70 hover:bg-secondary-container hover:text-secondary transition-all"
+					class="group flex items-center justify-center size-11 rounded-full text-on-background/70 hover:bg-secondary-container hover:text-secondary transition-all will-change-transform hover:-translate-y-[2px] hover:shadow-sm active:translate-y-0 active:scale-[0.98]"
 					:title="t('navbar.ai')"
 					:class="{ 'bg-secondary-container text-secondary': isAIOpen }"
 					@click="toggleAI">
 					<UIcon
 						name="i-lucide-bot"
-						class="size-[22px]" />
+						class="size-[22px] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
 				</UButton>
 
 				<!-- 移动端菜单开关可在此添加 -->

@@ -2,7 +2,7 @@
 	<!-- 悬浮式岛屿 Footer -->
 	<div class="fixed bottom-6 left-0 right-0 z-40 flex justify-center px-4 pointer-events-none">
 		<footer
-			class="pointer-events-auto flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-6 py-3 rounded-full bg-surface/80 backdrop-blur-xl border border-outline-variant/50 shadow-lg ring-1 ring-outline-variant/40 transition-all hover:shadow-xl">
+			class="pointer-events-auto flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-6 py-3 rounded-full bg-surface/80 backdrop-blur-xl border border-outline-variant/50 shadow-lg ring-1 ring-outline-variant/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:bg-surface/90 hover:shadow-2xl hover:border-primary/15 hover:ring-primary/20 active:translate-y-0 active:scale-[0.995]">
 			<!-- 品牌 Logo -->
 			<NuxtLink
 				to="/"
@@ -11,7 +11,7 @@
 					class="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary to-secondary text-white text-xs font-bold shadow-sm">
 					<UIcon
 						name="i-lucide-terminal"
-						class="size-4" />
+						class="size-4 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
 				</div>
 				<span class="text-on-background text-sm font-bold tracking-tight hidden sm:block">StoneHub</span>
 			</NuxtLink>
@@ -83,18 +83,18 @@
 					arrow
 					:content="{ side: 'top', sideOffset: 12 }"
 					:ui="{
-						content: 'bg-surface rounded-2xl shadow-2xl border border-outline-variant/50',
+						content: 'bg-surface z-[80] rounded-2xl shadow-2xl border border-outline-variant/50',
 						arrow: 'fill-surface',
 					}">
 					<UButton
 						color="neutral"
 						variant="ghost"
-						class="p-0! size-8 rounded-full text-on-background/60 hover:bg-[#07C160]/10 hover:text-[#07C160] transition-all"
+						class="p-0! grid place-items-center size-8 rounded-full text-on-background/60 leading-none hover:bg-[#07C160]/10 hover:text-[#07C160] transition-all will-change-transform hover:-translate-y-px active:translate-y-0 active:scale-[0.98]"
 						:aria-label="t('footer.social.wechat')"
 						:title="t('footer.social.wechat')">
 						<UIcon
 							name="i-simple-icons-wechat"
-							class="size-4" />
+							class="size-4 block translate-y-[0.5px]" />
 					</UButton>
 
 					<template #content>
@@ -113,12 +113,12 @@
 					rel="noopener noreferrer"
 					color="neutral"
 					variant="ghost"
-					class="p-0! flex items-center justify-center size-8 rounded-full text-on-background/60 hover:bg-[#12B7F5]/10 hover:text-[#12B7F5] transition-all"
+					class="p-0! grid place-items-center size-8 rounded-full text-on-background/60 leading-none hover:bg-[#12B7F5]/10 hover:text-[#12B7F5] transition-all will-change-transform hover:-translate-y-px active:translate-y-0 active:scale-[0.98]"
 					:aria-label="t('footer.social.qq')"
 					:title="t('footer.social.qq')">
 					<UIcon
 						name="i-simple-icons-qq"
-						class="size-4" />
+						class="size-4 block" />
 				</UButton>
 				<!-- Bilibili -->
 				<UButton
@@ -127,12 +127,12 @@
 					rel="noopener noreferrer"
 					color="neutral"
 					variant="ghost"
-					class="p-0! flex items-center justify-center size-8 rounded-full text-on-background/60 hover:bg-[#FB7299]/10 hover:text-[#FB7299] transition-all"
+					class="p-0! grid place-items-center size-8 rounded-full text-on-background/60 leading-none hover:bg-[#FB7299]/10 hover:text-[#FB7299] transition-all will-change-transform hover:-translate-y-px active:translate-y-0 active:scale-[0.98]"
 					:aria-label="t('footer.social.bilibili')"
 					:title="t('footer.social.bilibili')">
 					<UIcon
 						name="i-simple-icons-bilibili"
-						class="size-4" />
+						class="size-4 block" />
 				</UButton>
 				<!-- GitHub -->
 				<UButton
@@ -141,12 +141,12 @@
 					rel="noopener noreferrer"
 					color="neutral"
 					variant="ghost"
-					class="p-0! flex items-center justify-center size-8 rounded-full text-on-background/60 hover:bg-surface-container hover:text-on-background transition-all"
+					class="p-0! grid place-items-center size-8 rounded-full text-on-background/60 leading-none hover:bg-surface-container hover:text-on-background transition-all will-change-transform hover:-translate-y-px active:translate-y-0 active:scale-[0.98]"
 					:aria-label="t('footer.social.github')"
 					:title="t('footer.social.github')">
 					<UIcon
 						name="i-lucide-github"
-						class="size-4" />
+						class="size-4 block" />
 				</UButton>
 			</div>
 		</footer>

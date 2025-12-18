@@ -146,6 +146,8 @@
 	============================================= */
 html {
 	background-color: var(--color-background);
+	/* 当页面间切换导致垂直滚动条出现或消失时，防止布局横向抖动 */
+	scrollbar-gutter: stable;
 }
 
 body {

@@ -1,11 +1,26 @@
 <template>
 	<!-- 右下角悬浮按钮组 -->
-	<div class="fixed bottom-24 right-6 z-50 flex flex-col gap-3">
+	<div class="fixed bottom-24 right-6 z-100 flex flex-col gap-3">
+		<!-- 返回顶部按钮 -->
+		<Transition name="fade">
+			<div v-if="showBackToTop">
+				<UButton
+					color="neutral"
+					variant="ghost"
+					class="float-button flex items-center justify-center size-12 rounded-full text-on-background/70 hover:text-primary"
+					@click="scrollToTop">
+					<UIcon
+						name="i-lucide-arrow-up"
+						class="size-5" />
+				</UButton>
+			</div>
+		</Transition>
+
 		<!-- 设置按钮 -->
 		<UPopover
 			v-model:open="showSettings"
 			:content="{ side: 'top', sideOffset: 12 }"
-			:ui="{ content: 'island-card w-48 p-3 rounded-2xl flex flex-col gap-2', arrow: 'fill-surface' }">
+			:ui="{ content: 'island-card z-[120] w-48 p-3 rounded-2xl flex flex-col gap-2', arrow: 'fill-surface' }">
 			<UButton
 				color="neutral"
 				variant="ghost"
@@ -46,21 +61,6 @@
 				</UButton>
 			</template>
 		</UPopover>
-
-		<!-- 返回顶部按钮 -->
-		<Transition name="fade">
-			<div v-if="showBackToTop">
-				<UButton
-					color="neutral"
-					variant="ghost"
-					class="float-button flex items-center justify-center size-12 rounded-full text-on-background/70 hover:text-primary"
-					@click="scrollToTop">
-					<UIcon
-						name="i-lucide-arrow-up"
-						class="size-5" />
-				</UButton>
-			</div>
-		</Transition>
 	</div>
 </template>
 
