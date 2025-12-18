@@ -194,7 +194,8 @@ export default defineI18nLocale(() => ({
 			usage: 'Usage: open [chat|os]',
 		},
 		whoami: 'StoneFish\nFull-stack engineer / Web OS enthusiast\nLocation: StoneHub',
-		neofetch: 'stonefish at stonehub\n---------------------\nOS:    StoneHub\nStack: Nuxt 4 / Vue 3\nLang:  TypeScript\nTerm:  StoneShell v2.0',
+		neofetch:
+			'stonefish at stonehub\n---------------------\nOS:    StoneHub\nStack: Nuxt 4 / Vue 3\nLang:  TypeScript\nTerm:  StoneShell v2.0',
 		sudoDenied: 'Permission denied\nNo root privileges here.',
 		rmBlocked: 'Dangerous operation blocked.',
 		rmDenied: 'rm: delete operation is not allowed',

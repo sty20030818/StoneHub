@@ -1,21 +1,10 @@
 <template>
 	<div class="fixed inset-0 pointer-events-none z-0">
 		<!-- 基础渐变背景 -->
-		<div
-			class="absolute inset-0"
-			:style="{
-				backgroundColor: '#fdfbff',
-				backgroundImage: `
-					radial-gradient(ellipse 80% 60% at 5% 10%, rgba(79, 182, 244, 0.45) 0%, transparent 55%),
-					radial-gradient(ellipse 70% 80% at 95% 90%, rgba(255, 128, 171, 0.40) 0%, transparent 55%),
-					radial-gradient(ellipse 50% 50% at 85% 15%, rgba(139, 92, 246, 0.25) 0%, transparent 50%),
-					radial-gradient(ellipse 60% 40% at 15% 85%, rgba(251, 146, 180, 0.30) 0%, transparent 45%),
-					radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 70%)
-				`,
-			}" />
+		<div class="absolute inset-0 mesh-base" />
 
 		<!-- 动态浮动层 -->
-		<div class="floating-layer absolute inset-0" />
+		<div class="mesh-float absolute inset-0" />
 	</div>
 </template>
 
@@ -24,10 +13,40 @@
 </script>
 
 <style scoped>
-	.floating-layer {
+	.mesh-base {
+		background-color: var(--color-background);
+		background-image:
+			radial-gradient(
+				ellipse 80% 60% at 5% 10%,
+				color-mix(in srgb, var(--color-primary) 45%, transparent) 0%,
+				transparent 55%
+			),
+			radial-gradient(
+				ellipse 70% 80% at 95% 90%,
+				color-mix(in srgb, var(--color-secondary) 40%, transparent) 0%,
+				transparent 55%
+			),
+			radial-gradient(ellipse 50% 50% at 85% 15%, color-mix(in srgb, #8b5cf6 25%, transparent) 0%, transparent 50%),
+			radial-gradient(ellipse 60% 40% at 15% 85%, color-mix(in srgb, #fb92b4 30%, transparent) 0%, transparent 45%),
+			radial-gradient(
+				circle at 50% 50%,
+				color-mix(in srgb, var(--color-on-background) 6%, transparent) 0%,
+				transparent 70%
+			);
+	}
+
+	.mesh-float {
 		background:
-			radial-gradient(ellipse 45% 35% at 70% 30%, rgba(79, 182, 244, 0.18) 0%, transparent 55%),
-			radial-gradient(ellipse 40% 45% at 30% 70%, rgba(255, 128, 171, 0.18) 0%, transparent 55%);
+			radial-gradient(
+				ellipse 45% 35% at 70% 30%,
+				color-mix(in srgb, var(--color-primary) 18%, transparent) 0%,
+				transparent 55%
+			),
+			radial-gradient(
+				ellipse 40% 45% at 30% 70%,
+				color-mix(in srgb, var(--color-secondary) 18%, transparent) 0%,
+				transparent 55%
+			);
 		animation: meshFloat 20s ease-in-out infinite alternate;
 	}
 

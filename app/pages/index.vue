@@ -20,8 +20,8 @@
 								class="size-5" />
 						</div>
 						<div class="min-w-0">
-							<div class="text-slate-800 font-bold">{{ t('home.dataError.title') }}</div>
-							<div class="text-slate-500 text-sm">{{ t('home.dataError.description') }}</div>
+							<div class="text-on-background font-bold">{{ t('home.dataError.title') }}</div>
+							<div class="text-on-background/70 text-sm">{{ t('home.dataError.description') }}</div>
 						</div>
 					</div>
 				</template>
@@ -78,8 +78,8 @@
 					:description="t('home.emptyProjects.description')"
 					:ui="{
 						root: '!p-8',
-						title: 'text-slate-800 font-bold',
-						description: 'text-slate-500',
+						title: 'text-on-background font-bold',
+						description: 'text-on-background/70',
 						avatar: 'bg-primary-container/60 text-primary',
 					}"
 					:actions="[

@@ -3,7 +3,7 @@
 	<section class="relative mx-auto w-full">
 		<!-- 头部 -->
 		<div class="flex items-center justify-between mb-8 px-4">
-			<h2 class="text-slate-800 text-2xl md:text-3xl font-bold tracking-tight font-display">
+			<h2 class="text-on-background text-2xl md:text-3xl font-bold tracking-tight font-display">
 				{{ t('home.featuredProjects.title') }}
 			</h2>
 			<UButton
@@ -52,7 +52,7 @@
 					<div class="flex flex-col gap-2 p-6">
 						<div class="flex items-start justify-between gap-3">
 							<h3
-								class="text-slate-800 text-lg font-bold leading-snug group-hover:text-primary transition-colors line-clamp-1">
+								class="text-on-background text-lg font-bold leading-snug group-hover:text-primary transition-colors line-clamp-1">
 								{{ project.title }}
 							</h3>
 							<div
@@ -62,7 +62,7 @@
 									class="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
 							</div>
 						</div>
-						<p class="text-slate-500 text-sm leading-relaxed line-clamp-2">
+						<p class="text-on-background/70 text-sm leading-relaxed line-clamp-2">
 							{{ project.description }}
 						</p>
 					</div>

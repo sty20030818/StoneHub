@@ -25,6 +25,10 @@ export default defineNuxtConfig({
 		'@nuxt/devtools',
 	],
 	css: ['~/assets/css/main.css'],
+	colorMode: {
+		// 使用 `.dark` / `.light`，以便与 Tailwind `dark:` 变体与自定义 token 覆盖保持一致
+		classSuffix: '',
+	},
 	icon: {
 		serverBundle: 'local',
 		clientBundle: {

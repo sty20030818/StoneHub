@@ -9,7 +9,7 @@
 			<UButton
 				color="neutral"
 				variant="ghost"
-				class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary"
+				class="float-button flex items-center justify-center size-12 rounded-full text-on-background/70 hover:text-primary"
 				:class="{ 'bg-primary! text-on-primary! glow-primary': showSettings }"
 				:aria-label="t('settings.title')"
 				:title="t('settings.title')">
@@ -24,28 +24,28 @@
 				<UButton
 					color="neutral"
 					variant="ghost"
-					class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
+					class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-on-background/85 hover:bg-surface-container transition-colors"
 					@click="toggleColorMode">
 					<UIcon
 						:name="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'"
 						class="size-5 text-primary" />
 					<span>{{ colorMode.value === 'dark' ? t('settings.theme.light') : t('settings.theme.dark') }}</span>
-					</UButton>
+				</UButton>
 
-					<!-- 语言切换 -->
-					<UButton
-						type="button"
-						color="neutral"
-						variant="ghost"
-						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
-						@click="toggleLocale">
-						<UIcon
-							name="i-lucide-languages"
-							class="size-5 text-secondary" />
-						<span>{{ locale === 'zh' ? '中文' : 'English' }}</span>
-					</UButton>
-				</template>
-			</UPopover>
+				<!-- 语言切换 -->
+				<UButton
+					type="button"
+					color="neutral"
+					variant="ghost"
+					class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-on-background/85 hover:bg-surface-container transition-colors"
+					@click="toggleLocale">
+					<UIcon
+						name="i-lucide-languages"
+						class="size-5 text-secondary" />
+					<span>{{ locale === 'zh' ? '中文' : 'English' }}</span>
+				</UButton>
+			</template>
+		</UPopover>
 
 		<!-- 返回顶部按钮 -->
 		<Transition name="fade">
@@ -53,7 +53,7 @@
 				<UButton
 					color="neutral"
 					variant="ghost"
-					class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary"
+					class="float-button flex items-center justify-center size-12 rounded-full text-on-background/70 hover:text-primary"
 					@click="scrollToTop">
 					<UIcon
 						name="i-lucide-arrow-up"

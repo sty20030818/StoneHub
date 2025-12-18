@@ -1,6 +1,9 @@
 /* Material You 主题 - StoneHub */
 @import "tailwindcss";
 
+/* Tailwind v4: 让 `dark:` 变体基于 `.dark` class 生效（与 @nuxtjs/color-mode 对齐） */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================
     Tailwind theme 扩展 - 颜色与变量
    ============================================ */
@@ -74,6 +77,39 @@
 }
 
 /* ============================================
+    明暗模式：Dark 覆盖（仅两态，不暴露 system UI）
+  ============================================= */
+:root {
+	color-scheme: light;
+}
+
+.dark {
+	color-scheme: dark;
+
+	/* Primary / Secondary：保持基线色相，调整 on-color 与容器以适配暗背景 */
+	--color-on-primary: #001e30;
+	--color-primary-container: #00324b;
+	--color-on-primary-container: #c0e8ff;
+
+	--color-on-secondary: #3e001d;
+	--color-secondary-container: #5a0029;
+	--color-on-secondary-container: #ffd9e3;
+
+	/* Surface / Background：暗色表面体系 */
+	--color-surface: #0b1021;
+	--color-on-surface: #e8ecf2;
+	--color-surface-container: #121a30;
+	--color-surface-container-low: #0e162a;
+	--color-surface-container-high: #162241;
+
+	--color-background: #070b18;
+	--color-on-background: #e8ecf2;
+
+	--color-outline: #7d86a3;
+	--color-outline-variant: #2a3551;
+}
+
+/* ============================================
     排版工具类
   ============================================= */
 .font-display {
@@ -108,9 +144,31 @@
 /* ============================================
     全局基础样式
 	============================================= */
+html {
+	background-color: var(--color-background);
+}
+
 body {
 	color: var(--color-on-background);
+	background-color: var(--color-background);
 	min-height: 100vh;
+}
+
+/* 自定义滚动条（随 token 自动适配明暗） */
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background: color-mix(in srgb, var(--color-surface-container) 60%, transparent);
+}
+::-webkit-scrollbar-thumb {
+	background: color-mix(in srgb, var(--color-outline) 45%, transparent);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: color-mix(in srgb, var(--color-outline) 65%, transparent);
 }
 
 /* ============================================
@@ -119,15 +177,15 @@ body {
 
 /* 岛屿卡片 - 强悬浮效果 */
 .island-card {
-	background: rgba(253, 251, 255, 0.7);
+	background: color-mix(in srgb, var(--color-surface) 70%, transparent);
 	backdrop-filter: blur(24px);
 	-webkit-backdrop-filter: blur(24px);
-	border: 1px solid rgba(255, 255, 255, 0.6);
+	border: 1px solid color-mix(in srgb, var(--color-outline-variant) 55%, transparent);
 	box-shadow:
 		0 4px 6px -1px rgba(0, 0, 0, 0.05),
 		0 10px 20px -5px rgba(0, 0, 0, 0.08),
 		0 25px 50px -12px rgba(0, 0, 0, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+		inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 14%, transparent);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -137,20 +195,20 @@ body {
 		0 8px 12px -2px rgba(0, 0, 0, 0.08),
 		0 20px 40px -10px rgba(0, 0, 0, 0.12),
 		0 40px 80px -20px rgba(79, 182, 244, 0.15),
-		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+		inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 18%, transparent);
 }
 
 /* 悬浮按钮 - 立体效果 */
 .float-button {
-	background: rgba(253, 251, 255, 0.85);
+	background: color-mix(in srgb, var(--color-surface) 78%, transparent);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
-	border: 1px solid rgba(255, 255, 255, 0.5);
+	border: 1px solid color-mix(in srgb, var(--color-outline-variant) 50%, transparent);
 	box-shadow:
 		0 2px 4px rgba(0, 0, 0, 0.04),
 		0 8px 16px -4px rgba(0, 0, 0, 0.1),
 		0 16px 32px -8px rgba(0, 0, 0, 0.08),
-		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+		inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 18%, transparent);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -160,7 +218,7 @@ body {
 		0 4px 8px rgba(0, 0, 0, 0.06),
 		0 16px 32px -8px rgba(0, 0, 0, 0.15),
 		0 24px 48px -12px rgba(79, 182, 244, 0.2),
-		inset 0 1px 0 rgba(255, 255, 255, 1);
+		inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 22%, transparent);
 }
 
 /* 主色按钮 - 立体发光 */
@@ -199,10 +257,10 @@ body {
 
 /* 项目卡片 - 悬浮效果 */
 .project-card {
-	background: rgba(253, 251, 255, 0.65);
+	background: color-mix(in srgb, var(--color-surface) 66%, transparent);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
-	border: 1px solid rgba(255, 255, 255, 0.5);
+	border: 1px solid color-mix(in srgb, var(--color-outline-variant) 50%, transparent);
 	box-shadow:
 		0 2px 4px rgba(0, 0, 0, 0.02),
 		0 8px 16px -4px rgba(0, 0, 0, 0.06),

@@ -19,7 +19,7 @@
 			</div>
 
 			<!-- 主标题 -->
-			<h1 class="text-slate-900 font-display font-bold leading-none tracking-tight">
+			<h1 class="text-on-background font-display font-bold leading-none tracking-tight">
 				<span class="block text-display-large">
 					{{ t('home.hero.title.prefix') }}
 					<span class="text-transparent bg-clip-text bg-linear-to-br from-primary to-secondary">
@@ -30,9 +30,10 @@
 			</h1>
 
 			<!-- 简介 -->
-			<p class="text-slate-500 text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
+			<p class="text-on-background/70 text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
 				{{ t('home.hero.introHello') }}
-				<strong class="text-slate-700 font-bold">StoneFish</strong>{{ t('home.hero.introNamePunctuation') }}
+				<strong class="text-on-background/85 font-bold">StoneFish</strong>
+				{{ t('home.hero.introNamePunctuation') }}
 				<br />
 				{{ t('home.hero.introMission') }}
 				<br class="hidden md:block" />

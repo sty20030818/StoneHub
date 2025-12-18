@@ -152,7 +152,8 @@ export default defineI18nLocale(() => ({
 		},
 		greeting: '你好呀！我是 AI 石头鱼。你可以问我关于这个项目的技术细节，或者我（石头鱼本人）的开发经历。',
 		reply: {
-			about: 'StoneHub 是一个基于 Nuxt 4 的个人站点，包含首页、Projects、Blog、Now、Links，并使用 Nuxt Content 管理内容。',
+			about:
+				'StoneHub 是一个基于 Nuxt 4 的个人站点，包含首页、Projects、Blog、Now、Links，并使用 Nuxt Content 管理内容。',
 			stack: '核心技术栈：Vue 3 / Nuxt 4 / TypeScript / Node.js / Nuxt Content / Nuxt UI。',
 			likes: '我喜欢写代码，喜欢搞 Web OS 项目，也爱喝咖啡。',
 			hello: '嗨！很高兴见到你。我是石头鱼的数字分身，聊点技术？',
@@ -194,7 +195,8 @@ export default defineI18nLocale(() => ({
 			usage: '用法: open [chat|os]',
 		},
 		whoami: '石头鱼 (StoneFish)\n全栈工程师 / Web OS 爱好者\n当前位置: StoneHub',
-		neofetch: 'stonefish at stonehub\n---------------------\nOS:    StoneHub\n框架:  Nuxt 4 / Vue 3\n语言:  TypeScript\n终端:  StoneShell v2.0',
+		neofetch:
+			'stonefish at stonehub\n---------------------\nOS:    StoneHub\n框架:  Nuxt 4 / Vue 3\n语言:  TypeScript\n终端:  StoneShell v2.0',
 		sudoDenied: 'Permission denied\n这里没有 root 权限。',
 		rmBlocked: '危险操作已拦截。',
 		rmDenied: 'rm: 拒绝执行删除操作',
