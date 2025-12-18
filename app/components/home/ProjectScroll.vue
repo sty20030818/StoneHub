@@ -4,14 +4,16 @@
 		<!-- 头部 -->
 		<div class="flex items-center justify-between mb-8 px-4">
 			<h2 class="text-slate-800 text-2xl md:text-3xl font-bold tracking-tight font-display">精选项目</h2>
-			<NuxtLink
+			<UButton
 				to="/projects"
+				color="neutral"
+				variant="ghost"
 				class="glow-primary flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-bold">
 				查看全部
 				<Icon
 					name="lucide:arrow-right"
 					class="w-4 h-4" />
-			</NuxtLink>
+			</UButton>
 		</div>
 
 		<!-- 项目卡片网格 - 四列 -->

@@ -3,15 +3,17 @@
 	<div class="fixed bottom-24 right-6 z-50 flex flex-col gap-3">
 		<!-- 设置按钮 -->
 		<div class="relative">
-			<button
-				@click="showSettings = !showSettings"
+			<UButton
+				color="neutral"
+				variant="ghost"
 				class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary"
-				:class="{ 'bg-primary! text-on-primary! glow-primary': showSettings }">
+				:class="{ 'bg-primary! text-on-primary! glow-primary': showSettings }"
+				@click="showSettings = !showSettings">
 				<Icon
 					:name="showSettings ? 'lucide:x' : 'lucide:settings'"
 					class="size-5 transition-transform duration-300"
 					:class="{ 'rotate-90': showSettings }" />
-			</button>
+			</UButton>
 
 			<!-- 设置菜单 -->
 			<Transition name="slide-up">
@@ -19,38 +21,44 @@
 					v-if="showSettings"
 					class="island-card absolute bottom-14 right-0 w-48 p-3 rounded-2xl flex flex-col gap-2">
 					<!-- 明暗模式 -->
-					<button
-						@click="toggleColorMode"
-						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors">
+					<UButton
+						color="neutral"
+						variant="ghost"
+						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
+						@click="toggleColorMode">
 						<Icon
 							:name="colorMode.value === 'dark' ? 'lucide:sun' : 'lucide:moon'"
 							class="size-5 text-primary" />
 						<span>{{ colorMode.value === 'dark' ? '浅色模式' : '深色模式' }}</span>
-					</button>
+					</UButton>
 
 					<!-- 语言切换 -->
-					<button
-						@click="toggleLanguage"
-						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors">
+					<UButton
+						color="neutral"
+						variant="ghost"
+						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
+						@click="toggleLanguage">
 						<Icon
 							name="lucide:languages"
 							class="size-5 text-secondary" />
 						<span>{{ currentLang === 'zh' ? 'English' : '中文' }}</span>
-					</button>
+					</UButton>
 				</div>
 			</Transition>
 		</div>
 
 		<!-- 返回顶部按钮 -->
 		<Transition name="fade">
-			<button
+			<UButton
 				v-show="showBackToTop"
-				@click="scrollToTop"
-				class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary">
+				color="neutral"
+				variant="ghost"
+				class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary"
+				@click="scrollToTop">
 				<Icon
 					name="lucide:arrow-up"
 					class="size-5" />
-			</button>
+			</UButton>
 		</Transition>
 	</div>
 </template>

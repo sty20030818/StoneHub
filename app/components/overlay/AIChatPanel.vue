@@ -1,60 +1,69 @@
 <template>
-	<Teleport to="body">
-		<section
-			v-if="visible"
-			aria-label="AI 聊天"
-			role="dialog"
-			aria-modal="true">
-			<header>
-				<h2>AI 石头鱼</h2>
-				<button
-					type="button"
-					@click="handleClose">
-					关闭
-				</button>
-			</header>
-
-			<section aria-label="消息列表">
-				<ul ref="chatBody">
-					<li
-						v-for="(msg, idx) in messages"
-						:key="idx">
-						<strong>{{ msg.role === 'user' ? '你' : 'AI' }}：</strong>
-						<span>{{ msg.text }}</span>
-					</li>
-				</ul>
-				<p v-if="isTyping">AI 正在输入…</p>
-			</section>
-
-			<section aria-label="输入区">
-				<label for="ai-chat-input">输入</label>
-				<input
-					id="ai-chat-input"
-					v-model="chatInput"
-					type="text"
-					placeholder="问我关于 Nuxt 4 或技术栈的问题…"
-					@keydown.enter="sendChat" />
-				<button
-					type="button"
-					:disabled="!chatInput.trim()"
-					@click="sendChat">
-					发送
-				</button>
-				<div>
-					<button
+	<USlideover
+		v-model:open="open"
+		:close="false"
+		side="right">
+		<template #content>
+			<section aria-label="AI 聊天">
+				<header>
+					<h2>AI 石头鱼</h2>
+					<UButton
 						type="button"
-						@click="quickAsk('介绍 StoneHub')">
-						介绍 StoneHub
-					</button>
-					<button
+						color="neutral"
+						variant="ghost"
+						@click="open = false">
+						关闭
+					</UButton>
+				</header>
+
+				<section aria-label="消息列表">
+					<ul ref="chatBody">
+						<li
+							v-for="(msg, idx) in messages"
+							:key="idx">
+							<strong>{{ msg.role === 'user' ? '你' : 'AI' }}：</strong>
+							<span>{{ msg.text }}</span>
+						</li>
+					</ul>
+					<p v-if="isTyping">AI 正在输入…</p>
+				</section>
+
+				<section aria-label="输入区">
+					<label for="ai-chat-input">输入</label>
+					<UInput
+						id="ai-chat-input"
+						v-model="chatInput"
+						type="text"
+						placeholder="问我关于 Nuxt 4 或技术栈的问题…"
+						@keydown.enter="sendChat" />
+					<UButton
 						type="button"
-						@click="quickAsk('技术栈是什么')">
-						技术栈
-					</button>
-				</div>
+						color="neutral"
+						variant="ghost"
+						:disabled="!chatInput.trim()"
+						@click="sendChat">
+						发送
+					</UButton>
+					<div>
+						<UButton
+							type="button"
+							color="neutral"
+							variant="ghost"
+							@click="quickAsk('介绍 StoneHub')">
+							介绍 StoneHub
+						</UButton>
+						<UButton
+							type="button"
+							color="neutral"
+							variant="ghost"
+							@click="quickAsk('技术栈是什么')">
+							技术栈
+						</UButton>
+					</div>
+				</section>
 			</section>
-		</section>
-	</Teleport>
+		</template>
+	</USlideover>
 </template>
 
 <script setup lang="ts">
@@ -71,9 +80,12 @@
 		close: []
 	}>()
 
-	const handleClose = () => {
-		emit('close')
-	}
+	const open = computed({
+		get: () => props.visible,
+		set: (value) => {
+			if (!value && props.visible) emit('close')
+		},
+	})
 
 	const chatBody = ref<HTMLElement | null>(null)
 	const chatInput = ref('')

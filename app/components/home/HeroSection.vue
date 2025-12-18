@@ -34,22 +34,26 @@
 
 			<!-- 行动按钮 -->
 			<div class="flex flex-col sm:flex-row gap-5 mt-4 w-full justify-center">
-				<button
-					@click="toggleTerminal"
-					class="glow-primary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-primary text-on-primary text-base font-bold active:scale-95">
+				<UButton
+					color="neutral"
+					variant="ghost"
+					class="glow-primary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-primary text-on-primary text-base font-bold active:scale-95"
+					@click="toggleTerminal">
 					<Icon
 						name="lucide:terminal"
 						class="w-5 h-5" />
 					<span>启动交互式终端</span>
-				</button>
-				<button
-					@click="toggleAI"
-					class="glow-secondary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-secondary text-on-secondary text-base font-bold active:scale-95">
+				</UButton>
+				<UButton
+					color="neutral"
+					variant="ghost"
+					class="glow-secondary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-secondary text-on-secondary text-base font-bold active:scale-95"
+					@click="toggleAI">
 					<Icon
 						name="lucide:bot"
 						class="w-5 h-5" />
 					<span>呼叫 AI 助手</span>
-				</button>
+				</UButton>
 			</div>
 		</div>
 	</section>

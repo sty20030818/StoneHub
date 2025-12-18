@@ -3,7 +3,6 @@ export default defineEventHandler(async (event) => {
 		path: string
 		title?: string
 		description?: string
-		slug?: string
 		meta?: {
 			date?: string
 			tags?: unknown
@@ -18,7 +17,7 @@ export default defineEventHandler(async (event) => {
 		title: row.title,
 		description: row.description,
 		date: typeof row.meta?.date === 'string' ? row.meta.date : undefined,
-		slug: row.slug || row.path.split('/').pop(),
+		slug: row.path.split('/').pop(),
 		_path: row.path,
 	}))
 })

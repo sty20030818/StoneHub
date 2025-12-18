@@ -30,24 +30,28 @@
 
 			<!-- 功能按钮 -->
 			<div class="flex items-center gap-1">
-				<button
-					@click="toggleTerminal"
+				<UButton
+					color="neutral"
+					variant="ghost"
 					class="group flex items-center justify-center size-11 rounded-full text-slate-500 hover:bg-surface-container hover:text-primary transition-all"
 					title="交互式终端"
-					:class="{ 'bg-surface-container text-primary': isTerminalOpen }">
+					:class="{ 'bg-surface-container text-primary': isTerminalOpen }"
+					@click="toggleTerminal">
 					<Icon
 						name="lucide:terminal-square"
 						class="size-[22px]" />
-				</button>
-				<button
-					@click="toggleAI"
+				</UButton>
+				<UButton
+					color="neutral"
+					variant="ghost"
 					class="group flex items-center justify-center size-11 rounded-full text-slate-500 hover:bg-secondary-container hover:text-secondary transition-all"
 					title="AI 助手"
-					:class="{ 'bg-secondary-container text-secondary': isAIOpen }">
+					:class="{ 'bg-secondary-container text-secondary': isAIOpen }"
+					@click="toggleAI">
 					<Icon
 						name="lucide:bot"
 						class="size-[22px]" />
-				</button>
+				</UButton>
 
 				<!-- 移动端菜单开关可在此添加 -->
 			</div>

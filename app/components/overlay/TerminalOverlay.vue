@@ -1,53 +1,57 @@
 <template>
-	<Teleport to="body">
-		<section
-			v-if="visible"
-			aria-label="终端"
-			role="dialog"
-			aria-modal="true">
-			<header>
-				<p>stonefish@stonehub: ~ (zsh)</p>
-				<button
-					type="button"
-					@click="emit('close')">
-					关闭
-				</button>
-			</header>
+	<UModal
+		v-model:open="open"
+		:close="false">
+		<template #content>
+			<section aria-label="终端">
+				<header>
+					<p>stonefish@stonehub: ~ (zsh)</p>
+					<UButton
+						type="button"
+						color="neutral"
+						variant="ghost"
+						@click="open = false">
+						关闭
+					</UButton>
+				</header>
 
-			<section
-				ref="terminalBody"
-				aria-label="输出"
-				@click="focusInput">
-				<div
-					v-for="(entry, index) in terminalHistory"
-					:key="index">
-					<div v-if="entry.type === 'input'">
-						<span>➜</span>
-						<span>~</span>
-						<span>{{ entry.content }}</span>
+				<section
+					ref="terminalBody"
+					aria-label="输出"
+					@click="focusInput">
+					<div
+						v-for="(entry, index) in terminalHistory"
+						:key="index">
+						<div v-if="entry.type === 'input'">
+							<span>➜</span>
+							<span>~</span>
+							<span>{{ entry.content }}</span>
+						</div>
+						<pre v-else>{{ entry.content }}</pre>
 					</div>
-					<pre v-else>{{ entry.content }}</pre>
-				</div>
-			</section>
+				</section>
 
-			<section aria-label="输入">
-				<label for="terminal-cmd-input">命令</label>
-				<input
-					id="terminal-cmd-input"
-					ref="cmdInput"
-					v-model="currentCmd"
-					type="text"
-					autocomplete="off"
-					placeholder="输入 'help' 查看帮助…"
-					@keydown="handleInputKeydown" />
-				<button
-					type="button"
-					@click="executeCmd">
-					执行
-				</button>
+				<section aria-label="输入">
+					<label for="terminal-cmd-input">命令</label>
+					<UInput
+						id="terminal-cmd-input"
+						ref="cmdInput"
+						v-model="currentCmd"
+						type="text"
+						autocomplete="off"
+						placeholder="输入 'help' 查看帮助…"
+						@keydown="handleInputKeydown" />
+					<UButton
+						type="button"
+						color="neutral"
+						variant="ghost"
+						@click="executeCmd">
+						执行
+					</UButton>
+				</section>
 			</section>
-		</section>
-	</Teleport>
+		</template>
+	</UModal>
 </template>
 
 <script setup lang="ts">
@@ -68,8 +72,19 @@
 		posts?: { title: string; date: string; slug: string }[]
 	}>()
 
+	type UiInputInstance = {
+		inputRef?: { value?: HTMLInputElement | null }
+	}
+
+	const open = computed({
+		get: () => props.visible,
+		set: (value) => {
+			if (!value && props.visible) emit('close')
+		},
+	})
+
 	const terminalBody = ref<HTMLElement | null>(null)
-	const cmdInput = ref<HTMLInputElement | null>(null)
+	const cmdInput = ref<UiInputInstance | null>(null)
 	const currentCmd = ref('')
 	const commandHistory = ref<string[]>([])
 	const historyIndex = ref(-1)
@@ -88,7 +103,7 @@
 	}
 
 	const focusInput = () => {
-		nextTick(() => cmdInput.value?.focus())
+		nextTick(() => cmdInput.value?.inputRef?.value?.focus?.())
 	}
 
 	watch(
@@ -282,21 +297,12 @@ OS:    StoneHub
 		}
 	}
 
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape' && props.visible) {
-			emit('close')
-		}
-	}
-
-	onMounted(() => {
-		if (import.meta.client) {
-			window.addEventListener('keydown', handleKeydown)
-		}
-	})
-
-	onBeforeUnmount(() => {
-		if (import.meta.client) {
-			window.removeEventListener('keydown', handleKeydown)
-		}
-	})
+	watch(
+		() => props.visible,
+		(val) => {
+			if (!val) {
+				historyIndex.value = -1
+			}
+		},
+	)
 </script>

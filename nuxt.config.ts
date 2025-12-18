@@ -76,7 +76,7 @@ export default defineNuxtConfig({
 		// 先过滤一轮（模块通常在此阶段追加 include）
 		'vite:extendConfig'(config, ctx) {
 			if (!ctx?.isClient) return
-			const mutableConfig = config as any
+			const mutableConfig = config as { optimizeDeps?: { include?: string[] } }
 			const optimizeDeps = (mutableConfig.optimizeDeps ??= {})
 			if (!Array.isArray(optimizeDeps.include) || optimizeDeps.include.length === 0) return
 
@@ -86,7 +86,7 @@ export default defineNuxtConfig({
 		// 再兜底过滤一轮（确保最终传给 Vite 的 client config 不含这些条目）
 		'vite:configResolved'(config, ctx) {
 			if (!ctx?.isClient) return
-			const mutableConfig = config as any
+			const mutableConfig = config as { optimizeDeps?: { include?: string[] } }
 			const optimizeDeps = (mutableConfig.optimizeDeps ??= {})
 			if (!Array.isArray(optimizeDeps.include) || optimizeDeps.include.length === 0) return
 
