@@ -9,8 +9,8 @@
 				class="flex items-center gap-2 group">
 				<div
 					class="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary to-secondary text-white text-xs font-bold shadow-sm">
-					<Icon
-						name="lucide:terminal"
+					<UIcon
+						name="i-lucide-terminal"
 						class="size-4" />
 				</div>
 				<span class="text-slate-800 text-sm font-bold tracking-tight hidden sm:block">StoneHub</span>
@@ -35,6 +35,7 @@
 				<a
 					href="https://vite.dev"
 					target="_blank"
+					rel="noopener noreferrer"
 					class="text-primary hover:underline font-medium">
 					Vite
 				</a>
@@ -42,6 +43,7 @@
 				<a
 					href="https://nuxt.com"
 					target="_blank"
+					rel="noopener noreferrer"
 					class="text-secondary hover:underline font-medium">
 					Nuxt
 				</a>
@@ -52,8 +54,8 @@
 
 			<!-- 运行时长 -->
 			<div class="hidden md:flex items-center gap-1.5 text-slate-400 text-xs">
-				<Icon
-					name="lucide:clock"
+				<UIcon
+					name="i-lucide-clock"
 					class="size-3" />
 				<span>已运行 {{ runningDays }} 天</span>
 			</div>
@@ -65,6 +67,7 @@
 			<a
 				href="https://beian.miit.gov.cn/"
 				target="_blank"
+				rel="noopener noreferrer"
 				class="hidden lg:block text-slate-400 text-xs hover:text-primary transition-colors">
 				京ICP备XXXXXXXX号
 			</a>
@@ -74,58 +77,74 @@
 
 			<!-- 社交图标 -->
 			<div class="flex items-center gap-1">
-				<!-- 微信 - Hover Tooltip -->
-				<div class="relative group">
-					<button
-						class="flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#07C160]/10 hover:text-[#07C160] transition-all"
+				<!-- 微信 -->
+				<UPopover
+					mode="hover"
+					arrow
+					:content="{ side: 'top', sideOffset: 12 }"
+					:ui="{ content: 'bg-surface rounded-2xl shadow-2xl border border-white/50', arrow: 'fill-surface' }">
+					<UButton
+						color="neutral"
+						variant="ghost"
+						class="p-0! size-8 rounded-full text-slate-400 hover:bg-[#07C160]/10 hover:text-[#07C160] transition-all"
+						aria-label="微信"
 						title="微信">
-						<Icon
-							name="simple-icons:wechat"
+						<UIcon
+							name="i-simple-icons-wechat"
 							class="size-4" />
-					</button>
-					<!-- Tooltip -->
-					<div
-						class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
-						<div class="bg-surface rounded-2xl p-4 shadow-2xl border border-white/50 flex flex-col items-center gap-2">
+					</UButton>
+
+					<template #content>
+						<div class="p-4 flex flex-col items-center gap-2">
 							<div class="w-32 h-32 bg-slate-100 rounded-xl flex items-center justify-center">
 								<span class="text-slate-400 text-xs">二维码</span>
 							</div>
 							<p class="text-slate-600 text-xs font-medium">扫码添加微信</p>
 						</div>
-						<!-- 箭头 -->
-						<div class="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-surface" />
-					</div>
-				</div>
+					</template>
+				</UPopover>
 				<!-- QQ -->
-				<a
-					href="https://qm.qq.com/q/your-qq-group"
+				<UButton
+					to="https://qm.qq.com/q/your-qq-group"
 					target="_blank"
-					class="flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#12B7F5]/10 hover:text-[#12B7F5] transition-all"
+					rel="noopener noreferrer"
+					color="neutral"
+					variant="ghost"
+					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#12B7F5]/10 hover:text-[#12B7F5] transition-all"
+					aria-label="QQ"
 					title="QQ">
-					<Icon
-						name="simple-icons:qq"
+					<UIcon
+						name="i-simple-icons-qq"
 						class="size-4" />
-				</a>
+				</UButton>
 				<!-- Bilibili -->
-				<a
-					href="https://space.bilibili.com/your-uid"
+				<UButton
+					to="https://space.bilibili.com/your-uid"
 					target="_blank"
-					class="flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#FB7299]/10 hover:text-[#FB7299] transition-all"
+					rel="noopener noreferrer"
+					color="neutral"
+					variant="ghost"
+					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#FB7299]/10 hover:text-[#FB7299] transition-all"
+					aria-label="Bilibili"
 					title="Bilibili">
-					<Icon
-						name="simple-icons:bilibili"
+					<UIcon
+						name="i-simple-icons-bilibili"
 						class="size-4" />
-				</a>
+				</UButton>
 				<!-- GitHub -->
-				<a
-					href="https://github.com"
+				<UButton
+					to="https://github.com"
 					target="_blank"
-					class="flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-surface-container hover:text-slate-800 transition-all"
+					rel="noopener noreferrer"
+					color="neutral"
+					variant="ghost"
+					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-surface-container hover:text-slate-800 transition-all"
+					aria-label="GitHub"
 					title="GitHub">
-					<Icon
-						name="lucide:github"
+					<UIcon
+						name="i-lucide-github"
 						class="size-4" />
-				</a>
+				</UButton>
 			</div>
 		</footer>
 	</div>
@@ -134,7 +153,7 @@
 <script setup lang="ts">
 	// 悬浮岛屿式页脚组件
 
-	// 计算运行天数（从网站上线日期开始）
+	// 计算运行天数(从网站上线日期开始)
 	const launchDate = new Date('2025-01-01') // 替换为你的上线日期
 	const runningDays = computed(() => {
 		const now = new Date()

@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-	// 直接导入 JSON 数据（使用相对于项目根目录的路径）
+	// 直接导入 JSON 数据(使用相对于项目根目录的路径)
 	import nowData from '../../content/now.json'
 
 	type NowData = {
@@ -82,7 +82,6 @@
 		next?: string[]
 	}
 
-	definePageMeta({ title: 'Now' })
 	useHead({ title: 'Now' })
 
 	const now = ref<NowData>(nowData)

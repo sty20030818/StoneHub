@@ -7,12 +7,38 @@
 
 		<UPageBody>
 			<UAlert
-				v-if="projectsUi.length === 0"
-				title="暂未发布项目"
-				description="等我整理好再放上来。"
+				v-if="projectsError"
+				title="项目列表加载失败"
+				:description="projectsError.message || '请检查网络后重试。'"
 				color="neutral"
 				variant="subtle"
-				icon="i-lucide-folder" />
+				icon="i-lucide-triangle-alert">
+				<template #actions>
+					<UButton
+						color="neutral"
+						variant="outline"
+						icon="i-lucide-refresh-cw"
+						@click="retryProjects">
+						重试
+					</UButton>
+				</template>
+			</UAlert>
+
+			<UPageGrid
+				v-else-if="projectsPending"
+				class="sm:grid-cols-2 lg:grid-cols-3">
+				<USkeleton
+					v-for="i in 9"
+					:key="i"
+					class="h-44 rounded-lg" />
+			</UPageGrid>
+
+			<UEmpty
+				v-else-if="projectsUi.length === 0"
+				icon="i-lucide-folder-open"
+				title="暂未发布项目"
+				description="等我整理好再放上来。"
+				:actions="[{ label: '返回首页', to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' }]" />
 
 			<UPageGrid
 				v-else
@@ -48,6 +74,7 @@
 								v-if="project.github"
 								:to="project.github"
 								target="_blank"
+								rel="noopener noreferrer"
 								color="neutral"
 								variant="ghost"
 								icon="i-lucide-github"
@@ -56,6 +83,7 @@
 								v-if="project.demo"
 								:to="project.demo"
 								target="_blank"
+								rel="noopener noreferrer"
 								color="neutral"
 								variant="ghost"
 								icon="i-lucide-external-link"
@@ -69,21 +97,6 @@
 </template>
 
 <script setup lang="ts">
-	type ProjectRow = {
-		path: string
-		title?: string
-		description?: string
-		year?: string
-		icon?: string
-		meta?:
-			| {
-					tags?: string[]
-					github?: string
-					demo?: string
-			  }
-			| string
-	}
-
 	type ProjectDoc = {
 		path: string
 		title: string
@@ -95,10 +108,7 @@
 		demo?: string
 	}
 
-	definePageMeta({ title: '项目' })
 	useHead({ title: '项目' })
-
-	type ParsedMeta = { tags?: string[]; github?: string; demo?: string; year?: string; icon?: string }
 
 	const withLeadingSlash = (path: string) => (path.startsWith('/') ? path : `/${path}`)
 
@@ -112,36 +122,17 @@
 		return `i-lucide-${raw}`
 	}
 
-	const parseMeta = (meta: ProjectRow['meta']): ParsedMeta => {
-		if (!meta) return {}
-		if (typeof meta === 'string') {
-			try {
-				const parsed = JSON.parse(meta) as ParsedMeta
-				return parsed
-			} catch {
-				return {}
-			}
-		}
-		return meta as ParsedMeta
-	}
-
-	const { data: projects } = await useAsyncData<ProjectDoc[]>('projects-list', async () => {
-		const rows = await queryCollection('projects').select('path', 'title', 'description', 'meta').all()
-		return (rows || []).reduce<ProjectDoc[]>((acc, item) => {
-			if (!item || typeof item !== 'object' || !('path' in item)) return acc
-			const meta = parseMeta((item as ProjectRow).meta)
-			acc.push({
-				path: String((item as ProjectRow).path),
-				title: (item as ProjectRow).title ?? '',
-				description: (item as ProjectRow).description,
-				year: typeof meta.year === 'string' ? meta.year : undefined,
-				icon: typeof meta.icon === 'string' ? meta.icon : undefined,
-				tags: meta.tags ?? [],
-				github: meta.github,
-				demo: meta.demo,
-			})
-			return acc
-		}, [])
+	const {
+		data: projects,
+		pending: projectsPending,
+		error: projectsError,
+		refresh: refreshProjects,
+	} = await useAsyncData<ProjectDoc[]>('projects-list', async () => {
+		const rows = await $fetch<ProjectDoc[]>('/api/projects')
+		return (rows || []).map((item) => ({
+			...item,
+			tags: Array.isArray(item.tags) ? item.tags : [],
+		}))
 	})
 
 	const projectsUi = computed(() => {
@@ -153,4 +144,6 @@
 			}
 		})
 	})
+
+	const retryProjects = () => refreshProjects()
 </script>

@@ -33,9 +33,13 @@
 
 	const route = useRoute()
 
-	const slugPath = computed(() => `/blog/${route.params.slug}`)
+	const slug = computed(() => {
+		const raw = route.params.slug
+		return Array.isArray(raw) ? String(raw[0] || '') : String(raw || '')
+	})
+	const slugPath = computed(() => `/blog/${slug.value}`)
 
-	const { data: doc } = await useAsyncData<BlogDoc | null>(`blog-${route.params.slug}`, async () => {
+	const { data: doc } = await useAsyncData<BlogDoc | null>(`blog-${slug.value}`, async () => {
 		const item = await queryCollection('blog').path(slugPath.value).first()
 		return item as BlogDoc | null
 	})

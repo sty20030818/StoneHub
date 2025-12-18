@@ -13,9 +13,17 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
-	const rows = (await queryCollectionServer(event, 'projects')
-		.select('title', 'description', 'meta', 'path')
-		.all()) as unknown as ProjectRow[]
+	let rows: ProjectRow[] = []
+	try {
+		rows = (await queryCollectionServer(event, 'projects')
+			.select('title', 'description', 'meta', 'path')
+			.all()) as unknown as ProjectRow[]
+	} catch (error) {
+		if (process.env.NODE_ENV === 'development') {
+			console.warn('[home/projects] query failed (dev content db may be rebuilding)', error)
+		}
+		return []
+	}
 
 	return rows.map((row) => ({
 		title: row.title || 'Untitled Project',

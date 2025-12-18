@@ -1,6 +1,8 @@
 <template>
 	<!-- 岛屿式 Hero 卡片 -->
-	<section class="island-card relative mx-auto w-full max-w-5xl rounded-[3rem] p-10 md:p-16 lg:p-20">
+	<UCard
+		class="island-card relative mx-auto w-full max-w-5xl rounded-[3rem] p-10 md:p-16 lg:p-20"
+		:ui="{ body: 'p-0' }">
 		<!-- 装饰光效 -->
 		<div class="absolute -top-24 -left-24 w-56 h-56 bg-primary/25 rounded-full blur-3xl pointer-events-none" />
 		<div class="absolute -bottom-24 -right-24 w-56 h-56 bg-secondary/25 rounded-full blur-3xl pointer-events-none" />
@@ -28,7 +30,7 @@
 			<!-- 简介 -->
 			<p class="text-slate-500 text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
 				你好，我是 StoneFish。我致力于构建沉浸式、极简且富有动感的 Web 体验。
-				<br class="hidden md:block">
+				<br class="hidden md:block" />
 				您可以启动终端探索我的数字花园，或呼叫 AI 助手为您导览。
 			</p>
 
@@ -39,8 +41,8 @@
 					variant="ghost"
 					class="glow-primary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-primary text-on-primary text-base font-bold active:scale-95"
 					@click="toggleTerminal">
-					<Icon
-						name="lucide:terminal"
+					<UIcon
+						name="i-lucide-terminal"
 						class="w-5 h-5" />
 					<span>启动交互式终端</span>
 				</UButton>
@@ -49,14 +51,14 @@
 					variant="ghost"
 					class="glow-secondary group relative flex items-center justify-center gap-3 h-14 px-10 rounded-full bg-secondary text-on-secondary text-base font-bold active:scale-95"
 					@click="toggleAI">
-					<Icon
-						name="lucide:bot"
+					<UIcon
+						name="i-lucide-bot"
 						class="w-5 h-5" />
 					<span>呼叫 AI 助手</span>
 				</UButton>
 			</div>
 		</div>
-	</section>
+	</UCard>
 </template>
 
 <script setup lang="ts">

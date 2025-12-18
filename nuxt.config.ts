@@ -14,13 +14,19 @@ const mdcOptimizeDepsBlocklist = [
 
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
-	devtools: { enabled: true },
-	modules: ['@nuxt/content', '@nuxt/ui', '@nuxt/image', '@nuxt/eslint', '@nuxt/hints', '@nuxt/devtools', '@nuxt/icon'],
+	devtools: { enabled: process.env.NODE_ENV !== 'production' },
+	modules: ['@nuxt/content', '@nuxt/ui', '@nuxt/image', '@nuxt/eslint', '@nuxt/hints', '@nuxt/devtools'],
 	css: ['~/assets/css/main.css'],
+	icon: {
+		serverBundle: 'local',
+		clientBundle: {
+			scan: true, // 扫描项目里用到的图标并打包
+		},
+	},
 	app: {
 		head: {
 			htmlAttrs: { lang: 'zh-CN' },
-			title: '首页',
+			title: 'StoneHub',
 			titleTemplate: 'StoneHub | %s',
 			meta: [
 				{ charset: 'utf-8' },
@@ -33,16 +39,13 @@ export default defineNuxtConfig({
 				{ property: 'og:description', content: 'StoneHub 个人站点' },
 				{ name: 'twitter:card', content: 'summary_large_image' },
 			],
-			link: [
-				{ rel: 'icon', type: 'image/png', href: '/favicon.png' },
-				{ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-			],
+			link: [{ rel: 'icon', href: '/favicon.ico' }],
 		},
 	},
 	runtimeConfig: {
 		public: {
 			siteName: 'StoneHub',
-			siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
+			siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 			apiBase: process.env.NUXT_PUBLIC_API_BASE || '',
 			analyticsId: process.env.NUXT_PUBLIC_ANALYTICS_ID || '',
 		},
@@ -73,7 +76,7 @@ export default defineNuxtConfig({
 	// 在 pnpm 严格依赖树下，这些依赖通常无法从项目根解析，导致 Vite 打 WARN。
 	// 这里直接从最终的 include 里过滤掉这些条目，避免无意义的预构建解析。
 	hooks: {
-		// 先过滤一轮（模块通常在此阶段追加 include）
+		// 先过滤一轮(模块通常在此阶段追加 include)
 		'vite:extendConfig'(config, ctx) {
 			if (!ctx?.isClient) return
 			const mutableConfig = config as { optimizeDeps?: { include?: string[] } }
@@ -83,7 +86,7 @@ export default defineNuxtConfig({
 			const blocklist = new Set<string>(mdcOptimizeDepsBlocklist)
 			optimizeDeps.include = optimizeDeps.include.filter((id: string) => !blocklist.has(id))
 		},
-		// 再兜底过滤一轮（确保最终传给 Vite 的 client config 不含这些条目）
+		// 再兜底过滤一轮(确保最终传给 Vite 的 client config 不含这些条目)
 		'vite:configResolved'(config, ctx) {
 			if (!ctx?.isClient) return
 			const mutableConfig = config as { optimizeDeps?: { include?: string[] } }

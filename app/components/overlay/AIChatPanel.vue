@@ -21,7 +21,7 @@
 						<li
 							v-for="(msg, idx) in messages"
 							:key="idx">
-							<strong>{{ msg.role === 'user' ? '你' : 'AI' }}：</strong>
+							<strong>{{ msg.role === 'user' ? '你' : 'AI' }}:</strong>
 							<span>{{ msg.text }}</span>
 						</li>
 					</ul>
@@ -93,7 +93,7 @@
 	const messages = ref<Message[]>([
 		{
 			role: 'assistant',
-			text: '你好呀！我是 AI 石头鱼。你可以问我关于这个项目的技术细节，或者我（石头鱼本人）的开发经历。',
+			text: '你好呀！我是 AI 石头鱼。你可以问我关于这个项目的技术细节，或者我(石头鱼本人)的开发经历。',
 		},
 	])
 
@@ -108,7 +108,7 @@
 			return 'StoneHub 是一个基于 Nuxt 4 的个人站点，包含首页、Projects、Blog、Now、Links，并使用 Nuxt Content 管理内容。'
 		}
 		if (lower.includes('技术') || lower.includes('stack')) {
-			return '核心技术栈：Vue 3 / Nuxt 4 / TypeScript / Node.js / @nuxt/content / @nuxt/ui。'
+			return '核心技术栈:Vue 3 / Nuxt 4 / TypeScript / Node.js / @nuxt/content / @nuxt/ui。'
 		}
 		if (lower.includes('喜欢') || lower.includes('爱')) {
 			return '我喜欢写代码，喜欢搞 Web OS 项目，也爱喝咖啡。'

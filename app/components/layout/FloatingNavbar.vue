@@ -9,8 +9,8 @@
 				<div
 					class="flex items-center justify-center size-9 rounded-full bg-linear-to-br from-primary to-secondary text-white shadow-sm transition-transform group-hover:scale-105">
 					<!-- 终端风格 Logo 图标 -->
-					<Icon
-						name="lucide:terminal"
+					<UIcon
+						name="i-lucide-terminal"
 						class="size-[18px]" />
 				</div>
 				<span class="text-slate-800 text-lg font-bold tracking-tight hidden sm:block">StoneHub</span>
@@ -18,14 +18,20 @@
 
 			<!-- 桌面端导航 -->
 			<nav class="hidden md:flex items-center gap-1 bg-surface-container/50 rounded-full p-1 border border-white/20">
-				<NuxtLink
+				<UButton
 					v-for="link in navLinks"
 					:key="link.to"
 					:to="link.to"
-					active-class="bg-primary-container text-on-primary-container font-bold shadow-sm"
-					class="px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-primary hover:bg-white transition-all">
+					color="neutral"
+					variant="ghost"
+					:class="[
+						'px-5 py-2 rounded-full text-sm font-medium transition-all',
+						isActive(link.to)
+							? 'bg-primary-container text-on-primary-container font-bold shadow-sm'
+							: 'text-slate-600 hover:text-primary hover:bg-white',
+					]">
 					{{ link.label }}
-				</NuxtLink>
+				</UButton>
 			</nav>
 
 			<!-- 功能按钮 -->
@@ -37,8 +43,8 @@
 					title="交互式终端"
 					:class="{ 'bg-surface-container text-primary': isTerminalOpen }"
 					@click="toggleTerminal">
-					<Icon
-						name="lucide:terminal-square"
+					<UIcon
+						name="i-lucide-terminal-square"
 						class="size-[22px]" />
 				</UButton>
 				<UButton
@@ -48,8 +54,8 @@
 					title="AI 助手"
 					:class="{ 'bg-secondary-container text-secondary': isAIOpen }"
 					@click="toggleAI">
-					<Icon
-						name="lucide:bot"
+					<UIcon
+						name="i-lucide-bot"
 						class="size-[22px]" />
 				</UButton>
 
@@ -61,6 +67,7 @@
 
 <script setup lang="ts">
 	const { toggleTerminal, toggleAI, isTerminalOpen, isAIOpen } = useAppUiState()
+	const route = useRoute()
 
 	const navLinks = [
 		{ label: '首页', to: '/' },
@@ -68,4 +75,9 @@
 		{ label: '博客', to: '/blog' },
 		{ label: 'Now', to: '/now' },
 	]
+
+	const isActive = (to: string) => {
+		if (to === '/') return route.path === '/'
+		return route.path === to || route.path.startsWith(`${to}/`)
+	}
 </script>

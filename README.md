@@ -5,9 +5,9 @@ v4。包含首页、Projects、Blog、Now、Links，以及命令行模式与 AI 
 
 ## 依赖与环境
 
-- Node >= 18（建议 22+）
-- 包管理：pnpm
-- 主要模块：@nuxt/content、@nuxt/ui、@nuxt/image、@nuxt/eslint、@nuxt/hints
+- Node >= 18(建议 22+)
+- 包管理:pnpm
+- 主要模块:@nuxt/content、@nuxt/ui、@nuxt/image、@nuxt/eslint、@nuxt/hints
 - Tailwind v4
 
 ## 安装
@@ -26,11 +26,11 @@ pnpm dev
 
 ## 内容数据
 
-- 位置：`content/`
-  - 博客：`content/blog/*.md`（已示例 `first-post.md`）
-  - 项目：`content/projects/*.md`
-- 集合配置：`content.config.ts`（定义 blog / projects）
-- 调试接口：`/api/debug-blog` 可查看博客集合读取结果
+- 位置:`content/`
+  - 博客:`content/blog/*.md`(已示例 `first-post.md`)
+  - 项目:`content/projects/*.md`
+- 集合配置:`content.config.ts`(定义 blog / projects)
+- 调试接口:`/api/debug-blog` 仅开发环境可用，用于查看博客集合读取结果
 
 ## Tailwind v4 配置
 
@@ -38,18 +38,18 @@ pnpm dev
 
 ## 页面与组件
 
-- `pages/index.vue`：Hero + 卡片，终端 / AI 状态流
-- `pages/projects/index.vue`：项目列表（@nuxt/content）
-- `pages/blog/index.vue`：博客列表（@nuxt/content）
-- `pages/blog/[slug].vue`：博客详情
+- `pages/index.vue`:Hero + 卡片，终端 / AI 状态流
+- `pages/projects/index.vue`:项目列表(@nuxt/content)
+- `pages/blog/index.vue`:博客列表(@nuxt/content)
+- `pages/blog/[slug].vue`:博客详情
 - `pages/now.vue`、`pages/links.vue`
-- 终端与 AI 抽屉组件：`components/overlay/*`
-- UI 基础组件：采用 @nuxt/ui（按钮、卡片、抽屉、表单），图标使用 `@nuxt/icon`
+- 终端与 AI 抽屉组件:`components/overlay/*`
+- UI 基础组件:采用 @nuxt/ui(按钮、卡片、抽屉、表单)，图标使用 `@nuxt/icon`
 
 ## 常用命令
 
-- 开发：`pnpm dev`
-- 类型检查：`pnpm exec nuxi typecheck`
-- 生成类型/准备：`pnpm exec nuxi prepare`
-- 生产构建：`pnpm build`
-- 预览：`pnpm preview`
+- 开发:`pnpm dev`
+- 类型检查:`pnpm exec nuxi typecheck`
+- 生成类型/准备:`pnpm exec nuxi prepare`
+- 生产构建:`pnpm build`
+- 预览:`pnpm preview`

@@ -28,5 +28,4 @@ logs
 !.env.example
 .turbo
 .pnpm-store
-
 docs

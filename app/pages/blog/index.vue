@@ -7,12 +7,38 @@
 
 		<UPageBody>
 			<UAlert
-				v-if="posts.length === 0"
-				title="暂未发布文章"
-				description="我正在整理内容，敬请期待。"
+				v-if="itemsError"
+				title="文章列表加载失败"
+				:description="itemsError.message || '请检查网络后重试。'"
 				color="neutral"
 				variant="subtle"
-				icon="i-lucide-book" />
+				icon="i-lucide-triangle-alert">
+				<template #actions>
+					<UButton
+						color="neutral"
+						variant="outline"
+						icon="i-lucide-refresh-cw"
+						@click="retryItems">
+						重试
+					</UButton>
+				</template>
+			</UAlert>
+
+			<div
+				v-else-if="itemsPending"
+				class="space-y-3">
+				<USkeleton
+					v-for="i in 6"
+					:key="i"
+					class="h-20 rounded-lg" />
+			</div>
+
+			<UEmpty
+				v-else-if="posts.length === 0"
+				icon="i-lucide-book-open"
+				title="暂未发布文章"
+				description="我正在整理内容，敬请期待。"
+				:actions="[{ label: '返回首页', to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' }]" />
 
 			<UPageList
 				v-else
@@ -53,35 +79,18 @@
 		tags?: string[]
 	}
 
-	type BlogRow = {
-		path: string
-		title?: string
-		description?: string
-		meta?: {
-			date?: unknown
-			tags?: unknown
-		}
-	}
-
-	definePageMeta({ title: '博客' })
 	useHead({ title: '博客' })
 
-	const { data: items } = await useAsyncData<BlogItem[]>('blog-list', async () => {
-		const rows = (await queryCollection('blog').select('path', 'title', 'description', 'meta').all()) as BlogRow[]
-		return rows.map((row) => {
-			const date = typeof row.meta?.date === 'string' ? row.meta.date : undefined
-			const tags = Array.isArray(row.meta?.tags) ? row.meta.tags.map((t) => String(t)) : []
-			const path = String(row.path || '')
-			const withSlash = path.startsWith('/') ? path : `/${path}`
-			return {
-				_path: withSlash,
-				title: row.title,
-				description: row.description,
-				date,
-				tags,
-			}
-		})
+	const {
+		data: items,
+		pending: itemsPending,
+		error: itemsError,
+		refresh: refreshItems,
+	} = await useAsyncData<BlogItem[]>('blog-list', async () => {
+		return await $fetch<BlogItem[]>('/api/blog')
 	})
 
 	const posts = computed<BlogItem[]>(() => items.value ?? [])
+
+	const retryItems = () => refreshItems()
 </script>

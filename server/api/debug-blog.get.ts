@@ -1,4 +1,5 @@
 import { queryCollection } from '@nuxt/content/server'
+import { createError } from 'h3'
 
 type BlogRow = {
 	path: string
@@ -25,6 +26,10 @@ const parseMeta = (meta: BlogRow['meta']): { date?: string; tags?: string[] } =>
 }
 
 export default defineEventHandler(async (event) => {
+	if (process.env.NODE_ENV !== 'development') {
+		throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+	}
+
 	const rows = ((await queryCollection(event, 'blog').select('path', 'title', 'description', 'meta').all()) ||
 		[]) as BlogRow[]
 

@@ -1,47 +1,78 @@
 <template>
-	<div class="max-w-4xl mx-auto py-10">
+	<UPage>
 		<ContentDoc v-slot="{ doc }">
-			<article class="prose prose-lg dark:prose-invert prose-primary max-w-none">
-				<!-- 头部 -->
-				<header class="mb-10 text-center flex flex-col items-center gap-6">
-					<NuxtLink
-						to="/projects"
-						class="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors text-sm font-medium mb-4">
-						<Icon
-							name="lucide:arrow-left"
-							class="w-4 h-4" />
-						返回项目列表
-					</NuxtLink>
+			<UPageHeader
+				v-if="doc"
+				headline="Projects"
+				:title="doc.title || '项目'"
+				:description="doc.description"
+				:links="[
+					{
+						label: '返回项目列表',
+						to: '/projects',
+						color: 'neutral',
+						variant: 'outline',
+						icon: 'i-lucide-arrow-left',
+					},
+				]" />
 
-					<h1 class="text-4xl md:text-5xl font-display font-bold text-slate-900 mb-0">{{ doc.title }}</h1>
-					<p class="text-xl text-slate-500 max-w-2xl">{{ doc.description }}</p>
+			<UPageHeader
+				v-else
+				headline="Projects"
+				title="项目不存在或尚未发布"
+				description="你可以返回项目列表查看其他项目。"
+				:links="[
+					{
+						label: '返回项目列表',
+						to: '/projects',
+						color: 'neutral',
+						variant: 'outline',
+						icon: 'i-lucide-arrow-left',
+					},
+				]" />
 
-					<div
+			<UPageBody>
+				<UAlert
+					v-if="!doc"
+					title="内容不存在"
+					description="可能是链接错误，或者内容尚未发布。"
+					color="neutral"
+					variant="subtle"
+					icon="i-lucide-circle-alert"
+					:actions="[{ label: '返回项目列表', to: '/projects', color: 'neutral', variant: 'outline' }]" />
+
+				<template v-else>
+					<UCard
 						v-if="doc.image"
-						class="w-full aspect-video rounded-3xl overflow-hidden shadow-lg mt-6">
+						class="overflow-hidden rounded-4xl"
+						:ui="{ body: 'p-0' }">
 						<NuxtImg
 							:src="doc.image"
-							:alt="doc.title"
-							class="w-full h-full object-cover" />
-					</div>
+							:alt="doc.title || ''"
+							class="w-full aspect-video object-cover"
+							loading="lazy" />
+					</UCard>
 
-					<div class="flex flex-wrap gap-2 justify-center mt-2">
-						<span
-							v-for="tag in doc.tags || []"
+					<div
+						v-if="doc.tags?.length"
+						class="mt-4 flex flex-wrap gap-2">
+						<UBadge
+							v-for="tag in doc.tags"
 							:key="tag"
-							class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-slate-600">
-							{{ tag }}
-						</span>
+							color="neutral"
+							variant="subtle"
+							:label="String(tag)" />
 					</div>
-				</header>
 
-				<!-- 内容 -->
-				<div class="bg-surface/50 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-sm">
-					<ContentRenderer :value="doc" />
-				</div>
-			</article>
+					<UCard class="mt-6 rounded-4xl">
+						<article class="prose prose-lg dark:prose-invert prose-primary max-w-none">
+							<ContentRenderer :value="doc" />
+						</article>
+					</UCard>
+				</template>
+			</UPageBody>
 		</ContentDoc>
-	</div>
+	</UPage>
 </template>
 
 <script setup lang="ts">

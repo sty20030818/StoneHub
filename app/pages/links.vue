@@ -12,6 +12,7 @@
 					:key="link.url"
 					:to="link.url"
 					target="_blank"
+					rel="noopener noreferrer"
 					:icon="toNuxtUiIcon(link.icon)"
 					:title="link.name"
 					:description="link.handle ? `@${link.handle}` : undefined"
@@ -24,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-	// 直接导入 JSON 数据（使用相对于项目根目录的路径）
+	// 直接导入 JSON 数据(使用相对于项目根目录的路径)
 	import linksData from '../../content/links.json'
 
 	type LinkItem = {
@@ -36,7 +37,6 @@
 		colorText?: string
 	}
 
-	definePageMeta({ title: '传送门' })
 	useHead({ title: '传送门' })
 
 	const links = ref<LinkItem[]>(linksData)

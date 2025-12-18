@@ -11,9 +11,17 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
-	const rows = (await queryCollectionServer(event, 'blog')
-		.select('path', 'title', 'description', 'meta')
-		.all()) as unknown as BlogPost[]
+	let rows: BlogPost[] = []
+	try {
+		rows = (await queryCollectionServer(event, 'blog')
+			.select('path', 'title', 'description', 'meta')
+			.all()) as unknown as BlogPost[]
+	} catch (error) {
+		if (process.env.NODE_ENV === 'development') {
+			console.warn('[home/posts] query failed (dev content db may be rebuilding)', error)
+		}
+		return []
+	}
 
 	return rows.map((row) => ({
 		title: row.title,
