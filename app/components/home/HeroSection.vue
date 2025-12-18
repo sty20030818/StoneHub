@@ -28,7 +28,7 @@
 			<!-- 简介 -->
 			<p class="text-slate-500 text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
 				你好，我是 StoneFish。我致力于构建沉浸式、极简且富有动感的 Web 体验。
-				<br class="hidden md:block" />
+				<br class="hidden md:block">
 				您可以启动终端探索我的数字花园，或呼叫 AI 助手为您导览。
 			</p>
 

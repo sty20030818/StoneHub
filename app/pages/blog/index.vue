@@ -1,28 +1,47 @@
 <template>
-	<section>
-		<header>
-			<p>Blog</p>
-			<h1>思维碎片</h1>
-			<p>文章来自 @nuxt/content。</p>
-		</header>
+	<UPage>
+		<UPageHeader
+			headline="Blog"
+			title="思维碎片"
+			description="文章来自 @nuxt/content。" />
 
-		<ul v-if="posts.length">
-			<li
-				v-for="post in posts"
-				:key="post._path">
-				<NuxtLink :to="post._path">
-					<span>{{ post.title }}</span>
-				</NuxtLink>
-				<div>
-					<span v-if="post.date">{{ post.date }}</span>
-					<span v-if="(post.tags || []).length">#{{ (post.tags || [])[0] }}</span>
-				</div>
-				<p v-if="post.description">{{ post.description }}</p>
-			</li>
-		</ul>
+		<UPageBody>
+			<UAlert
+				v-if="posts.length === 0"
+				title="暂未发布文章"
+				description="我正在整理内容，敬请期待。"
+				color="neutral"
+				variant="subtle"
+				icon="i-lucide-book" />
 
-		<p v-else>暂未发布文章。</p>
-	</section>
+			<UPageList
+				v-else
+				divide>
+				<UPageCard
+					v-for="post in posts"
+					:key="post._path"
+					:to="post._path"
+					:title="post.title || 'Untitled'"
+					:description="post.description"
+					variant="ghost">
+					<template #footer>
+						<div class="flex flex-wrap gap-2">
+							<UBadge
+								v-if="post.date"
+								color="neutral"
+								variant="subtle"
+								:label="post.date" />
+							<UBadge
+								v-if="post.tags?.length"
+								color="primary"
+								variant="soft"
+								:label="`#${post.tags[0]}`" />
+						</div>
+					</template>
+				</UPageCard>
+			</UPageList>
+		</UPageBody>
+	</UPage>
 </template>
 
 <script setup lang="ts">

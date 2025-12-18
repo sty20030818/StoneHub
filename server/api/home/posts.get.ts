@@ -1,3 +1,5 @@
+import { queryCollection as queryCollectionServer } from '@nuxt/content/server'
+
 export default defineEventHandler(async (event) => {
 	interface BlogPost {
 		path: string
@@ -9,7 +11,7 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
-	const rows = (await queryCollection(event, 'blog')
+	const rows = (await queryCollectionServer(event, 'blog')
 		.select('path', 'title', 'description', 'meta')
 		.all()) as unknown as BlogPost[]
 

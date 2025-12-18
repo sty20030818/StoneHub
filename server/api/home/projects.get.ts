@@ -1,3 +1,5 @@
+import { queryCollection as queryCollectionServer } from '@nuxt/content/server'
+
 export default defineEventHandler(async (event) => {
 	interface ProjectRow {
 		title: string
@@ -11,7 +13,7 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
-	const rows = (await queryCollection(event, 'projects')
+	const rows = (await queryCollectionServer(event, 'projects')
 		.select('title', 'description', 'meta', 'path')
 		.all()) as unknown as ProjectRow[]
 

@@ -1,51 +1,71 @@
 <template>
-	<section>
-		<header>
-			<p>Projects</p>
-			<h1>项目列表</h1>
-			<p>通过 @nuxt/content 渲染 markdown 项目数据。</p>
-		</header>
+	<UPage>
+		<UPageHeader
+			headline="Projects"
+			title="项目列表"
+			description="通过 @nuxt/content 渲染 markdown 项目数据。" />
 
-		<ul v-if="projects?.length">
-			<li
-				v-for="project in projects || []"
-				:key="project.path">
-				<h2>{{ project.title }}</h2>
-				<p v-if="project.year">年份：{{ project.year }}</p>
-				<p v-if="project.description">{{ project.description }}</p>
+		<UPageBody>
+			<UAlert
+				v-if="projectsUi.length === 0"
+				title="暂未发布项目"
+				description="等我整理好再放上来。"
+				color="neutral"
+				variant="subtle"
+				icon="i-lucide-folder" />
 
-				<div v-if="(project.tags || []).length">
-					<p>标签：</p>
-					<ul>
-						<li
-							v-for="tag in project.tags || []"
-							:key="tag">
-							{{ tag }}
-						</li>
-					</ul>
-				</div>
+			<UPageGrid
+				v-else
+				class="sm:grid-cols-2 lg:grid-cols-3">
+				<UPageCard
+					v-for="project in projectsUi"
+					:key="project.path"
+					:to="project.to"
+					:icon="project.icon"
+					:title="project.title"
+					:description="project.description"
+					variant="subtle"
+					spotlight
+					spotlight-color="primary">
+					<template #footer>
+						<div class="flex flex-wrap gap-2">
+							<UBadge
+								v-if="project.year"
+								color="neutral"
+								variant="subtle"
+								:label="project.year" />
 
-				<div>
-					<a
-						v-if="project.github"
-						:href="project.github"
-						target="_blank"
-						rel="noreferrer">
-						GitHub
-					</a>
-					<a
-						v-if="project.demo"
-						:href="project.demo"
-						target="_blank"
-						rel="noreferrer">
-						Demo
-					</a>
-				</div>
-			</li>
-		</ul>
+							<UBadge
+								v-for="tag in project.tags"
+								:key="tag"
+								color="neutral"
+								variant="outline"
+								:label="tag" />
+						</div>
 
-		<p v-else>暂未发布项目。</p>
-	</section>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<UButton
+								v-if="project.github"
+								:to="project.github"
+								target="_blank"
+								color="neutral"
+								variant="ghost"
+								icon="i-lucide-github"
+								label="GitHub" />
+							<UButton
+								v-if="project.demo"
+								:to="project.demo"
+								target="_blank"
+								color="neutral"
+								variant="ghost"
+								icon="i-lucide-external-link"
+								label="Demo" />
+						</div>
+					</template>
+				</UPageCard>
+			</UPageGrid>
+		</UPageBody>
+	</UPage>
 </template>
 
 <script setup lang="ts">
@@ -80,6 +100,18 @@
 
 	type ParsedMeta = { tags?: string[]; github?: string; demo?: string; year?: string; icon?: string }
 
+	const withLeadingSlash = (path: string) => (path.startsWith('/') ? path : `/${path}`)
+
+	const toNuxtUiIcon = (raw?: string): string | undefined => {
+		if (!raw) return undefined
+		if (raw.startsWith('i-')) return raw
+		if (raw.includes(':')) {
+			const [collection, name] = raw.split(':')
+			if (collection && name) return `i-${collection}-${name}`
+		}
+		return `i-lucide-${raw}`
+	}
+
 	const parseMeta = (meta: ProjectRow['meta']): ParsedMeta => {
 		if (!meta) return {}
 		if (typeof meta === 'string') {
@@ -110,5 +142,15 @@
 			})
 			return acc
 		}, [])
+	})
+
+	const projectsUi = computed(() => {
+		return (projects.value ?? []).map((project) => {
+			return {
+				...project,
+				to: withLeadingSlash(project.path),
+				icon: toNuxtUiIcon(project.icon),
+			}
+		})
 	})
 </script>

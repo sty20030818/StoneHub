@@ -1,26 +1,26 @@
 <template>
-	<section>
-		<header>
-			<p>Links</p>
-			<h1>连接节点</h1>
-			<p>常用入口与友链。</p>
-		</header>
+	<UPage>
+		<UPageHeader
+			headline="Links"
+			title="连接节点"
+			description="常用入口与友链。" />
 
-		<ul>
-			<li
-				v-for="link in links || []"
-				:key="link.url">
-				<a
-					:href="link.url"
+		<UPageBody>
+			<UPageGrid class="sm:grid-cols-2 lg:grid-cols-3">
+				<UPageCard
+					v-for="link in links || []"
+					:key="link.url"
+					:to="link.url"
 					target="_blank"
-					rel="noreferrer">
-					<Icon :name="link.icon ? `lucide:${link.icon}` : 'lucide:link-2'" />
-					<span>{{ link.name }}</span>
-					<span v-if="link.handle">(@{{ link.handle }})</span>
-				</a>
-			</li>
-		</ul>
-	</section>
+					:icon="toNuxtUiIcon(link.icon)"
+					:title="link.name"
+					:description="link.handle ? `@${link.handle}` : undefined"
+					variant="subtle"
+					highlight
+					highlight-color="primary" />
+			</UPageGrid>
+		</UPageBody>
+	</UPage>
 </template>
 
 <script setup lang="ts">
@@ -40,4 +40,14 @@
 	useHead({ title: '传送门' })
 
 	const links = ref<LinkItem[]>(linksData)
+
+	const toNuxtUiIcon = (raw?: string): string => {
+		if (!raw) return 'i-lucide-link-2'
+		if (raw.startsWith('i-')) return raw
+		if (raw.includes(':')) {
+			const [collection, name] = raw.split(':')
+			if (collection && name) return `i-${collection}-${name}`
+		}
+		return `i-lucide-${raw}`
+	}
 </script>

@@ -1,27 +1,43 @@
 <template>
-	<section>
-		<p>Error</p>
-		<h1>{{ props.error.statusCode || 500 }}</h1>
-		<p>{{ props.error.message || 'Something went wrong.' }}</p>
-		<div>
-			<button
-				type="button"
-				@click="goHome">
-				返回首页
-			</button>
-			<!-- 刷新 -->
-			<button
-				type="button"
-				@click="refresh()">
-				刷新
-			</button>
-			<button
-				type="button"
-				@click="clearError()">
-				留在此页
-			</button>
-		</div>
-	</section>
+	<UPage>
+		<UPageHeader
+			headline="Error"
+			:title="String(props.error.statusCode || 500)"
+			:description="props.error.message || 'Something went wrong.'" />
+
+		<UPageBody>
+			<UAlert
+				title="发生错误"
+				:description="props.error.message || 'Something went wrong.'"
+				color="neutral"
+				variant="subtle"
+				icon="i-lucide-triangle-alert" />
+
+			<div class="mt-4 flex flex-wrap gap-2">
+				<UButton
+					color="neutral"
+					variant="outline"
+					icon="i-lucide-house"
+					@click="goHome">
+					返回首页
+				</UButton>
+				<UButton
+					color="neutral"
+					variant="outline"
+					icon="i-lucide-refresh-cw"
+					@click="refresh">
+					刷新
+				</UButton>
+				<UButton
+					color="neutral"
+					variant="ghost"
+					icon="i-lucide-x"
+					@click="clearError()">
+					留在此页
+				</UButton>
+			</div>
+		</UPageBody>
+	</UPage>
 </template>
 
 <script setup lang="ts">
