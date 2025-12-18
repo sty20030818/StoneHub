@@ -1,15 +1,15 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Projects"
-			title="项目列表"
-			description="通过 @nuxt/content 渲染 markdown 项目数据。" />
+			:headline="t('projects.headline')"
+			:title="t('projects.list.title')"
+			:description="t('projects.list.description')" />
 
 		<UPageBody>
 			<UAlert
 				v-if="projectsError"
-				title="项目列表加载失败"
-				:description="projectsError.message || '请检查网络后重试。'"
+				:title="t('projects.list.errorTitle')"
+				:description="projectsError.message || t('common.checkNetworkRetry')"
 				color="neutral"
 				variant="subtle"
 				icon="i-lucide-triangle-alert">
@@ -19,7 +19,7 @@
 						variant="outline"
 						icon="i-lucide-refresh-cw"
 						@click="retryProjects">
-						重试
+						{{ t('common.retry') }}
 					</UButton>
 				</template>
 			</UAlert>
@@ -36,9 +36,11 @@
 			<UEmpty
 				v-else-if="projectsUi.length === 0"
 				icon="i-lucide-folder-open"
-				title="暂未发布项目"
-				description="等我整理好再放上来。"
-				:actions="[{ label: '返回首页', to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' }]" />
+				:title="t('projects.list.emptyTitle')"
+				:description="t('projects.list.emptyDescription')"
+				:actions="[
+					{ label: t('common.backHome'), to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' },
+				]" />
 
 			<UPageGrid
 				v-else
@@ -108,7 +110,8 @@
 		demo?: string
 	}
 
-	useHead({ title: '项目' })
+	const { t } = useI18n()
+	useHead(() => ({ title: t('nav.projects') }))
 
 	const withLeadingSlash = (path: string) => (path.startsWith('/') ? path : `/${path}`)
 

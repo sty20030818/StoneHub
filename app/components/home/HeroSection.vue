@@ -15,23 +15,28 @@
 					<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" />
 					<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary" />
 				</span>
-				<span class="text-on-secondary-container text-sm font-bold tracking-wide">目前接受新项目预订</span>
+				<span class="text-on-secondary-container text-sm font-bold tracking-wide">{{ t('home.hero.status') }}</span>
 			</div>
 
 			<!-- 主标题 -->
 			<h1 class="text-slate-900 font-display font-bold leading-none tracking-tight">
 				<span class="block text-display-large">
-					以
-					<span class="text-transparent bg-clip-text bg-linear-to-br from-primary to-secondary">代码与色彩</span>
+					{{ t('home.hero.title.prefix') }}
+					<span class="text-transparent bg-clip-text bg-linear-to-br from-primary to-secondary">
+						{{ t('home.hero.title.emphasis') }}
+					</span>
 				</span>
-				<span class="block text-display-medium mt-3">编织未来视界</span>
+				<span class="block text-display-medium mt-3">{{ t('home.hero.title.suffix') }}</span>
 			</h1>
 
 			<!-- 简介 -->
 			<p class="text-slate-500 text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
-				你好，我是 StoneFish。我致力于构建沉浸式、极简且富有动感的 Web 体验。
+				{{ t('home.hero.introHello') }}
+				<strong class="text-slate-700 font-bold">StoneFish</strong>{{ t('home.hero.introNamePunctuation') }}
+				<br />
+				{{ t('home.hero.introMission') }}
 				<br class="hidden md:block" />
-				您可以启动终端探索我的数字花园，或呼叫 AI 助手为您导览。
+				{{ t('home.hero.introLine2') }}
 			</p>
 
 			<!-- 行动按钮 -->
@@ -44,7 +49,7 @@
 					<UIcon
 						name="i-lucide-terminal"
 						class="w-5 h-5" />
-					<span>启动交互式终端</span>
+					<span>{{ t('home.hero.actions.terminal') }}</span>
 				</UButton>
 				<UButton
 					color="neutral"
@@ -54,7 +59,7 @@
 					<UIcon
 						name="i-lucide-bot"
 						class="w-5 h-5" />
-					<span>呼叫 AI 助手</span>
+					<span>{{ t('home.hero.actions.ai') }}</span>
 				</UButton>
 			</div>
 		</div>
@@ -63,4 +68,5 @@
 
 <script setup lang="ts">
 	const { toggleTerminal, toggleAI } = useAppUiState()
+	const { t } = useI18n()
 </script>

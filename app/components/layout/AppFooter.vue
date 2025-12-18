@@ -31,7 +31,7 @@
 
 			<!-- Powered by -->
 			<div class="hidden md:flex items-center gap-1.5 text-slate-400 text-xs">
-				<span>Powered by</span>
+				<span>{{ t('footer.poweredBy') }}</span>
 				<a
 					href="https://vite.dev"
 					target="_blank"
@@ -57,7 +57,7 @@
 				<UIcon
 					name="i-lucide-clock"
 					class="size-3" />
-				<span>已运行 {{ runningDays }} 天</span>
+				<span>{{ t('footer.runningDays', { days: runningDays }) }}</span>
 			</div>
 
 			<!-- 分隔线 -->
@@ -69,7 +69,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 				class="hidden lg:block text-slate-400 text-xs hover:text-primary transition-colors">
-				京ICP备XXXXXXXX号
+				{{ t('footer.icp') }}
 			</a>
 
 			<!-- 分隔线 -->
@@ -87,8 +87,8 @@
 						color="neutral"
 						variant="ghost"
 						class="p-0! size-8 rounded-full text-slate-400 hover:bg-[#07C160]/10 hover:text-[#07C160] transition-all"
-						aria-label="微信"
-						title="微信">
+						:aria-label="t('footer.social.wechat')"
+						:title="t('footer.social.wechat')">
 						<UIcon
 							name="i-simple-icons-wechat"
 							class="size-4" />
@@ -97,9 +97,9 @@
 					<template #content>
 						<div class="p-4 flex flex-col items-center gap-2">
 							<div class="w-32 h-32 bg-slate-100 rounded-xl flex items-center justify-center">
-								<span class="text-slate-400 text-xs">二维码</span>
+								<span class="text-slate-400 text-xs">{{ t('footer.social.qrPlaceholder') }}</span>
 							</div>
-							<p class="text-slate-600 text-xs font-medium">扫码添加微信</p>
+							<p class="text-slate-600 text-xs font-medium">{{ t('footer.social.scanWechat') }}</p>
 						</div>
 					</template>
 				</UPopover>
@@ -111,8 +111,8 @@
 					color="neutral"
 					variant="ghost"
 					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#12B7F5]/10 hover:text-[#12B7F5] transition-all"
-					aria-label="QQ"
-					title="QQ">
+					:aria-label="t('footer.social.qq')"
+					:title="t('footer.social.qq')">
 					<UIcon
 						name="i-simple-icons-qq"
 						class="size-4" />
@@ -125,8 +125,8 @@
 					color="neutral"
 					variant="ghost"
 					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-[#FB7299]/10 hover:text-[#FB7299] transition-all"
-					aria-label="Bilibili"
-					title="Bilibili">
+					:aria-label="t('footer.social.bilibili')"
+					:title="t('footer.social.bilibili')">
 					<UIcon
 						name="i-simple-icons-bilibili"
 						class="size-4" />
@@ -139,8 +139,8 @@
 					color="neutral"
 					variant="ghost"
 					class="p-0! flex items-center justify-center size-8 rounded-full text-slate-400 hover:bg-surface-container hover:text-slate-800 transition-all"
-					aria-label="GitHub"
-					title="GitHub">
+					:aria-label="t('footer.social.github')"
+					:title="t('footer.social.github')">
 					<UIcon
 						name="i-lucide-github"
 						class="size-4" />
@@ -152,6 +152,8 @@
 
 <script setup lang="ts">
 	// 悬浮岛屿式页脚组件
+
+	const { t } = useI18n()
 
 	// 计算运行天数(从网站上线日期开始)
 	const launchDate = new Date('2025-01-01') // 替换为你的上线日期

@@ -3,12 +3,12 @@
 		<ContentDoc v-slot="{ doc }">
 			<UPageHeader
 				v-if="doc"
-				headline="Projects"
-				:title="doc.title || '项目'"
+				:headline="t('projects.headline')"
+				:title="doc.title || t('projects.detail.fallbackTitle')"
 				:description="doc.description"
 				:links="[
 					{
-						label: '返回项目列表',
+						label: t('projects.detail.backToList'),
 						to: '/projects',
 						color: 'neutral',
 						variant: 'outline',
@@ -18,12 +18,12 @@
 
 			<UPageHeader
 				v-else
-				headline="Projects"
-				title="项目不存在或尚未发布"
-				description="你可以返回项目列表查看其他项目。"
+				:headline="t('projects.headline')"
+				:title="t('projects.detail.notFoundTitle')"
+				:description="t('projects.detail.notFoundDescription')"
 				:links="[
 					{
-						label: '返回项目列表',
+						label: t('projects.detail.backToList'),
 						to: '/projects',
 						color: 'neutral',
 						variant: 'outline',
@@ -34,12 +34,14 @@
 			<UPageBody>
 				<UAlert
 					v-if="!doc"
-					title="内容不存在"
-					description="可能是链接错误，或者内容尚未发布。"
+					:title="t('projects.detail.contentMissingTitle')"
+					:description="t('projects.detail.contentMissingDescription')"
 					color="neutral"
 					variant="subtle"
 					icon="i-lucide-circle-alert"
-					:actions="[{ label: '返回项目列表', to: '/projects', color: 'neutral', variant: 'outline' }]" />
+					:actions="[
+						{ label: t('projects.detail.backToList'), to: '/projects', color: 'neutral', variant: 'outline' },
+					]" />
 
 				<template v-else>
 					<UCard
@@ -77,4 +79,5 @@
 
 <script setup lang="ts">
 	// 项目详情页
+	const { t } = useI18n()
 </script>

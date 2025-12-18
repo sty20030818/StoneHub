@@ -1,20 +1,20 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Blog"
-			:title="doc?.title || '文章'"
+			:headline="t('blog.headline')"
+			:title="doc?.title || t('blog.detail.fallbackTitle')"
 			:description="metaLine"
 			:links="links" />
 
 		<UPageBody>
 			<UAlert
 				v-if="!doc"
-				title="文章不存在或尚未发布"
-				description="你可以返回博客列表查看其他文章。"
+				:title="t('blog.detail.notFoundTitle')"
+				:description="t('blog.detail.notFoundDescription')"
 				color="neutral"
 				variant="subtle"
 				icon="i-lucide-circle-alert"
-				:actions="[{ label: '返回博客列表', to: '/blog', color: 'neutral', variant: 'outline' }]" />
+				:actions="[{ label: t('blog.detail.backToList'), to: '/blog', color: 'neutral', variant: 'outline' }]" />
 
 			<UCard v-else>
 				<ContentRenderer :value="doc" />
@@ -30,6 +30,8 @@
 		date?: string
 		tags?: string[]
 	}
+
+	const { t } = useI18n()
 
 	const route = useRoute()
 
@@ -55,7 +57,7 @@
 	const links = computed(() => {
 		return [
 			{
-				label: '返回列表',
+				label: t('blog.detail.backToList'),
 				to: '/blog',
 				color: 'neutral' as const,
 				variant: 'outline' as const,
@@ -65,6 +67,6 @@
 	})
 
 	useHead(() => ({
-		title: doc.value?.title ?? '博客',
+		title: doc.value?.title ?? t('nav.blog'),
 	}))
 </script>

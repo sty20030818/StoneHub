@@ -3,21 +3,21 @@
 		v-model:open="open"
 		:close="false">
 		<template #content>
-			<section aria-label="终端">
+			<section :aria-label="t('terminal.a11y.terminal')">
 				<header>
-					<p>stonefish@stonehub: ~ (zsh)</p>
+					<p>{{ t('terminal.headerPrompt') }}</p>
 					<UButton
 						type="button"
 						color="neutral"
 						variant="ghost"
 						@click="open = false">
-						关闭
+						{{ t('common.close') }}
 					</UButton>
 				</header>
 
 				<section
 					ref="terminalBody"
-					aria-label="输出"
+					:aria-label="t('terminal.a11y.output')"
 					@click="focusInput">
 					<div
 						v-for="(entry, index) in terminalHistory"
@@ -31,22 +31,22 @@
 					</div>
 				</section>
 
-				<section aria-label="输入">
-					<label for="terminal-cmd-input">命令</label>
+				<section :aria-label="t('terminal.a11y.input')">
+					<label for="terminal-cmd-input">{{ t('terminal.commandLabel') }}</label>
 					<UInput
 						id="terminal-cmd-input"
 						ref="cmdInput"
 						v-model="currentCmd"
 						type="text"
 						autocomplete="off"
-						placeholder="输入 'help' 查看帮助…"
+						:placeholder="t('terminal.placeholder')"
 						@keydown="handleInputKeydown" />
 					<UButton
 						type="button"
 						color="neutral"
 						variant="ghost"
 						@click="executeCmd">
-						执行
+						{{ t('terminal.execute') }}
 					</UButton>
 				</section>
 			</section>
@@ -59,6 +59,8 @@
 		type: 'input' | 'output'
 		content: string
 	}
+
+	const { t } = useI18n()
 
 	const emit = defineEmits<{
 		'close': []
@@ -90,8 +92,8 @@
 	const historyIndex = ref(-1)
 
 	const terminalHistory = ref<Entry[]>([
-		{ type: 'output', content: '欢迎来到 StoneShell v2.0.0' },
-		{ type: 'output', content: "输入 'help' 查看可用命令" },
+		{ type: 'output', content: t('terminal.welcome') },
+		{ type: 'output', content: t('terminal.tipHelp') },
 	])
 
 	const scrollToBottom = () => {
@@ -162,23 +164,7 @@
 
 		switch (cmd.toLowerCase()) {
 			case 'help':
-				output = `基础命令:
-help      显示帮助信息
-clear     清屏
-ls        列出项目和博客
-projects  查看项目列表
-blog      查看博客列表
-
-导航命令:
-cd        切换页面 (如: cd blog)
-open      启动应用 (如: open chat)
-exit      关闭终端
-
-彩蛋命令:
-whoami    我是谁？
-neofetch  系统信息
-
-提示: 使用 ↑/↓ 键翻阅命令历史`
+				output = t('terminal.help')
 				break
 
 			case 'clear':
@@ -187,29 +173,27 @@ neofetch  系统信息
 				return
 
 			case 'ls':
-				output = `Projects/
-${(props.projects || []).map((p) => `  ${p.title}/`).join('\n')}
-
-Blog/
-${(props.posts || [])
-	.slice(0, 5)
-	.map((p) => `  ${(p.slug || p.title || '').replaceAll(' ', '-')}.md`)
-	.join('\n')}`
+				output = `${t('terminal.ls.projectsHeader')}\n${(props.projects || [])
+					.map((p) => `  ${p.title}/`)
+					.join('\n')}\n\n${t('terminal.ls.blogHeader')}\n${(props.posts || [])
+					.slice(0, 5)
+					.map((p) => `  ${(p.slug || p.title || '').replaceAll(' ', '-')}.md`)
+					.join('\n')}`
 				break
 
 			case 'projects':
 				if (!props.projects?.length) {
-					output = '暂无项目数据'
+					output = t('terminal.projects.empty')
 				} else {
-					output = `我的项目:\n${props.projects.map((p) => `- ${p.title} - ${p.desc}`).join('\n')}`
+					output = `${t('terminal.projects.header')}\n${props.projects.map((p) => `- ${p.title} - ${p.desc}`).join('\n')}`
 				}
 				break
 
 			case 'blog':
 				if (!props.posts?.length) {
-					output = '暂无博客文章'
+					output = t('terminal.blog.empty')
 				} else {
-					output = `近期博客:\n${props.posts
+					output = `${t('terminal.blog.header')}\n${props.posts
 						.slice(0, 5)
 						.map((p) => `[${p.date}] ${p.title}`)
 						.join('\n')}`
@@ -226,34 +210,34 @@ ${(props.posts || [])
 					now: '/now',
 				}
 				if (target && routes[target]) {
-					output = `正在跳转到 /${target}...`
+					output = t('terminal.cd.navigating', { target: `/${target}` })
 					setTimeout(() => {
 						emit('close')
 						emit('navigate', routes[target]!)
 					}, 300)
 				} else if (target === '~' || target === '/') {
-					output = '正在跳转到首页...'
+					output = t('terminal.cd.navigating', { target: '/' })
 					setTimeout(() => {
 						emit('close')
 						emit('navigate', '/')
 					}, 300)
 				} else {
-					output = `cd: 目录不存在: ${target}\n可用目录: home, projects, blog, links, now`
+					output = t('terminal.cd.notFound', { target })
 				}
 				break
 			}
 
 			case 'open':
 				if (args[0] === 'chat') {
-					output = '正在启动 AI 石头鱼...'
+					output = t('terminal.open.chat')
 					setTimeout(() => {
 						emit('close')
 						emit('open-ai')
 					}, 300)
 				} else if (args[0] === 'os') {
-					output = '正在启动 StoneOS... (敬请期待)'
+					output = t('terminal.open.os')
 				} else {
-					output = '用法: open [chat|os]'
+					output = t('terminal.open.usage')
 				}
 				break
 
@@ -262,34 +246,27 @@ ${(props.posts || [])
 				return
 
 			case 'whoami':
-				output = `石头鱼 (StoneFish)
-全栈工程师 / Web OS 爱好者
-当前位置: StoneHub`
+				output = t('terminal.whoami')
 				break
 
 			case 'neofetch':
-				output = `stonefish@stonehub
----------------------
-OS:    StoneHub
-框架:  Nuxt 4 / Vue 3
-语言:  TypeScript
-终端:  StoneShell v2.0`
+				output = t('terminal.neofetch')
 				break
 
 			case 'sudo':
-				output = 'Permission denied\n这里没有 root 权限。'
+				output = t('terminal.sudoDenied')
 				break
 
 			case 'rm':
 				if (args.includes('-rf') && (args.includes('/') || args.includes('*'))) {
-					output = '危险操作已拦截。'
+					output = t('terminal.rmBlocked')
 				} else {
-					output = `rm: 拒绝执行删除操作`
+					output = t('terminal.rmDenied')
 				}
 				break
 
 			default:
-				output = `命令未找到: ${cmd}\n输入 'help' 查看可用命令`
+				output = t('terminal.commandNotFound', { cmd })
 		}
 
 		if (output) {

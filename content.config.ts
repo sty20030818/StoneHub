@@ -1,4 +1,4 @@
-import { defineContentConfig, defineCollection } from '@nuxt/content'
+import { defineContentConfig, defineCollection, z } from '@nuxt/content'
 
 export default defineContentConfig({
 	collections: {
@@ -9,20 +9,35 @@ export default defineContentConfig({
 		projects: defineCollection({
 			type: 'page',
 			source: 'projects/**/*.md',
-			// 允许 meta 扩展字段
-			meta: {
-				year: { type: 'string', required: false },
-				icon: { type: 'string', required: false },
-				tags: { type: 'array', default: [], items: { type: 'string' } },
-			},
+			schema: z.object({
+				year: z.string().optional(),
+				icon: z.string().optional(),
+				tags: z.array(z.string()).default([]),
+			}),
 		}),
 		links: defineCollection({
 			type: 'data',
 			source: 'links.(json|yaml|yml)',
+			schema: z.array(
+				z.object({
+					name: z.string(),
+					handle: z.string(),
+					icon: z.string(),
+					url: z.string(),
+					colorBg: z.string().optional(),
+					colorText: z.string().optional(),
+				}),
+			),
 		}),
 		now: defineCollection({
 			type: 'data',
 			source: 'now.(json|yaml|yml)',
+			schema: z.object({
+				title: z.string(),
+				doing: z.array(z.string()),
+				done: z.array(z.string()),
+				next: z.array(z.string()),
+			}),
 		}),
 	},
 })

@@ -3,13 +3,15 @@
 	<section class="relative mx-auto w-full">
 		<!-- 头部 -->
 		<div class="flex items-center justify-between mb-8 px-4">
-			<h2 class="text-slate-800 text-2xl md:text-3xl font-bold tracking-tight font-display">精选项目</h2>
+			<h2 class="text-slate-800 text-2xl md:text-3xl font-bold tracking-tight font-display">
+				{{ t('home.featuredProjects.title') }}
+			</h2>
 			<UButton
 				to="/projects"
 				color="neutral"
 				variant="ghost"
 				class="glow-primary flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-bold">
-				查看全部
+				{{ t('common.viewAll') }}
 				<UIcon
 					name="i-lucide-arrow-right"
 					class="w-4 h-4" />
@@ -71,6 +73,8 @@
 </template>
 
 <script setup lang="ts">
+	const { t } = useI18n()
+
 	interface Project {
 		title: string
 		description: string

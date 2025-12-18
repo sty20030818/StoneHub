@@ -15,7 +15,15 @@ const mdcOptimizeDepsBlocklist = [
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: process.env.NODE_ENV !== 'production' },
-	modules: ['@nuxt/content', '@nuxt/ui', '@nuxt/image', '@nuxt/eslint', '@nuxt/hints', '@nuxt/devtools'],
+	modules: [
+		'@nuxt/content',
+		'@nuxt/ui',
+		'@nuxt/image',
+		'@nuxtjs/i18n',
+		'@nuxt/eslint',
+		'@nuxt/hints',
+		'@nuxt/devtools',
+	],
 	css: ['~/assets/css/main.css'],
 	icon: {
 		serverBundle: 'local',
@@ -95,6 +103,23 @@ export default defineNuxtConfig({
 
 			const blocklist = new Set<string>(mdcOptimizeDepsBlocklist)
 			optimizeDeps.include = optimizeDeps.include.filter((id: string) => !blocklist.has(id))
+		},
+	},
+	i18n: {
+		restructureDir: '.',
+		strategy: 'no_prefix',
+		defaultLocale: 'zh',
+		langDir: 'locales',
+		vueI18n: './i18n.config.ts',
+		locales: [
+			{ code: 'zh', name: '中文', file: 'zh.ts' },
+			{ code: 'en', name: 'English', file: 'en.ts' },
+		],
+		detectBrowserLanguage: {
+			useCookie: true,
+			cookieKey: 'stonehub_locale',
+			redirectOn: 'root',
+			fallbackLocale: 'zh',
 		},
 	},
 })

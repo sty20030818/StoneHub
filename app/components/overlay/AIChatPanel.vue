@@ -4,37 +4,37 @@
 		:close="false"
 		side="right">
 		<template #content>
-			<section aria-label="AI 聊天">
+			<section :aria-label="t('ai.a11y.chat')">
 				<header>
-					<h2>AI 石头鱼</h2>
+					<h2>{{ t('ai.title') }}</h2>
 					<UButton
 						type="button"
 						color="neutral"
 						variant="ghost"
 						@click="open = false">
-						关闭
+						{{ t('common.close') }}
 					</UButton>
 				</header>
 
-				<section aria-label="消息列表">
+				<section :aria-label="t('ai.a11y.messages')">
 					<ul ref="chatBody">
 						<li
 							v-for="(msg, idx) in messages"
 							:key="idx">
-							<strong>{{ msg.role === 'user' ? '你' : 'AI' }}:</strong>
+							<strong>{{ msg.role === 'user' ? t('ai.roles.user') : t('ai.roles.assistant') }}:</strong>
 							<span>{{ msg.text }}</span>
 						</li>
 					</ul>
-					<p v-if="isTyping">AI 正在输入…</p>
+					<p v-if="isTyping">{{ t('ai.typing') }}</p>
 				</section>
 
-				<section aria-label="输入区">
-					<label for="ai-chat-input">输入</label>
+				<section :aria-label="t('ai.a11y.input')">
+					<label for="ai-chat-input">{{ t('ai.inputLabel') }}</label>
 					<UInput
 						id="ai-chat-input"
 						v-model="chatInput"
 						type="text"
-						placeholder="问我关于 Nuxt 4 或技术栈的问题…"
+						:placeholder="t('ai.placeholder')"
 						@keydown.enter="sendChat" />
 					<UButton
 						type="button"
@@ -42,22 +42,22 @@
 						variant="ghost"
 						:disabled="!chatInput.trim()"
 						@click="sendChat">
-						发送
+						{{ t('ai.send') }}
 					</UButton>
 					<div>
 						<UButton
 							type="button"
 							color="neutral"
 							variant="ghost"
-							@click="quickAsk('介绍 StoneHub')">
-							介绍 StoneHub
+							@click="quickAsk(t('ai.quick.introPrompt'))">
+							{{ t('ai.quick.intro') }}
 						</UButton>
 						<UButton
 							type="button"
 							color="neutral"
 							variant="ghost"
-							@click="quickAsk('技术栈是什么')">
-							技术栈
+							@click="quickAsk(t('ai.quick.stackPrompt'))">
+							{{ t('ai.quick.stack') }}
 						</UButton>
 					</div>
 				</section>
@@ -71,6 +71,8 @@
 		role: 'user' | 'assistant'
 		text: string
 	}
+
+	const { t } = useI18n()
 
 	const props = defineProps<{
 		visible: boolean
@@ -93,7 +95,7 @@
 	const messages = ref<Message[]>([
 		{
 			role: 'assistant',
-			text: '你好呀！我是 AI 石头鱼。你可以问我关于这个项目的技术细节，或者我(石头鱼本人)的开发经历。',
+			text: t('ai.greeting'),
 		},
 	])
 
@@ -104,19 +106,25 @@
 
 	const buildReply = (text: string) => {
 		const lower = text.toLowerCase()
-		if (lower.includes('stonehub') || lower.includes('项目') || lower.includes('介绍')) {
-			return 'StoneHub 是一个基于 Nuxt 4 的个人站点，包含首页、Projects、Blog、Now、Links，并使用 Nuxt Content 管理内容。'
+		if (
+			lower.includes('stonehub') ||
+			lower.includes('project') ||
+			lower.includes('项目') ||
+			lower.includes('intro') ||
+			lower.includes('介绍')
+		) {
+			return t('ai.reply.about')
 		}
 		if (lower.includes('技术') || lower.includes('stack')) {
-			return '核心技术栈:Vue 3 / Nuxt 4 / TypeScript / Node.js / @nuxt/content / @nuxt/ui。'
+			return t('ai.reply.stack')
 		}
 		if (lower.includes('喜欢') || lower.includes('爱')) {
-			return '我喜欢写代码，喜欢搞 Web OS 项目，也爱喝咖啡。'
+			return t('ai.reply.likes')
 		}
 		if (lower.includes('你好') || lower.includes('hi')) {
-			return '嗨！很高兴见到你。我是石头鱼的数字分身，聊点技术？'
+			return t('ai.reply.hello')
 		}
-		return '这个问题还没索引到本地… 试试问“技术栈”或“介绍 StoneHub”吧。'
+		return t('ai.reply.fallback')
 	}
 
 	const scrollToBottom = () => {

@@ -1,16 +1,16 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Now"
-			:title="now?.title || '我现在在做什么'"
-			description="基于 content/now.json 渲染，区分进行中 / 已完成 / 接下来。" />
+			:headline="t('now.headline')"
+			:title="now?.title || t('now.fallbackTitle')"
+			:description="t('now.description')" />
 
 		<UPageBody>
 			<UPageGrid class="sm:grid-cols-2 lg:grid-cols-3">
 				<UCard>
 					<template #header>
 						<div class="flex items-center gap-2">
-							<span>进行中</span>
+							<span>{{ t('now.sections.doing') }}</span>
 							<UBadge
 								color="neutral"
 								variant="subtle"
@@ -30,7 +30,7 @@
 				<UCard>
 					<template #header>
 						<div class="flex items-center gap-2">
-							<span>已完成</span>
+							<span>{{ t('now.sections.done') }}</span>
 							<UBadge
 								color="neutral"
 								variant="subtle"
@@ -50,7 +50,7 @@
 				<UCard>
 					<template #header>
 						<div class="flex items-center gap-2">
-							<span>接下来</span>
+							<span>{{ t('now.sections.next') }}</span>
 							<UBadge
 								color="neutral"
 								variant="subtle"
@@ -82,7 +82,8 @@
 		next?: string[]
 	}
 
-	useHead({ title: 'Now' })
+	const { t } = useI18n()
+	useHead(() => ({ title: t('nav.now') }))
 
 	const now = ref<NowData>(nowData)
 </script>

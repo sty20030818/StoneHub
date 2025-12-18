@@ -1,9 +1,9 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Links"
-			title="连接节点"
-			description="常用入口与友链。" />
+			:headline="t('links.headline')"
+			:title="t('links.title')"
+			:description="t('links.description')" />
 
 		<UPageBody>
 			<UPageGrid class="sm:grid-cols-2 lg:grid-cols-3">
@@ -37,7 +37,8 @@
 		colorText?: string
 	}
 
-	useHead({ title: '传送门' })
+	const { t } = useI18n()
+	useHead(() => ({ title: t('nav.links') }))
 
 	const links = ref<LinkItem[]>(linksData)
 

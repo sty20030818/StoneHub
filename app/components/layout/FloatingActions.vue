@@ -11,8 +11,8 @@
 				variant="ghost"
 				class="float-button flex items-center justify-center size-12 rounded-full text-slate-500 hover:text-primary"
 				:class="{ 'bg-primary! text-on-primary! glow-primary': showSettings }"
-				aria-label="设置"
-				title="设置">
+				:aria-label="t('settings.title')"
+				:title="t('settings.title')">
 				<UIcon
 					:name="showSettings ? 'i-lucide-x' : 'i-lucide-settings'"
 					class="size-5 transition-transform duration-300"
@@ -29,22 +29,23 @@
 					<UIcon
 						:name="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'"
 						class="size-5 text-primary" />
-					<span>{{ colorMode.value === 'dark' ? '浅色模式' : '深色模式' }}</span>
-				</UButton>
+					<span>{{ colorMode.value === 'dark' ? t('settings.theme.light') : t('settings.theme.dark') }}</span>
+					</UButton>
 
-				<!-- 语言切换 -->
-				<UButton
-					color="neutral"
-					variant="ghost"
-					class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
-					@click="toggleLanguage">
-					<UIcon
-						name="i-lucide-languages"
-						class="size-5 text-secondary" />
-					<span>{{ currentLang === 'zh' ? 'English' : '中文' }}</span>
-				</UButton>
-			</template>
-		</UPopover>
+					<!-- 语言切换 -->
+					<UButton
+						type="button"
+						color="neutral"
+						variant="ghost"
+						class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left text-sm font-medium text-slate-700 hover:bg-surface-container transition-colors"
+						@click="toggleLocale">
+						<UIcon
+							name="i-lucide-languages"
+							class="size-5 text-secondary" />
+						<span>{{ locale === 'zh' ? '中文' : 'English' }}</span>
+					</UButton>
+				</template>
+			</UPopover>
 
 		<!-- 返回顶部按钮 -->
 		<Transition name="fade">
@@ -67,18 +68,13 @@
 	import { useEventListener, useThrottleFn } from '@vueuse/core'
 
 	const showSettings = ref(false)
-	const currentLang = ref('zh')
+	const { locale, setLocale, t } = useI18n()
+	const toggleLocale = () => setLocale(locale.value === 'zh' ? 'en' : 'zh')
 
 	// 颜色模式
 	const colorMode = useColorMode()
 	const toggleColorMode = () => {
 		colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-	}
-
-	// 语言切换(占位，需要集成 i18n)
-	const toggleLanguage = () => {
-		currentLang.value = currentLang.value === 'zh' ? 'en' : 'zh'
-		// TODO: 集成实际的 i18n 切换
 	}
 
 	// 返回顶部

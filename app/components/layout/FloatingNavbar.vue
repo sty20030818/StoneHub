@@ -40,7 +40,7 @@
 					color="neutral"
 					variant="ghost"
 					class="group flex items-center justify-center size-11 rounded-full text-slate-500 hover:bg-surface-container hover:text-primary transition-all"
-					title="交互式终端"
+					:title="t('navbar.terminal')"
 					:class="{ 'bg-surface-container text-primary': isTerminalOpen }"
 					@click="toggleTerminal">
 					<UIcon
@@ -51,7 +51,7 @@
 					color="neutral"
 					variant="ghost"
 					class="group flex items-center justify-center size-11 rounded-full text-slate-500 hover:bg-secondary-container hover:text-secondary transition-all"
-					title="AI 助手"
+					:title="t('navbar.ai')"
 					:class="{ 'bg-secondary-container text-secondary': isAIOpen }"
 					@click="toggleAI">
 					<UIcon
@@ -67,14 +67,15 @@
 
 <script setup lang="ts">
 	const { toggleTerminal, toggleAI, isTerminalOpen, isAIOpen } = useAppUiState()
+	const { t } = useI18n()
 	const route = useRoute()
 
-	const navLinks = [
-		{ label: '首页', to: '/' },
-		{ label: '项目', to: '/projects' },
-		{ label: '博客', to: '/blog' },
-		{ label: 'Now', to: '/now' },
-	]
+	const navLinks = computed(() => [
+		{ label: t('nav.home'), to: '/' },
+		{ label: t('nav.projects'), to: '/projects' },
+		{ label: t('nav.blog'), to: '/blog' },
+		{ label: t('nav.now'), to: '/now' },
+	])
 
 	const isActive = (to: string) => {
 		if (to === '/') return route.path === '/'

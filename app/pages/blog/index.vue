@@ -1,15 +1,15 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Blog"
-			title="思维碎片"
-			description="文章来自 @nuxt/content。" />
+			:headline="t('blog.headline')"
+			:title="t('blog.list.title')"
+			:description="t('blog.list.description')" />
 
 		<UPageBody>
 			<UAlert
 				v-if="itemsError"
-				title="文章列表加载失败"
-				:description="itemsError.message || '请检查网络后重试。'"
+				:title="t('blog.list.errorTitle')"
+				:description="itemsError.message || t('common.checkNetworkRetry')"
 				color="neutral"
 				variant="subtle"
 				icon="i-lucide-triangle-alert">
@@ -19,7 +19,7 @@
 						variant="outline"
 						icon="i-lucide-refresh-cw"
 						@click="retryItems">
-						重试
+						{{ t('common.retry') }}
 					</UButton>
 				</template>
 			</UAlert>
@@ -36,9 +36,11 @@
 			<UEmpty
 				v-else-if="posts.length === 0"
 				icon="i-lucide-book-open"
-				title="暂未发布文章"
-				description="我正在整理内容，敬请期待。"
-				:actions="[{ label: '返回首页', to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' }]" />
+				:title="t('blog.list.emptyTitle')"
+				:description="t('blog.list.emptyDescription')"
+				:actions="[
+					{ label: t('common.backHome'), to: '/', color: 'neutral', variant: 'outline', icon: 'i-lucide-house' },
+				]" />
 
 			<UPageList
 				v-else
@@ -47,7 +49,7 @@
 					v-for="post in posts"
 					:key="post._path"
 					:to="post._path"
-					:title="post.title || 'Untitled'"
+					:title="post.title || t('common.untitled')"
 					:description="post.description"
 					variant="ghost">
 					<template #footer>
@@ -79,7 +81,8 @@
 		tags?: string[]
 	}
 
-	useHead({ title: '博客' })
+	const { t } = useI18n()
+	useHead(() => ({ title: t('nav.blog') }))
 
 	const {
 		data: items,

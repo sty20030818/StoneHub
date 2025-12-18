@@ -1,14 +1,14 @@
 <template>
 	<UPage>
 		<UPageHeader
-			headline="Error"
+			:headline="t('error.headline')"
 			:title="String(props.error.statusCode || 500)"
-			:description="props.error.message || 'Something went wrong.'" />
+			:description="props.error.message || t('error.somethingWentWrong')" />
 
 		<UPageBody>
 			<UAlert
-				title="发生错误"
-				:description="props.error.message || 'Something went wrong.'"
+				:title="t('error.title')"
+				:description="props.error.message || t('error.somethingWentWrong')"
 				color="neutral"
 				variant="subtle"
 				icon="i-lucide-triangle-alert" />
@@ -19,21 +19,21 @@
 					variant="outline"
 					icon="i-lucide-house"
 					@click="goHome">
-					返回首页
+					{{ t('common.backHome') }}
 				</UButton>
 				<UButton
 					color="neutral"
 					variant="outline"
 					icon="i-lucide-refresh-cw"
 					@click="refresh">
-					刷新
+					{{ t('common.refresh') }}
 				</UButton>
 				<UButton
 					color="neutral"
 					variant="ghost"
 					icon="i-lucide-x"
 					@click="clearError()">
-					留在此页
+					{{ t('error.stayHere') }}
 				</UButton>
 			</div>
 		</UPageBody>
@@ -44,6 +44,8 @@
 	const props = defineProps<{
 		error: { statusCode?: number; message?: string }
 	}>()
+
+	const { t } = useI18n()
 
 	const goHome = () => clearError({ redirect: '/' })
 	const refresh = () => location.reload()

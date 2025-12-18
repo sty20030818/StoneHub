@@ -20,8 +20,8 @@
 								class="size-5" />
 						</div>
 						<div class="min-w-0">
-							<div class="text-slate-800 font-bold">首页数据加载失败</div>
-							<div class="text-slate-500 text-sm">你仍然可以浏览页面，但终端数据可能不完整。</div>
+							<div class="text-slate-800 font-bold">{{ t('home.dataError.title') }}</div>
+							<div class="text-slate-500 text-sm">{{ t('home.dataError.description') }}</div>
 						</div>
 					</div>
 				</template>
@@ -33,20 +33,20 @@
 							variant="outline"
 							icon="i-lucide-refresh-cw"
 							@click="retryHomeData">
-							重试
+							{{ t('common.retry') }}
 						</UButton>
 						<UButton
 							to="/projects"
 							color="neutral"
 							variant="ghost"
 							icon="i-lucide-folder"
-							label="先去项目页" />
+							:label="t('home.dataError.actions.projects')" />
 						<UButton
 							to="/blog"
 							color="neutral"
 							variant="ghost"
 							icon="i-lucide-book"
-							label="先去博客页" />
+							:label="t('home.dataError.actions.blog')" />
 					</div>
 				</template>
 			</UCard>
@@ -74,8 +74,8 @@
 					size="lg"
 					class="island-card mx-auto w-full max-w-5xl rounded-4xl"
 					icon="i-lucide-folder-open"
-					title="暂无精选项目"
-					description="我正在整理项目内容，稍后再来看看。"
+					:title="t('home.emptyProjects.title')"
+					:description="t('home.emptyProjects.description')"
 					:ui="{
 						root: '!p-8',
 						title: 'text-slate-800 font-bold',
@@ -84,14 +84,14 @@
 					}"
 					:actions="[
 						{
-							label: '去项目页',
+							label: t('home.emptyProjects.actions.projects'),
 							to: '/projects',
 							color: 'primary',
 							variant: 'solid',
 							icon: 'i-lucide-arrow-right',
 						},
 						{
-							label: '返回首页',
+							label: t('common.backHome'),
 							to: '/',
 							color: 'neutral',
 							variant: 'ghost',
@@ -134,7 +134,8 @@
 	}
 	type Post = { title?: string; date?: string; slug?: string; description?: string; _path?: string }
 
-	useHead({ title: '首页' })
+	const { t } = useI18n()
+	useHead(() => ({ title: t('nav.home') }))
 
 	// 全局 UI 状态
 	const { isTerminalOpen, isAIOpen, toggleTerminal, toggleAI } = useAppUiState()
